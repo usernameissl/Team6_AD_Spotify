@@ -20,7 +20,7 @@ body {
 }
 .table-bordered th, .table-bordered td {
     border: 2px solid white;
-    vertical-align: middle; /* Center content vertically within cells */
+
 }
 .form-group label {
     color: white;
