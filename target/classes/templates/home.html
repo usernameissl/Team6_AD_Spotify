@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body style="padding: 60px;">
+    <div class="container">
+        <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
+
+        <form action="/submit" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="text" class="form-control" id="age" name="age" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Others</option>
+                </select>
+            </div>
+
+            <p>Model 1 = Base Model</p>
+            <p>Model 2 = Own Model</p>
+            <p>Task 1 = ...</p>
+            <p>Task 2 = ...</p>
+            <p>Task 3 = ...</p>
+
+            <table class="table table-bordered text-center">
+                <tr>
+                    <th></th>
+                    <th>Model 1</th>
+                    <th>Model 2</th>
+                </tr>
+                <tr>
+                    <td>Task 1</td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                    </td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Task 2</td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                    </td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Task 3</td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                    </td>
+                    <td>
+                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                    </td>
+                </tr>
+            </table>
+            
+            <button type="submit" class="btn btn-primary">Submit Logfile</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const modelRadioButtons = document.querySelectorAll("input[name='model']");
+        const taskRadioButtons = document.querySelectorAll("input[name='task']");
+
+        function toggleTasks() {
+            taskRadioButtons.forEach(task => (task.disabled = true));
+            const selectedModel = document.querySelector("input[name='model']:checked");
+            if (selectedModel) {
+                const taskName = selectedModel.value + "Task";
+                const selectedTask = document.querySelector(`input[name='${taskName}']`);
+                if (selectedTask) {
+                    selectedTask.disabled = false;
+                }
+            }
+        }
+        modelRadioButtons.forEach(radio => radio.addEventListener("click", toggleTasks));
+       
+        toggleTasks();  // Initially, disable all tasks when the page loads
+    </script>
+</body>
+</html>

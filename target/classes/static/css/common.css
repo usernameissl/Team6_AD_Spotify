@@ -1,0 +1,39 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #1DB954, #000000);
+    color: white;
+}
+.jumbotron {
+    background-color: transparent;
+}
+.logo {
+    width: 200px; 
+    display: block;
+    margin: 20px auto;
+}
+.table {
+    color: white;
+}
+.table-bordered {
+    border: 2px solid white;
+}
+.table-bordered th, .table-bordered td {
+    border: 2px solid white;
+
+}
+.form-group label {
+    color: white;
+}
+.form-check-input[type="radio"] {
+    margin-right: 8px;
+}
+.btn-primary {
+    background-color: #1DB954;
+    border-color: #1DB954;
+}
+.btn-primary:hover {
+    background-color: #1DB954;
+    border-color: #1DB954;
+    opacity: 0.8;
+}
