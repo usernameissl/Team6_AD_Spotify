@@ -9,4 +9,8 @@ public class CategoryController {
     public String getSubGenre() {
         return "sub-genre";
     }
+    @GetMapping("/model1")
+    public String getModel1() {
+        return "model-1";
+    }
 }
