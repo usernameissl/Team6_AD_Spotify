@@ -119,6 +119,7 @@
 			}, 1000);
 		});
 
+
 		// Listener function
 		document.addEventListener("DOMContentLoaded", function() {
 			const itemDivs = document.querySelectorAll('.section--body--item.category--item');
@@ -130,7 +131,9 @@
 					let clickTime = new Date().getTime();
 					let duration = (clickTime - loadTime)
 
-					const logLine = `${duration}, ${h3Text}`;
+					// TODO: Add model and task to line?
+
+					const logLine = `${duration}, 1, ${h3Text}`; // 1 stands for the layer
 
 					let history = JSON.parse(localStorage.getItem('history')) || [];
 					history.push(logLine);
