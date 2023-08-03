@@ -23,18 +23,9 @@ public class HomeController {
 	}
 
 	@PostMapping("/home")
-	public String saveUser(@RequestParam String name,
-						@RequestParam int age,
-						@RequestParam String gender,
-						@RequestParam int modelId,
-						@RequestParam int taskId) {
+	public String saveUser(@ModelAttribute("user") User user) {
 
-		User user = new User();
-		user.setName(name);
-		user.setAge(age);
-		user.setGender(gender);
-		user.setModelId(modelId);
-		user.setTaskId(taskId);
+		int modelId = user.getModelId();
 
 		if (modelId == 1) {
 			return "redirect:/model1";
@@ -44,7 +35,6 @@ public class HomeController {
 			return "redirect:/home";
 		}
 	}
-
 
 	//User click submit logfile will clear the current session of the user
 	@GetMapping("/submitLogfile")

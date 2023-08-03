@@ -28,58 +28,30 @@
                     <option value="F">F</option>
                 </select>
             </div>
-
-            <p>Model 1 = Base Model</p>
-            <p>Model 2 = Own Model</p>
-            <p>Task 1 = ...</p>
-            <p>Task 2 = ...</p>
-            <p>Task 3 = ...</p>
-
-            <table class="table table-bordered text-center">
-                <tr>
-                    <th></th>
-                    <th>Model 1</th>
-                    <th>Model 2</th>
-                </tr>
-                <tr>
-                    <td>Task 1</td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="1" required>
-                    </td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="1" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Task 2</td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="2" required>
-                    </td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="2" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Task 3</td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="3" required>
-                    </td>
-                    <td>
-                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
-                        <input type="radio" class="form-check-input" name="taskId" value="3" required>
-                    </td>
-                </tr>
-            </table>
-            
+        
+            <div class="form-group">
+                <label for="modelId">Model:</label>
+                <select class="form-control" id="modelId" name="modelId" required>
+                    <option value="1">Model 1 (Base Model)</option>
+                    <option value="2">Model 2 (Own Model)</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="taskId">Task:</label>
+                <select class="form-control" id="taskId" name="taskId" required>
+                    <option value="1">Task 1: abc</option>
+                    <option value="2">Task 2: def</option>
+                    <option value="3">Task 3: xyz</option>
+                </select>
+            </div>
+        
             <button type="submit" class="btn btn-primary">Proceed</button>
             <br><br><br><br>
-        
         </form>
+        
+        <!-- Rest of your code -->
+        
 
         <!-- to change later -->
         <center>
@@ -91,8 +63,8 @@
                 const name = document.getElementById('name').value;
                 const age = document.getElementById('age').value;
                 const gender = document.getElementById('gender').value;
-                const modelId = document.querySelector('input[name="modelId"]:checked').value;
-                const taskId = document.querySelector('input[name="taskId"]:checked').value;
+                const modelId = document.getElementById('modelId').value;
+                const taskId = document.getElementById('taskId').value;
 
                 const formData = {
                     name: name,
