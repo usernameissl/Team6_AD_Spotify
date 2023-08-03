@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/model-1.css">
+	<link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+	<div class="main-container">
+		<div class="topbar">
+			<div class="model 1">
+			<h3>Model 1:</h3>
+			</div>
+			<div class="Task">
+			<h3>Task 1: Find a soothing song containing the word ‘heartbreak by a male country singer </h3>
+			</div>
+			<div class="Timer">
+			<h3>00:00</h3>
+			</div>
+		</div>
+		<br/><br/><br/>
+
+		<div class="d-flex justify-content-end mt-4" style="padding-right: 20px;">
+			<button type="button" class="btn btn-primary-found mr-5">Found</button>
+			<button type="button" class="btn btn-primary-gu" style="display: none;">Give up!</button>
+		</div>
+		<br/><br/><br/>
+		<!-- hardcode first, later will populate from playlist -->
+		<center>
+			<div class="song-list mt-5">
+				<table class="table table-bordered-song">
+					<tbody>
+						<tr>
+							<td>
+								<div>Song 1</div>
+								<div>Artist 1</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div>Song 2</div>
+								<div>Artist 2</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div>Song 3</div>
+								<div>Artist 3</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</center>
+	
+	</div>
+	<script>
+		function showGiveUpButton() {
+			const giveUpButton = document.querySelector(".btn-primary-gu");
+			giveUpButton.style.display = "block";
+		}
+	
+		// Show the "Give up!" button after 2 minutes (120,000 ms)
+		setTimeout(showGiveUpButton, 120000);
+	
+		// display the confirmation popup
+		document.querySelector(".btn-primary-gu").addEventListener("click", function () {
+			const confirmed = confirm("Are you sure you want to give up?");
+			if (confirmed) {
+				window.location.href = "/home";
+			} else {
+				console.log("User canceled give up.");
+			}
+		});
+	</script>
+	
+</body>
+</html>

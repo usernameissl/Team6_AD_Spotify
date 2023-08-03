@@ -10,7 +10,7 @@
     <div class="container">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
 
-        <form action="/home" method="post" onsubmit="storeFormData()">
+        <form action="/home" method="post" onsubmit="storeFormData()" th:object="${user}">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
