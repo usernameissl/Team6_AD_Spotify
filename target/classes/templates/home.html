@@ -10,7 +10,7 @@
     <div class="container">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
 
-        <form action="/submit" method="post">
+        <form action="/home" method="post" onsubmit="storeFormData()">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -24,9 +24,8 @@
             <div class="form-group">
                 <label for="gender">Gender:</label>
                 <select class="form-control" id="gender" name="gender">
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="O">Others</option>
+                    <option value="M">M</option>
+                    <option value="F">F</option>
                 </select>
             </div>
 
@@ -45,57 +44,68 @@
                 <tr>
                     <td>Task 1</td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="1" required>
                     </td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="1" required>
                     </td>
                 </tr>
                 <tr>
                     <td>Task 2</td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="2" required>
                     </td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="2" required>
                     </td>
                 </tr>
                 <tr>
                     <td>Task 3</td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 1" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="1" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="3" required>
                     </td>
                     <td>
-                        <input type="radio" class="form-check-input" name="model" value="Model 2" required>
+                        <input type="radio" class="form-check-input" name="modelId" value="2" required>
+                        <input type="radio" class="form-check-input" name="taskId" value="3" required>
                     </td>
                 </tr>
             </table>
             
-            <button type="submit" class="btn btn-primary">Submit Logfile</button>
+            <button type="submit" class="btn btn-primary">Proceed</button>
+            <br><br><br><br>
+        
         </form>
+
+        <!-- to change later -->
+        <center>
+            <button type="submit" class="btn btn-primary-submit">Submit Logfile</button>
+        </center>
+        
+        <script>
+            function storeFormData() {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const gender = document.getElementById('gender').value;
+                const modelId = document.querySelector('input[name="modelId"]:checked').value;
+                const taskId = document.querySelector('input[name="taskId"]:checked').value;
+
+                const formData = {
+                    name: name,
+                    age: age,
+                    gender: gender,
+                    modelId: modelId,
+                    taskId: taskId
+                };
+                sessionStorage.setItem('userFormData', JSON.stringify(formData));
+            }
+        </script>
+        
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        const modelRadioButtons = document.querySelectorAll("input[name='model']");
-        const taskRadioButtons = document.querySelectorAll("input[name='task']");
-
-        function toggleTasks() {
-            taskRadioButtons.forEach(task => (task.disabled = true));
-            const selectedModel = document.querySelector("input[name='model']:checked");
-            if (selectedModel) {
-                const taskName = selectedModel.value + "Task";
-                const selectedTask = document.querySelector(`input[name='${taskName}']`);
-                if (selectedTask) {
-                    selectedTask.disabled = false;
-                }
-            }
-        }
-        modelRadioButtons.forEach(radio => radio.addEventListener("click", toggleTasks));
-       
-        toggleTasks();  // Initially, disable all tasks when the page loads
-    </script>
 </body>
 </html>

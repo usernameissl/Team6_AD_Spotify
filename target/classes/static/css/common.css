@@ -37,3 +37,9 @@ body {
     border-color: #1DB954;
     opacity: 0.8;
 }
+.btn-primary-submit {
+    background-color: #0195eb;
+    border-color: #0501eb;
+    color: white;
+    width: 500px;
+}
