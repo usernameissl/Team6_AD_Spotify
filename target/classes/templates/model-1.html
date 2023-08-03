@@ -17,7 +17,7 @@
 			<h3>Task 1: Find a soothing song containing the word ‘heartbreak by a male country singer </h3>
 			</div>
 			<div class="Timer">
-			<h3>00:00</h3>
+				<h3 id="timerDisplay">00:00</h3>
 			</div>
 		</div>
 		<br/><br/><br/>
@@ -100,5 +100,59 @@
 		</div>
 	</div>
 
+	<script>
+		let loadTime = new Date().getTime(); // Record the time when the page has fully loaded
+
+		// Timer function
+		document.addEventListener("DOMContentLoaded", function() {
+			// Set to 0 if not present
+			let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
+
+			setInterval(function() {
+				totalDuration += 1000;
+				let minutes = Math.floor(totalDuration / 60000);
+				let seconds = ((totalDuration % 60000) / 1000).toFixed(0);
+
+				seconds = seconds < 10 ? '0' + seconds : seconds;
+
+				document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+			}, 1000);
+		});
+
+		// Listener function
+		document.addEventListener("DOMContentLoaded", function() {
+			const itemDivs = document.querySelectorAll('.section--body--item.category--item');
+
+			itemDivs.forEach(div => {
+				div.addEventListener('click', function(e) {
+					const h3Text = e.currentTarget.querySelector('h3').textContent;
+
+					let clickTime = new Date().getTime();
+					let duration = (clickTime - loadTime)
+
+					const logLine = `${duration}, ${h3Text}`;
+
+					let history = JSON.parse(localStorage.getItem('history')) || [];
+					history.push(logLine);
+
+					localStorage.setItem('history', JSON.stringify(history));
+
+					// Get from localStorage or set to 0 - shouldn't see 0 on sub
+					let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
+					totalDuration += duration;
+
+					localStorage.setItem('totalDuration', totalDuration.toString());
+				});
+			});
+		});
+
+
+
+	</script>
+
+
+
+
 </body>
 </html>
+
