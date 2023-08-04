@@ -2,7 +2,11 @@ package iss.ad.project.spotify.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
+
+import iss.ad.project.spotify.model.User;
 
 @Controller
 public class HomeController {
@@ -15,5 +19,28 @@ public class HomeController {
 	public String getHomePage() {
 		return "home";
 	}
+
+	@PostMapping("/home")
+	public String saveUser(@ModelAttribute("user") User user) {
+
+		int modelId = user.getModelId();
+
+		if (modelId == 1) {
+			return "redirect:/model1";
+		} else if (modelId == 2) {
+			return "redirect:/model2";
+		} else {
+			return "redirect:/home";
+		}
+	}
+
+	//User click submit logfile will clear the current session of the user
+	@GetMapping("/submitLogfile")
+    public String submitLogfile() {
+        return "redirect:/home";
+
+		//...
+	}
+	
 
 }
