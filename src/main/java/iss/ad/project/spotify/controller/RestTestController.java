@@ -34,8 +34,8 @@ public class RestTestController {
     }
 
     @GetMapping("/layer1mapping")
-    public Map<String, Set<String>> getLayer1ToLayer2Mapping() {
-        Map<String, Set<String>> map = spotifyService.getLayer1ToLayer2MapCache();
+    public Map<String, List<String>> getLayer1ToLayer2Mapping() {
+        Map<String, List<String>> map = spotifyService.getLayer1ToLayer2MapCache();
         map.forEach((key, value) -> System.out.println(key + ": " + value));
         return map;
     }

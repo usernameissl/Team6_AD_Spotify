@@ -18,7 +18,7 @@ public class SpotifyService {
     @Getter
     private List<String> layer2IdsCache;
     @Getter
-    private Map<String, Set<String>> layer1ToLayer2MapCache;
+    private Map<String, List<String>> layer1ToLayer2MapCache;
     @Getter
     private Map<String, List<SpotifySong>> layer2ToSongsMapCache;
 
@@ -43,17 +43,23 @@ public class SpotifyService {
         return spotifyRepo.findDistinctLayer2();
     }
 
-    public Map<String, Set<String>>  getLayer1ToLayer2Mapping() {
+    public Map<String, List<String>>  getLayer1ToLayer2Mapping() {
         List<Object[]> pairs = spotifyRepo.findLayer1AndLayer2Pairs();
-        Map<String, Set<String>> map = new HashMap<>();
+
+        // Use set firs to get unique values
+        Map<String, Set<String>> setMap = new HashMap<>();
         for (Object[] pair : pairs) {
-            if (true){
-                String layer1Id = (String) pair[0];
-                String layer2Id = (String) pair[1];
-                map.computeIfAbsent(layer1Id, k -> new HashSet<>()).add(layer2Id);
-            }
+            String layer1Id = (String) pair[0];
+            String layer2Id = (String) pair[1];
+            setMap.computeIfAbsent(layer1Id, k -> new HashSet<>()).add(layer2Id);
         }
-        return map;
+
+        // Convert set to list
+        Map<String, List<String>> resultMap = new HashMap<>();
+        for(Map.Entry<String, Set<String>> entry : setMap.entrySet()){
+            resultMap.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+        return resultMap;
     }
 
     public Map<String, List<SpotifySong>> getLayer2ToSongsMapping() {
