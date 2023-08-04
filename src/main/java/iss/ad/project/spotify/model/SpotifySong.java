@@ -5,7 +5,6 @@ import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -19,7 +18,7 @@ public class SpotifySong implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "TRACKNAME")
+    // @Column(name = "TRACKNAME")
     private String trackName;
 
     private String layer1;

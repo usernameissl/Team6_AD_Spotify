@@ -24,38 +24,25 @@
 		<br/><br/><br/>
 
 		<div class="d-flex justify-content-end mt-4" style="padding-right: 20px;">
-			<button type="button" class="btn btn-primary-found mr-5">Found</button>
+			<a href="/home" class="btn btn-primary-found mr-5">Found</a>
+
 			<button type="button" class="btn btn-primary-gu" style="display: none;">Give up!</button>
 		</div>
 		<br/><br/><br/>
-		<!-- hardcode first, later will populate from playlist -->
 		<center>
 			<div class="song-list mt-5">
 				<table class="table table-bordered-song">
 					<tbody>
-						<tr>
+						<tr th:each="song : ${songs}">
 							<td>
-								<div>Song 1</div>
-								<div>Artist 1</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>Song 2</div>
-								<div>Artist 2</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>Song 3</div>
-								<div>Artist 3</div>
+								<div th:text="${song.trackName}"></div>
+								<div th:text="${song.artist}"></div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</center>
-	
 	</div>
 	<script>
 		function showGiveUpButton() {
@@ -63,8 +50,8 @@
 			giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 2 minutes (120,000 ms)
-		setTimeout(showGiveUpButton, 120000);
+		// Show the "Give up!" button after 1 minute (60,000 ms)
+		setTimeout(showGiveUpButton, 60000);
 	
 		// display the confirmation popup
 		document.querySelector(".btn-primary-gu").addEventListener("click", function () {
