@@ -3,7 +3,6 @@ package iss.ad.project.spotify.model;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -22,9 +21,9 @@ public class ClusterSong implements Serializable {
 
     private String trackName;
 
-    private String layer1;
+    private int layer1_Id;
 
-    private String layer2;
+    private int layer2_Id;
 
     private String artist;
 }
