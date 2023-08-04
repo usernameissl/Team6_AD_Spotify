@@ -5,6 +5,7 @@ import iss.ad.project.spotify.repo.SpotifyRepo;
 import iss.ad.project.spotify.service.SpotifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -21,19 +22,24 @@ public class SubGenreController {
         this.spotifyService = spotifyService;
     }
 
+    // test routing
     @GetMapping("/category")
     public String getSubGenre() {
         return "sub-genre";
     }
-    @GetMapping("/category/{modelNo}/{layer1}")
-    public String getSubGenreByLayer1(@PathVariable("modelNo") int modelNo, @PathVariable("layer1") String layer1) {
+    @GetMapping("/{modelNo}/category/{layer1}")
+    public String getSubGenreByLayer1(@PathVariable("modelNo") int modelNo,
+                                      @PathVariable("layer1") String layer1,
+                                      Model model) {
         if (modelNo == 1){
             Map<String, List<String>> map = spotifyService.getLayer1ToLayer2MapCache();
             List<String> subgenres = map.get(layer1);
             // pass subgenres into the view
+            model.addAttribute("modelNo", modelNo);
+            model.addAttribute("layer1", layer1);
+            model.addAttribute("subgenres", subgenres);
         }
         // else if modelNo == 2 then get cluster genres instead
-
         return "sub-genre";
     }
 

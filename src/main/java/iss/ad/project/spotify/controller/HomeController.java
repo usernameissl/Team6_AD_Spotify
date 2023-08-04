@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import iss.ad.project.spotify.model.User;
@@ -23,19 +24,21 @@ public class HomeController {
 		this.spotifyService = spotifyService;
 	}
 
-    @GetMapping("/")
+	@GetMapping("/")
 	public RedirectView redirectToHomePage() {
 		return new RedirectView("/home");
 	}
-    @GetMapping("/home")
+	@GetMapping("/home")
 	public String getHomePage() {
 		return "home";
 	}
 
 	@PostMapping("/home")
-	public String saveUser(@ModelAttribute("user") User user) {
+	public String saveUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
 
 		int modelId = user.getModelId();
+		int taskId = user.getTaskId();
+		redirectAttributes.addAttribute("taskId", taskId);
 
 		if (modelId == 1) {
 			return "redirect:/model1";
@@ -48,8 +51,8 @@ public class HomeController {
 
 	//User click submit logfile will clear the current session of the user
 	@GetMapping("/submitLogfile")
-    public String submitLogfile() {
-        return "redirect:/home";
+	public String submitLogfile() {
+		return "redirect:/home";
 
 		//...
 	}
@@ -59,6 +62,5 @@ public class HomeController {
 	public void refreshCache() {
 		spotifyService.refreshCache();
 	}
-
 
 }

@@ -33,22 +33,10 @@
 			<div class="song-list mt-5">
 				<table class="table table-bordered-song">
 					<tbody>
-						<tr>
+						<tr th:each="song : ${songs}">
 							<td>
-								<div>Song 1</div>
-								<div>Artist 1</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>Song 2</div>
-								<div>Artist 2</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>Song 3</div>
-								<div>Artist 3</div>
+								<div th:text="${song.trackName}"></div>
+								<div th:text="${song.artist}"></div>
 							</td>
 						</tr>
 					</tbody>
