@@ -1,5 +1,8 @@
 package iss.ad.project.spotify.controller;
 
+import iss.ad.project.spotify.model.SpotifySong;
+import iss.ad.project.spotify.service.SpotifyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,8 +11,17 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import iss.ad.project.spotify.model.User;
 
+import java.util.*;
+
 @Controller
 public class HomeController {
+
+	private final SpotifyService spotifyService;
+
+	@Autowired
+	public HomeController(SpotifyService spotifyService) {
+		this.spotifyService = spotifyService;
+	}
 
     @GetMapping("/")
 	public RedirectView redirectToHomePage() {
@@ -41,6 +53,12 @@ public class HomeController {
 
 		//...
 	}
-	
+
+	// Not accessible to user, only used to refresh the cache
+	@PostMapping("/refreshcache")
+	public void refreshCache() {
+		spotifyService.refreshCache();
+	}
+
 
 }

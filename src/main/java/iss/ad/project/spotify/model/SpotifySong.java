@@ -1,14 +1,11 @@
 package iss.ad.project.spotify.model;
-
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -16,11 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 @Entity
-public class Cluster_Songs implements Serializable {
+@Table(name="spotify_songs")
+public class SpotifySong implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "TRACKNAME")
     private String trackName;
 
     private String layer1;
