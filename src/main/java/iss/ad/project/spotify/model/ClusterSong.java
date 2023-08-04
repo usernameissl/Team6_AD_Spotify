@@ -3,6 +3,7 @@ package iss.ad.project.spotify.model;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -21,9 +22,13 @@ public class ClusterSong implements Serializable {
 
     private String trackName;
 
-    private int layer1_Id;
+    @OneToOne
+    @JoinColumn(name="layer1_id", referencedColumnName="layer_id")
+    private ClusterName layer1;
 
-    private int layer2_Id;
+    @OneToOne
+    @JoinColumn(name="layer2_id", referencedColumnName="layer_id")
+    private ClusterName layer2;
 
     private String artist;
 }
