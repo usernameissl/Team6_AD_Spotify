@@ -22,9 +22,13 @@ public class ClusterSong implements Serializable {
 
     private String trackName;
 
-    private String layer1;
+    @OneToOne
+    @JoinColumn(name="layer1_id", referencedColumnName="layer_id")
+    private ClusterName layer1;
 
-    private String layer2;
+    @OneToOne
+    @JoinColumn(name="layer2_id", referencedColumnName="layer_id")
+    private ClusterName layer2;
 
     private String artist;
 }
