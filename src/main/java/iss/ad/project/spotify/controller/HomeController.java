@@ -24,11 +24,11 @@ public class HomeController {
 		this.spotifyService = spotifyService;
 	}
 
-    @GetMapping("/")
+	@GetMapping("/")
 	public RedirectView redirectToHomePage() {
 		return new RedirectView("/home");
 	}
-    @GetMapping("/home")
+	@GetMapping("/home")
 	public String getHomePage() {
 		return "home";
 	}
@@ -39,7 +39,7 @@ public class HomeController {
 		int modelId = user.getModelId();
 		int taskId = user.getTaskId();
 		redirectAttributes.addAttribute("taskId", taskId);
-		
+
 		if (modelId == 1) {
 			return "redirect:/model1";
 		} else if (modelId == 2) {
@@ -51,8 +51,8 @@ public class HomeController {
 
 	//User click submit logfile will clear the current session of the user
 	@GetMapping("/submitLogfile")
-    public String submitLogfile() {
-        return "redirect:/home";
+	public String submitLogfile() {
+		return "redirect:/home";
 
 		//...
 	}
@@ -62,6 +62,5 @@ public class HomeController {
 	public void refreshCache() {
 		spotifyService.refreshCache();
 	}
-
 
 }
