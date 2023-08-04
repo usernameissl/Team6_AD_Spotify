@@ -33,8 +33,8 @@ body {
 .section--body {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -16px;
-    margin-bottom: -16px;
+    justify-content: center;
+    align-items: center;
 }
 
 .section--body--item {
@@ -47,8 +47,8 @@ body {
 }
 
 .category--item {
-    width: 300px;
-    height: 300px;
+    width: 240px;
+    height: 240px;
     background-color: rgb(245, 155, 35);
 }
 
