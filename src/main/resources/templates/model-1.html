@@ -10,20 +10,8 @@
 </head>
 <body>
 <div class="main-container">
-	<div class="topbar">
-		<div class="model 1">
-			<h3>Model 1:</h3>
-		</div>
-		<div th:class="${task}">
-			<h3 th:text="${task}"></h3>
-		</div>
-		<div class="Timer">
-			<h3 id="timerDisplay"></h3>
-		</div>
-	</div>
 	<br/>
-	<h4 style="padding-left: 15px;">Browse all</h4>
-	<br/>
+	<h2>Browse all</h2>
 	<div class="spotify-playlists" style="padding-left: 5px;">
 		<div class="list">
 			<div class="section--body">
@@ -40,56 +28,6 @@
 		</div>
 	</div>
 </div>
-
-<script>
-    let loadTime = new Date().getTime(); // Record the time when the page has fully loaded
-
-    // Timer function
-    document.addEventListener("DOMContentLoaded", function() {
-        // Set to 0 if not present
-        let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
-
-        setInterval(function() {
-            totalDuration += 1000;
-            let minutes = Math.floor(totalDuration / 60000);
-            let seconds = ((totalDuration % 60000) / 1000).toFixed(0);
-
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            // currently no timer display
-            document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
-        }, 1000);
-    });
-
-
-    // Listener function
-    document.addEventListener("DOMContentLoaded", function() {
-        const itemDivs = document.querySelectorAll('.item');
-
-        itemDivs.forEach(div => {
-            div.addEventListener('click', function(e) {
-                const h4Text = e.currentTarget.querySelector('h4').textContent;
-
-                let clickTime = new Date().getTime();
-                let duration = (clickTime - loadTime)
-
-                // TODO: Add model and task to line?
-
-                const logLine = `${duration}, 2, ${h4Text}`; // 2 stands for the layer
-
-                let history = JSON.parse(localStorage.getItem('history')) || [];
-                history.push(logLine);
-
-                localStorage.setItem('history', JSON.stringify(history));
-
-                // Get from localStorage or set to 0 - shouldn't see 0 on sub
-                let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
-                totalDuration += duration;
-
-                localStorage.setItem('totalDuration', totalDuration.toString());
-            });
-        });
-    });
-</script>
 
 </body>
 </html>

@@ -12,7 +12,12 @@ body {
 .main-container {
   margin-bottom: 100px;
 }
-
+.main-container h2 {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 20px;
+  padding-left: 15px
+}
 .topbar {
   display: flex;
   justify-content: space-between;
