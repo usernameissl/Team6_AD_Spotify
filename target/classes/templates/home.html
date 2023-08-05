@@ -4,80 +4,76 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
-<body style="padding: 60px;">
-    <div class="container">
+<body>
+    <div class="top-bar">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
-
-        <form action="/home" method="post" onsubmit="storeFormData()" th:object="${user}">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="text" class="form-control" id="age" name="age" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select class="form-control" id="gender" name="gender">
-                    <option value="M">M</option>
-                    <option value="F">F</option>
-                </select>
-            </div>
-        
-            <div class="form-group">
-                <label for="modelId">Model:</label>
-                <select class="form-control" id="modelId" name="modelId" required>
-                    <option value="1">Model 1 (Base Model)</option>
-                    <option value="2">Model 2 (Own Model)</option>
-                </select>
-            </div>
-        
-            <div class="form-group">
-                <label for="taskId">Task:</label>
-                <select class="form-control" id="taskId" name="taskId" required>
-                    <option value="1">Task 1: abc</option>
-                    <option value="2">Task 2: def</option>
-                    <option value="3">Task 3: xyz</option>
-                </select>
-            </div>
-        
-            <button type="submit" class="btn btn-primary">Proceed</button>
-            <br><br><br><br>
-        </form>
-        
-        <!-- Rest of your code -->
-        
-
-        <!-- to change later -->
-        <center>
-            <button type="submit" class="btn btn-primary-submit">Submit Logfile</button>
-        </center>
-        
-        <script>
-            function storeFormData() {
-                const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
-                const gender = document.getElementById('gender').value;
-                const modelId = document.getElementById('modelId').value;
-                const taskId = document.getElementById('taskId').value;
-
-                const formData = {
-                    name: name,
-                    age: age,
-                    gender: gender,
-                    modelId: modelId,
-                    taskId: taskId
-                };
-                sessionStorage.setItem('userFormData', JSON.stringify(formData));
-            }
-        </script>
-        
     </div>
+    <form action="/home" method="post" onsubmit="storeFormData()" th:object="${user}">
+        <h3>Login Here</h3>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div>
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age" required>
+        </div>
+
+        <div>
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="modelId">Model</label>
+            <select id="modelId" name="modelId" required>
+                <option value="1">Model 1 (Base Model)</option>
+                <option value="2">Model 2 (Own Model)</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="taskId">Task</label>
+            <select id="taskId" name="taskId" required>
+                <option value="1">Task 1: abc</option>
+                <option value="2">Task 2: def</option>
+                <option value="3">Task 3: xyz</option>
+            </select>
+        </div>
+
+        <button type="submit">Log In</button>
+        <br><br>
+        <!-- to change later? -->
+        <!-- <button type="submit">Submit Logfile</button> -->
+        <br><br>
+    </form>
+
+    <!-- Rest of your code? -->
+
+    <script>
+        function storeFormData() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const modelId = document.getElementById('modelId').value;
+            const taskId = document.getElementById('taskId').value;
+
+            const formData = {
+                name: name,
+                age: age,
+                gender: gender,
+                modelId: modelId,
+                taskId: taskId
+            };
+            sessionStorage.setItem('userFormData', JSON.stringify(formData));
+        }
+    </script>
 
 </body>
 </html>

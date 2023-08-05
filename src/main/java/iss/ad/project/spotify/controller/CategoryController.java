@@ -55,28 +55,28 @@ public class CategoryController {
             String color;
             switch (i) {
                 case 0:
-                    color = "rgb(255, 0, 0)";
+                    color = "rgb(144, 28, 52)";
                     break;
                 case 1:
-                    color = "rgb(128, 128, 128)";
+                    color = "rgb(224, 68, 4)";
                     break;
                 case 2:
-                    color = "rgb(0, 0, 255)";
+                    color = "rgb(24, 140, 12)";
                     break;
                 case 3:
-                    color = "rgb(255, 165, 0)";
+                    color = "rgb(240, 20, 44)";
                     break;
                 case 4:
-                    color = "rgb(255, 105, 180)";
+                    color = "rgb(232, 28, 100)";
                     break;
                 case 5:
-                    color = "rgb(0, 255, 255)";
+                    color = "rgb(16, 116, 236)";
                     break;
                 case 6:
-                    color = "rgb(210, 105, 30)";
+                    color = "rgb(144, 100, 172)";
                     break;
                 default:
-                    color = "rgb(128, 0, 128)";
+                    color = "rgb(72, 124, 148)";
             }
             backgroundColors.add(color);
         }

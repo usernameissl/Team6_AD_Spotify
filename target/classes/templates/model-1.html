@@ -6,6 +6,7 @@
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/model-1.css">
+	<div th:include="common.html"></div>
 </head>
 <body>
 <div class="main-container">
@@ -20,9 +21,10 @@
 			<h3 id="timerDisplay"></h3>
 		</div>
 	</div>
-	<br /> <br /> <br />
-
-	<div class="spotify-playlists">
+	<br/>
+	<h4 style="padding-left: 15px;">Browse all</h4>
+	<br/>
+	<div class="spotify-playlists" style="padding-left: 5px;">
 		<div class="list">
 			<div class="section--body">
 				<div th:each="category, iter : ${layerOneList}"
