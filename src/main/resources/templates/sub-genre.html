@@ -73,6 +73,40 @@
         src="https://kit.fontawesome.com/23cecef777.js"
         crossorigin="anonymous"
 ></script>
+<script src="/js/timer.js"></script>
+<script>
+
+    // Listener function
+    document.addEventListener("DOMContentLoaded", function() {
+        let lastClickTime = new Date().getTime(); // Initialize to current time at page load
+
+        const itemDivs = document.querySelectorAll('.item');
+
+        itemDivs.forEach(div => {
+            div.addEventListener('click', function(e) {
+                const currentTime = new Date().getTime();
+                const duration = currentTime - lastClickTime; // Duration since last click
+
+                lastClickTime = currentTime; // Update the last clicked time
+
+                const h4Text = e.currentTarget.querySelector('h4').textContent;
+
+                const logLine = `${duration}, 2, ${h4Text}`; // 2 stands for the layer
+
+                let history = JSON.parse(sessionStorage.getItem('history')) || [];
+                history.push(logLine);
+
+                sessionStorage.setItem('history', JSON.stringify(history));
+
+                let totalDuration = parseInt(sessionStorage.getItem('totalDuration')) || 0;
+                totalDuration += duration;
+
+                sessionStorage.setItem('totalDuration', totalDuration.toString());
+            });
+        });
+    });
+
+</script>
 </body>
 </body>
 </html>

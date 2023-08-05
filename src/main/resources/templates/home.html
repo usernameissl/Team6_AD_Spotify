@@ -66,15 +66,39 @@
                 const modelId = document.getElementById('modelId').value;
                 const taskId = document.getElementById('taskId').value;
 
-                const formData = {
+                // Generate a 6 character GUID
+                let guid = 'xxxxxx'.replace(/[x]/g, function() {
+                    return (Math.random() * 36 | 0).toString(36);
+                });
+
+                let uniqueName = name + '-'+ guid;
+
+                const  userData = {
                     name: name,
+                    uniqueName: uniqueName,
                     age: age,
                     gender: gender,
+                };
+                sessionStorage.setItem('userData', JSON.stringify(userData));
+
+                const taskData = {
                     modelId: modelId,
                     taskId: taskId
-                };
-                sessionStorage.setItem('userFormData', JSON.stringify(formData));
+                }
+                sessionStorage.setItem('taskData', JSON.stringify(taskData));
             }
+
+            function populateFields() {
+                const userDataString = sessionStorage.getItem('userData');
+                if (userDataString) {
+                    const userData = JSON.parse(userDataString);
+                    document.getElementById('name').value = userData.name || '';
+                    document.getElementById('age').value = userData.age || '';
+                    document.getElementById('gender').value = userData.gender || '';
+                }
+            }
+
+            window.onload = populateFields;
         </script>
         
     </div>
