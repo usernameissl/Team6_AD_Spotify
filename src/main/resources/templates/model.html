@@ -5,13 +5,13 @@
 	<title>Home</title>
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/model-1.css">
+	<link rel="stylesheet" href="/css/model.css">
 </head>
 <body>
 <div class="main-container">
 	<div class="topbar">
-		<div class="model 1">
-			<h3>Model 1:</h3>
+		<div class="model">
+			<h3 th:text="'Model ' + ${modelId}"></h3>
 		</div>
 		<div th:class="${task}">
 			<h3 th:text="${task}"></h3>
