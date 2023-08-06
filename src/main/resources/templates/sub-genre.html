@@ -1,59 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Sub-Genre</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/sub-genre.css">
+    <div th:include="common.html"></div>
 </head>
+
 <body>
-<body>
-
-<div class="sidebar">
-    <div class="logo">
-        <a href="#">
-            <img src="/image/spotify.png" alt="Logo" />
-        </a>
-    </div>
-
-    <div class="navigation">
-        <ul>
-            <li>
-                <a href="#">
-                    <span class="fa fa-home"></span>
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <span class="fa fa-search"></span>
-                    <span>Search</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <span class="fa fas fa-book"></span>
-                    <span>Your Library</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-</div>
 
 <div class="main-container">
-    <div class="topbar">
-        <div class="prev-next-buttons">
-            <button type="button" class="fa fas fa-chevron-left"></button>
-            <button type="button" class="fa fas fa-chevron-right"></button>
-        </div>
-    </div>
 
     <div class="spotify-playlists">
         <h2>Browse Sub-Categories</h2>
-
         <div class="list">
             <div th:each="subgenre : ${subgenres}" class="item">
                 <a th:href="@{'/' + ${modelNo} + '/category/' + ${layer1} + '/' + ${subgenre}}">
@@ -63,7 +24,6 @@
                     <span class="fa fa-play"></span>
                 </div>
                 <h4 th:text="${subgenre}"></h4>
-                <p>...</p>
             </div>
         </div>
     </div>
@@ -73,6 +33,7 @@
         src="https://kit.fontawesome.com/23cecef777.js"
         crossorigin="anonymous"
 ></script>
+
 </body>
-</body>
+
 </html>

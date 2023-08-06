@@ -22,9 +22,9 @@ public class ClusterSong implements Serializable {
 
     private String trackName;
 
+    private String artist;
+
     private String layer1;
 
     private String layer2;
-
-    private String artist;
 }

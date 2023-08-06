@@ -34,6 +34,7 @@ public class SongController {
             // pass to view
             model.addAttribute("modelNo", modelNo);
             model.addAttribute("layer1", layer1);
+            model.addAttribute("layer2", layer2);
             model.addAttribute("songs", songs);
         }
         // else if modelNo == 2 then get cluster genres instead

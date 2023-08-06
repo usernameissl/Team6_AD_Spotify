@@ -3,6 +3,7 @@
   margin: 0;
 }
 body {
+    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     margin: 0;
     background: linear-gradient(to bottom, #333d37, #000000);
@@ -15,8 +16,10 @@ body {
 .main-container h2 {
   color: #ffffff;
   font-size: 22px;
+  font-weight: bold;
+  margin-top: 20px;
   margin-bottom: 20px;
-  padding-left: 15px
+  margin-left: 27px
 }
 .topbar {
   display: flex;

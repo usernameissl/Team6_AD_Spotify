@@ -2,32 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Home</title>
+	<title>Categories</title>
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/model-1.css">
 	<div th:include="common.html"></div>
 </head>
+
 <body>
-<div class="main-container">
-	<br/>
-	<h2>Browse all</h2>
-	<div class="spotify-playlists" style="padding-left: 5px;">
-		<div class="list">
-			<div class="section--body">
-				<div th:each="category, iter : ${layerOneList}"
-					 th:style="'background-color: ' + ${backgroundColors[iter.index]} + ';'"
-					 class="section--body--item category--item">
-					<a th:href="@{/{modelNo}/category/{layer1} (modelNo=${modelId}, layer1=${category})}">
-						<h3 th:text="${category}"></h3>
-						<img th:src="@{'/image/' + ${category} + '.jpg'}"
-							 th:alt="${category + ' Genre'}">
-					</a>
+
+	<div class="main-container">
+		<br/><br/><br/>
+		<h2>Browse all</h2>
+		<div class="spotify-playlists" style="padding-left: 10px;">
+			<div class="list">
+				<div class="section--body">
+					<div th:each="category, iter : ${layerOneList}"
+						 th:style="'background-color: ' + ${backgroundColors[iter.index]} + ';'"
+						 class="section--body--item category--item">
+						<a th:href="@{/{modelNo}/category/{layer1} (modelNo=${modelId}, layer1=${category})}">
+							<h3 th:text="${category}"></h3>
+							<img th:src="@{'/image/' + ${category} + '.jpg'}"
+								 th:alt="${category + ' Genre'}">
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 </body>
 </html>
