@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/model")
-    public String getModel1(@RequestParam("taskId") int taskId, @RequestParam("modelId") int modelId, Model model) {
+    public String getModel1(@RequestParam("taskId") int taskId, @RequestParam("modelId") int modelId, User user, Model model) {
     	
     	String task = getTask(taskId); // get task ID
     	List<String> layerOneList;
