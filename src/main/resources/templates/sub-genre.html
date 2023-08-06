@@ -16,9 +16,9 @@
     <div class="spotify-playlists">
         <h2>Browse Sub-Categories</h2>
         <div class="list">
-            <div th:each="subgenre : ${subgenres}" class="item">
+            <div th:each="subgenre, stat : ${subgenres}" class="item">
                 <a th:href="@{'/' + ${modelNo} + '/category/' + ${layer1} + '/' + ${subgenre}}">
-                    <img src="https://media.pitchfork.com/photos/5d38748fc0574f00088cc75c/1:1/w_600/alexg_houseofsugar.jpg" />
+                    <img th:src="${coverUrls[stat.index]}" alt="Album Cover" />
                 </a>
                 <div class="play">
                     <span class="fa fa-play"></span>

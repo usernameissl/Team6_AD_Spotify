@@ -38,6 +38,19 @@ public class SubGenreController {
             model.addAttribute("modelNo", modelNo);
             model.addAttribute("layer1", layer1);
             model.addAttribute("subgenres", subgenres);
+
+            // get album cover url list
+            List<String> coverUrls = new ArrayList<>();
+            for (String subgenre : subgenres) {
+                Map<String, List<SpotifySong>> map2 = spotifyService.getLayer2ToSongsMapCache();
+                List<SpotifySong> songs = map2.get(subgenre);
+                Random rand = new Random();
+                SpotifySong randSong = songs.get(rand.nextInt(songs.size()));
+                String url = spotifyService.getAlbumCoverUrl(randSong.getArtist(), randSong.getTrackName());
+                coverUrls.add(url);
+            }
+            // pass covers to view
+            model.addAttribute("coverUrls", coverUrls);
         }
         // else if modelNo == 2 then get cluster genres instead
         return "sub-genre";
