@@ -34,7 +34,7 @@ public class SpotifyService {
     private Map<String, List<SpotifySong>> layer2ToSongsMapCache;
 
     private String clientId = "f0e05bb6bfe343ac92110d079daaf4b9";
-    private String clientSecret = "209aad7a73684ff7be9c5dfc0abce21f";
+    private String clientSecret = "99055cb1ab8a4943bd112f0fea927d9b";
     private String accessToken;
 
     @Autowired
@@ -141,7 +141,7 @@ public class SpotifyService {
         return true;
     }
 
-    // lastfm (a bit broken)
+    // lastfm (search function not working well)
 //    public String getAlbumCoverUrl(String artist, String trackName) {
 //        RestTemplate restTemplate = new RestTemplate();
 //        String url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=fbf79e70392a0765afbe01a136fbb9af&artist=" + artist + "&track=" + trackName + "&format=json";

@@ -47,7 +47,7 @@ public class SubGenreController {
                 List<SpotifySong> songs = map2.get(subgenre);
                 Random rand = new Random();
                 SpotifySong randSong = songs.get(rand.nextInt(songs.size()));
-                String url = spotifyService.getAlbumCoverUrl(randSong.getTrackName());
+                String url = spotifyService.getAlbumCoverUrl(randSong.getSpotifyId());
                 coverUrls.add(url);
             }
             // pass covers to view
