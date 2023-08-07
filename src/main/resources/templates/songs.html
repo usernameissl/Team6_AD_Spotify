@@ -5,25 +5,28 @@
 	<title>Song List</title>
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/model-1.css">
+	<link rel="stylesheet" href="/css/songs.css">
 	<div th:include="common.html"></div>
 </head>
 <body>
-	<div class="main-container">
+	<div class="main-container" style="margin-left: 265px;">
 
-		<div class="d-flex justify-content-end mt-4" style="padding-right: 20px;">
-			<button type="button" class="btn btn-primary-found mr-5">Found</button>
-			<button type="button" class="btn btn-primary-gu" style="display: none;">Give up!</button>
+		<div class="button-container">
+			<button type="button" class="button">
+				<img src="/image/giveup.svg">
+				<span class="label">Give Up</span>
+			</button>
+			<button type="button" class="button">
+				<img src="/image/found.svg">
+				<span class="label">Found</span>
+			</button>
 		</div>
-		<br/><br/>
+		<br/><br/><br/>
 		<h2 th:text="${layer2}"></h2>
 		<br/>
-		<div style="text-align: center;">
-			<p>test player (all text below to be removed)</p>
-			<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Ggr9IfS70wYQacW8nZKPG?utm_source=generator" width="96%" height="90" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+		<div>
 			<div th:each="song : ${songs}">
-				<p th:text="${song.trackName}"></p>
-				<p th:text="${song.artist}"></p>
+				<p th:text="${song.artist} + ' - ' + ${song.trackName}"></p>
 				<iframe style="border-radius:12px" th:if="${modelNo == 1}" th:attr="src='https://open.spotify.com/embed/track/' + ${song.spotifyId} + '?utm_source=generator'" width="96%" height="90" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 			</div>
 		</div>

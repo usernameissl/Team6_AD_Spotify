@@ -59,14 +59,14 @@ body {
 
 .topbar {
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   position: fixed;
   display: flex;
   top: 0;
   left: 0;
   width: 100%;
   justify-content: space-between;
-  padding: 15px 25px;
+  padding: 15px 20px;
 }
 .topbar .prev-next-buttons button {
   color: #7a7a7a;
@@ -78,4 +78,25 @@ body {
   border: 0px;
   background-color: #090909;
   margin-right: 10px;
+}
+.topbar .timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 5px 8px 5px;
+    gap: 8px;
+    height: 30px;
+    width: 90px;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    cursor: pointer;
+}
+.topbar .timer .label {
+    margin-left: 3px;
+    font-size: 12px;
+    line-height: 22px;
+    font-weight: 500;
+    color: #ffffff;
 }

@@ -14,7 +14,7 @@
 <div class="main-container">
 
     <div class="spotify-playlists">
-        <h2>Browse Sub-Categories</h2>
+        <h2 th:text="${layer1}"></h2>
         <div class="list">
             <div th:each="subgenre, stat : ${subgenres}" class="item">
                 <a th:href="@{'/' + ${modelNo} + '/category/' + ${layer1} + '/' + ${subgenre}}">
