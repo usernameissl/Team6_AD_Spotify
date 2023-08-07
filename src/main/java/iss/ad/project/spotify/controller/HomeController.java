@@ -1,6 +1,7 @@
 package iss.ad.project.spotify.controller;
 
 import iss.ad.project.spotify.model.SpotifySong;
+import iss.ad.project.spotify.service.ClusterService;
 import iss.ad.project.spotify.service.SpotifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,11 @@ import java.util.*;
 public class HomeController {
 
 	private final SpotifyService spotifyService;
+	private final ClusterService clusterService;
 
 	@Autowired
-	public HomeController(SpotifyService spotifyService) {
+	public HomeController(SpotifyService spotifyService, ClusterService clusterService) {
+		this.clusterService = clusterService;
 		this.spotifyService = spotifyService;
 	}
 
@@ -61,6 +64,7 @@ public class HomeController {
 	@PostMapping("/refreshcache")
 	public void refreshCache() {
 		spotifyService.refreshCache();
+		clusterService.refreshCache();
 	}
 
 }

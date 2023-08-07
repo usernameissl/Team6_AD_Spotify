@@ -38,55 +38,40 @@
 		</div>
 	</div>
 </div>
-
+<script src="/js/timer.js"></script>
 <script>
-	let loadTime = new Date().getTime(); // Record the time when the page has fully loaded
-
-	// Timer function
-	document.addEventListener("DOMContentLoaded", function() {
-		// Set to 0 if not present
-		let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
-
-		setInterval(function() {
-			totalDuration += 1000;
-			let minutes = Math.floor(totalDuration / 60000);
-			let seconds = ((totalDuration % 60000) / 1000).toFixed(0);
-
-			seconds = seconds < 10 ? '0' + seconds : seconds;
-			// currently no timer display
-			document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
-		}, 1000);
-	});
 
 
 	// Listener function
 	document.addEventListener("DOMContentLoaded", function() {
-		const itemDivs = document.querySelectorAll('.item');
+		let lastClickTime = new Date().getTime(); // Initialize to current time at page load
+
+		const itemDivs = document.querySelectorAll('.section--body');
 
 		itemDivs.forEach(div => {
 			div.addEventListener('click', function(e) {
-				const h4Text = e.currentTarget.querySelector('h4').textContent;
+				const currentTime = new Date().getTime();
+				const duration = currentTime - lastClickTime; // Duration since last click
 
-				let clickTime = new Date().getTime();
-				let duration = (clickTime - loadTime)
+				lastClickTime = currentTime; // Update the last clicked time
 
-				// TODO: Add model and task to line?
+				const h4Text = e.currentTarget.querySelector('h3').textContent;
 
-				const logLine = `${duration}, 2, ${h4Text}`; // 2 stands for the layer
+				const logLine = `${duration}, 1, ${h4Text}`; // 2 stands for the layer
 
-				let history = JSON.parse(localStorage.getItem('history')) || [];
+				let history = JSON.parse(sessionStorage.getItem('history')) || [];
 				history.push(logLine);
 
-				localStorage.setItem('history', JSON.stringify(history));
+				sessionStorage.setItem('history', JSON.stringify(history));
 
-				// Get from localStorage or set to 0 - shouldn't see 0 on sub
-				let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
+				let totalDuration = parseInt(sessionStorage.getItem('totalDuration')) || 0;
 				totalDuration += duration;
 
-				localStorage.setItem('totalDuration', totalDuration.toString());
+				sessionStorage.setItem('totalDuration', totalDuration.toString());
 			});
 		});
 	});
+
 </script>
 
 </body>

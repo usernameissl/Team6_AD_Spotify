@@ -27,7 +27,7 @@ public class LogEntry implements Serializable {
 
     private int taskId;
 
-    private int model;
+    private int modelId;
 
     private int layer;
 
