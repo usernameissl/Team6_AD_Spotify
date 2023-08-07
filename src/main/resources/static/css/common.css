@@ -49,7 +49,7 @@ body {
   margin-left: 5px
 }
 .sidebar .navigation .nav-item .inactive:hover {
-  opacity: 1;
+  opacity: 1;}
 
 .btn-primary-found {
     background-color: #53d380;
@@ -62,7 +62,8 @@ body {
 
 .main-container {
   margin-left: 245px;
-  margin-bottom: 100px;
+  margin-bottom: 100px;}
+
 .btn-primary-gu {
     background-color: #d7a770;
     border-color: #000000;

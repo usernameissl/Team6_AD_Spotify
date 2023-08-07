@@ -19,8 +19,4 @@ public interface ClusterSongRepo extends JpaRepository<ClusterSong, Long> {
 
     @Query("SELECT c FROM ClusterSong c WHERE c.layer2.name = :layer2Id")
     List<ClusterSong> findSongsByLayer2(@Param("layer2Id") String layer2Id);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main
