@@ -11,8 +11,8 @@
             <button type="button" class="fa fas fa-chevron-left"></button>
             <button type="button" class="fa fas fa-chevron-right"></button>
         </div>
-        <div class="model 1">
-            <span>Model 1</span>
+        <div class="model">
+            <span th:text="'Model ' + ${modelId}"></span>
         </div>
         <div th:class="${task}">
             <span th:text="${task}"></span>

@@ -1,6 +1,8 @@
 package iss.ad.project.spotify.controller;
 
+import iss.ad.project.spotify.model.ClusterSong;
 import iss.ad.project.spotify.model.SpotifySong;
+import iss.ad.project.spotify.service.ClusterService;
 import iss.ad.project.spotify.service.SpotifyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,11 @@ import java.util.Map;
 @Controller
 public class SongController {
     SpotifyService spotifyService;
+    ClusterService clusterService;
 
-    public SongController(SpotifyService spotifyService) {
+    public SongController(SpotifyService spotifyService, ClusterService clusterService) {
         this.spotifyService = spotifyService;
+        this.clusterService = clusterService;
     }
 
     // test routing
@@ -31,13 +35,19 @@ public class SongController {
         if (modelNo == 1){
             Map<String, List<SpotifySong>> map = spotifyService.getLayer2ToSongsMapCache();
             List<SpotifySong> songs = map.get(layer2);
-            // pass to view
-            model.addAttribute("modelNo", modelNo);
-            model.addAttribute("layer1", layer1);
-            model.addAttribute("layer2", layer2);
             model.addAttribute("songs", songs);
         }
-        // else if modelNo == 2 then get cluster genres instead
+        else if(modelNo == 2){
+            Map<String, List<ClusterSong>> map = clusterService.getLayer2ToSongsMapCache();
+            List<ClusterSong> songs = map.get(layer2);
+            model.addAttribute("songs", songs);
+        }
+        else {
+            return "redirect:/home";
+        }
+        model.addAttribute("modelNo", modelNo);
+        model.addAttribute("layer1", layer1);
+        model.addAttribute("layer2", layer2);
         return "songs";
     }
 }

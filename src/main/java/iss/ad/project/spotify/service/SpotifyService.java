@@ -111,7 +111,7 @@ public class SpotifyService {
 
         // Extract URL of the smallest album cover image
         JsonNode images = rootNode.path("album").path("images");
-        String imageUrl = images.get(images.size() - 1).path("url").asText();
+        String imageUrl = images.get(1).path("url").asText();
 
         return imageUrl;
     }
