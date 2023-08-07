@@ -24,7 +24,7 @@
 			<div th:each="song : ${songs}">
 				<p th:text="${song.trackName}"></p>
 				<p th:text="${song.artist}"></p>
-				<iframe style="border-radius:12px" th:attr="src='https://open.spotify.com/embed/track/' + ${song.spotifyId} + '?utm_source=generator'" width="96%" height="90" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+				<iframe style="border-radius:12px" th:if="${modelNo == 1}" th:attr="src='https://open.spotify.com/embed/track/' + ${song.spotifyId} + '?utm_source=generator'" width="96%" height="90" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 			</div>
 		</div>
 	</div>
