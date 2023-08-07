@@ -19,6 +19,10 @@ public class SpotifySong implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "Spotify_id")
+    private String spotifyId;
+
+    @Column(name = "Track_Name")
     private String trackName;
 
     private String layer1;

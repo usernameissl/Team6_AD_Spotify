@@ -1,58 +1,55 @@
+* {
+  padding: 0;
+  margin: 0;
+}
 body {
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(to bottom, #1DB954, #000000);
-    color: white;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.jumbotron {
-    background-color: transparent;
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 235px;
+  background-color: #000000;
+  padding: 24px;
+}
+.sidebar .logo img {
+  width: 120px;
+}
+.sidebar .navigation ul {
+  list-style: none;
+  margin-top: 20px;
+}
+.sidebar .navigation ul li {
+  padding: 12px 0px;
 }
 
-.logo {
-    width: 200px; 
-    display: block;
-    margin: 20px auto;
+.sidebar .navigation .nav-item .inactive {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+  fill: white;
+  opacity: .8;
 }
-
-.table {
-    color: white;
+.sidebar .navigation .nav-item .inactive img {
+  margin-right: 17px;
+  margin-left: 5px
 }
-
-.table-bordered {
-    border: 2px solid white;
+.sidebar .navigation .nav-item .active {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
 }
-
-.table-bordered th, .table-bordered td {
-    border: 2px solid white;
-
+.sidebar .navigation .nav-item .active img {
+  margin-right:15px;
+  margin-left: 5px
 }
-
-.form-group label {
-    color: white;
-}
-
-.form-check-input[type="radio"] {
-    margin-right: 8px;
-}
-
-.btn-primary {
-    background-color: #1DB954;
-    border-color: #1DB954;
-}
-
-.btn-primary:hover {
-    background-color: #1DB954;
-    border-color: #1DB954;
-    opacity: 0.8;
-}
-
-.btn-primary-submit {
-    background-color: #0195eb;
-    border-color: #0501eb;
-    color: white;
-    width: 500px;
-}
+.sidebar .navigation .nav-item .inactive:hover {
+  opacity: 1;}
 
 .btn-primary-found {
     background-color: #53d380;
@@ -63,6 +60,10 @@ body {
     font-size: 30px;
 }
 
+.main-container {
+  margin-left: 245px;
+  margin-bottom: 100px;}
+
 .btn-primary-gu {
     background-color: #d7a770;
     border-color: #000000;
@@ -72,14 +73,25 @@ body {
     font-size: 30px;
 }
 
-.table-bordered-song{
-    border: 2px solid #000000;
-    background-color: #6c987c;
-    max-width: 1500px;
-    color: #000000;
-    padding: 50px;
+.topbar {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(15px);
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-between;
+  padding: 15px 25px;
 }
-
-.table-bordered-song th, .table-bordered-song td {
-    border: 1px solid #000000;
+.topbar .prev-next-buttons button {
+  color: #7a7a7a;
+  cursor: not-allowed;
+  width: 34px;
+  height: 34px;
+  border-radius: 100%;
+  font-size: 18px;
+  border: 0px;
+  background-color: #090909;
+  margin-right: 10px;
 }

@@ -42,12 +42,12 @@ public class HomeController {
 		int modelId = user.getModelId();
 		int taskId = user.getTaskId();
 		redirectAttributes.addAttribute("taskId", taskId);
+		redirectAttributes.addAttribute("modelId", modelId);
 
-		if (modelId == 1) {
-			return "redirect:/model1";
-		} else if (modelId == 2) {
-			return "redirect:/model2";
-		} else {
+		if (modelId != 0) {
+			return "redirect:/model";
+		}
+		else {
 			return "redirect:/home";
 		}
 	}
