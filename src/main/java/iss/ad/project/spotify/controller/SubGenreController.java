@@ -1,5 +1,6 @@
 package iss.ad.project.spotify.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import iss.ad.project.spotify.model.SpotifySong;
 import iss.ad.project.spotify.repo.SpotifyRepo;
 import iss.ad.project.spotify.service.SpotifyService;
@@ -30,7 +31,7 @@ public class SubGenreController {
     @GetMapping("/{modelNo}/category/{layer1}")
     public String getSubGenreByLayer1(@PathVariable("modelNo") int modelNo,
                                       @PathVariable("layer1") String layer1,
-                                      Model model) {
+                                      Model model) throws JsonProcessingException {
         if (modelNo == 1){
             Map<String, List<String>> map = spotifyService.getLayer1ToLayer2MapCache();
             List<String> subgenres = map.get(layer1);
@@ -46,7 +47,7 @@ public class SubGenreController {
                 List<SpotifySong> songs = map2.get(subgenre);
                 Random rand = new Random();
                 SpotifySong randSong = songs.get(rand.nextInt(songs.size()));
-                String url = spotifyService.getAlbumCoverUrl(randSong.getArtist(), randSong.getTrackName());
+                String url = spotifyService.getAlbumCoverUrl(randSong.getTrackName());
                 coverUrls.add(url);
             }
             // pass covers to view
