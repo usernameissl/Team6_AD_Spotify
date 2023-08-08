@@ -9,3 +9,47 @@ body {
     background: linear-gradient(to bottom, #333d37, #000000);
     color: white;
 }
+
+.button-container {
+    position: fixed;
+    display: flex;
+    top: 90px;
+    right: 10px;
+    gap: 20px;
+}
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 5px 8px 5px;
+    gap: 8px;
+    height: 30px;
+    width: 95px;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    cursor: pointer;
+}
+.label {
+    margin-left: 2px;
+    font-size: 12px;
+    line-height: 22px;
+    font-weight: 600;
+    color: #ffffff;
+}
+.button:hover {
+    transform: scale(1.02);
+}
+
+h2 {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 12px;
+  color: #81858a;
+}

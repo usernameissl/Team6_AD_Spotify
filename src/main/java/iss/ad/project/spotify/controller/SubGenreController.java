@@ -71,8 +71,6 @@ public class SubGenreController {
         model.addAttribute("modelNo", modelNo);
         model.addAttribute("layer1", layer1);
         model.addAttribute("subgenres", subgenres);
-
-
         // pass covers to view
         model.addAttribute("coverUrls", coverUrls);
         return "sub-genre";
