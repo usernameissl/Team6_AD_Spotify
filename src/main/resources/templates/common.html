@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
     <body>
     <div class="topbar">
         <div class="prev-next-buttons">
-            <button type="button" class="fa fas fa-chevron-left"></button>
-            <button type="button" class="fa fas fa-chevron-right"></button>
+            <button class="previous round"onclick="previous()" id="backward">
+                <i class="fas fa-angle-left"></i>
+            </button>
+            <button class="next round" onClick="next()" id="forward">
+                <i class="fas fa-angle-right"></i>
+            </button>
         </div>
         <div class="model">
             <span th:text="'Model ' + ${modelId}"></span>
@@ -96,6 +101,15 @@
             });
         });
     });
+
+    // pre/next buttons:
+    function next() {
+        window.history.forward();
+    }
+
+    function previous() {
+        window.history.back();
+    }
 </script>
 </body>
 </html>
