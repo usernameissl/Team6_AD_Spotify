@@ -12,11 +12,11 @@
 	<div class="main-container" style="margin-left: 265px;">
 
 		<div class="button-container">
-			<button type="button" class="button">
+			<button type="button" class="button btn-give-up">
 				<img src="/image/giveup.svg">
 				<span class="label">Give Up</span>
 			</button>
-			<button type="button" class="button">
+			<button type="button" class="button btn-found">
 				<img src="/image/found.svg">
 				<span class="label">Found</span>
 			</button>
@@ -34,20 +34,18 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<script src="/js/timer.js"></script>
-
 	<script>
 
 		function showGiveUpButton() {
-			const giveUpButton = document.querySelector(".btn-primary-gu");
-			giveUpButton.style.display = "block";
+			const giveUpButton = document.querySelector(".btn-give-up");
+			//giveUpButton.style.display = "block";
 		}
 	
 		// Show the "Give up!" button after 1 minute (60,000 ms)
-		// setTimeout(showGiveUpButton, 60000);
-		setTimeout(showGiveUpButton, 1000);  // TODO: remove for actual expt
+		setTimeout(showGiveUpButton, 60000);
+		//setTimeout(showGiveUpButton, 1000);
 
-		// Function to handle the AJAX call
+		// Function to send data to LogController endpoint
 		function sendData(success) {
 			let userDataJSON = sessionStorage.getItem('userData');
 			let taskDataJSON = sessionStorage.getItem('taskData');
@@ -74,7 +72,7 @@
 				success: success
 			};
 
-			// Send a POST request to your server
+			// Send POST request
 			$.ajax({
 				url: '/save-session-data',
 				type: 'POST',
@@ -94,18 +92,20 @@
 			sessionStorage.removeItem('totalDuration');
 		}
 
-		$(".btn-primary-found").on("click", function (event) {
+		$(".btn-found").on("click", function (event) {
 			sendData(true); // Send data when "Found" button is clicked
 		});
 
-		$(".btn-primary-gu").on("click", function (event) {
+		$(".btn-give-up").on("click", function (event) {
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
+				sendData(false); // Send data when "Give Up" button is clicked
 				window.location.href = "/home";
 			} else {
 				console.log("User canceled give up.");
 			}
 		});
+
 	</script>
 	
 </body>
