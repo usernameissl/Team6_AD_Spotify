@@ -20,6 +20,9 @@ public class ClusterSong implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "spotify_id")
+    private String spotifyId;
+
     private String trackName;
 
     @OneToOne

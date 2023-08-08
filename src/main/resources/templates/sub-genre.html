@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -12,60 +11,19 @@
 
 <body>
 
-<div class="sidebar">
-    <div class="logo">
-        <a href="#">
-            <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png" alt="Logo" />
-        </a>
-    </div>
-
-    <div class="navigation">
-        <ul>
-            <li>
-                <a href="#">
-                    <span class="fa fa-home"></span>
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <span class="fa fa-search"></span>
-                    <span>Search</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <span class="fa fas fa-book"></span>
-                    <span>Your Library</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-</div>
-
 <div class="main-container">
-    <div class="topbar">
-        <div class="prev-next-buttons">
-            <button type="button" class="fa fas fa-chevron-left"></button>
-            <button type="button" class="fa fas fa-chevron-right"></button>
-        </div>
-    </div>
 
     <div class="spotify-playlists">
         <h2 th:text="${layer1}"></h2>
         <div class="list">
             <div th:each="subgenre, stat : ${subgenres}" class="item">
-                <a th:href="@{'/' + ${modelNo} + '/category/' + ${layer1} + '/' + ${subgenre}}">
+                <a th:href="@{'/' + ${modelNo} +'/' + ${taskNo} + '/' + ${layer1} + '/' + ${subgenre}}">
                     <img th:src="${coverUrls[stat.index]}" alt="Album Cover" />
                 </a>
                 <div class="play">
                     <span class="fa fa-play"></span>
                 </div>
                 <h4 th:text="${subgenre}"></h4>
-                <p>...</p>
             </div>
         </div>
     </div>
@@ -76,7 +34,6 @@
         crossorigin="anonymous"
 ></script>
 
-</body>
 </body>
 
 </html>

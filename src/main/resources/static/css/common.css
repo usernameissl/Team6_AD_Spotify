@@ -74,7 +74,7 @@ body {
 }
 
 .topbar {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   position: fixed;
   display: flex;
@@ -84,16 +84,22 @@ body {
   justify-content: space-between;
   padding: 15px 20px;
 }
+.topbar .prev-next-buttons {
+  margin-left: 240px;
+}
 .topbar .prev-next-buttons button {
-  color: #7a7a7a;
-  cursor: not-allowed;
+  color: #81858a;
   width: 34px;
   height: 34px;
   border-radius: 100%;
-  font-size: 18px;
+  font-size: 22px;
   border: 0px;
   background-color: #090909;
   margin-right: 10px;
+}
+.topbar .task span {
+    color: #ffffff;
+    font-size: 14px;
 }
 .topbar .timer {
     display: flex;
@@ -101,8 +107,8 @@ body {
     align-items: center;
     padding: 8px 5px 8px 5px;
     gap: 8px;
-    height: 30px;
-    width: 90px;
+    height: 35px;
+    width: 95px;
     border: none;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(12px);
@@ -111,7 +117,7 @@ body {
 }
 .topbar .timer .label {
     margin-left: 3px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 22px;
     font-weight: 500;
     color: #ffffff;

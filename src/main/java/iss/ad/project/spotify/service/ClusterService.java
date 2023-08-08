@@ -74,26 +74,26 @@ public class ClusterService {
         return map;
     }
 
-    // lastfm (search function not working well)
-    public String getAlbumCoverUrl(String artist, String trackName) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=fbf79e70392a0765afbe01a136fbb9af&artist=" + artist + "&track=" + trackName + "&format=json";
-        String response = restTemplate.getForObject(url, String.class);
-
-        JSONObject jsonObj = new JSONObject(response);
-        String imageUrl = "";
-        if (jsonObj.has("track") && !jsonObj.isNull("track")) {
-            JSONObject trackObj = jsonObj.getJSONObject("track");
-            if (trackObj.has("album") && !trackObj.isNull("album")) {
-                imageUrl = trackObj.getJSONObject("album").getJSONArray("image").getJSONObject(3).getString("#text");
-            } else {
-                imageUrl = "https://thisis-images.scdn.co/37i9dQZF1DZ06evO0jjjFK-default.jpg";
-            }
-        } else {
-            imageUrl = "https://thisis-images.scdn.co/37i9dQZF1DZ06evO0jjjFK-default.jpg";
-        }
-
-        return imageUrl;
-    }
+    // lastfm (search function not working well. switched to spotify api)
+//    public String getAlbumCoverUrl(String artist, String trackName) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=fbf79e70392a0765afbe01a136fbb9af&artist=" + artist + "&track=" + trackName + "&format=json";
+//        String response = restTemplate.getForObject(url, String.class);
+//
+//        JSONObject jsonObj = new JSONObject(response);
+//        String imageUrl = "";
+//        if (jsonObj.has("track") && !jsonObj.isNull("track")) {
+//            JSONObject trackObj = jsonObj.getJSONObject("track");
+//            if (trackObj.has("album") && !trackObj.isNull("album")) {
+//                imageUrl = trackObj.getJSONObject("album").getJSONArray("image").getJSONObject(3).getString("#text");
+//            } else {
+//                imageUrl = "https://thisis-images.scdn.co/37i9dQZF1DZ06evO0jjjFK-default.jpg";
+//            }
+//        } else {
+//            imageUrl = "https://thisis-images.scdn.co/37i9dQZF1DZ06evO0jjjFK-default.jpg";
+//        }
+//
+//        return imageUrl;
+//    }
 
 }
