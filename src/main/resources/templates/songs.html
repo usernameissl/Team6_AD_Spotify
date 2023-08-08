@@ -31,17 +31,74 @@
 			</div>
 		</div>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="/js/timer.js"></script>
+
 	<script>
+
 		function showGiveUpButton() {
 			const giveUpButton = document.querySelector(".btn-primary-gu");
 			giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 2 minutes (120,000 ms)
-		setTimeout(showGiveUpButton, 120000);
-	
-		// display the confirmation popup
-		document.querySelector(".btn-primary-gu").addEventListener("click", function () {
+		// Show the "Give up!" button after 1 minute (60,000 ms)
+		// setTimeout(showGiveUpButton, 60000);
+		setTimeout(showGiveUpButton, 1000);  // TODO: remove for actual expt
+
+		// Function to handle the AJAX call
+		function sendData(success) {
+			let userDataJSON = sessionStorage.getItem('userData');
+			let taskDataJSON = sessionStorage.getItem('taskData');
+			let historyJSON = sessionStorage.getItem('history');
+
+			let userData = userDataJSON ? JSON.parse(userDataJSON) : {};
+			let taskData = taskDataJSON ? JSON.parse(taskDataJSON) : {};
+			let history = historyJSON ? JSON.parse(historyJSON) : {};
+
+			let name = userData.uniqueName;
+			let age = userData.age;
+			let gender = userData.gender;
+			let modelId = taskData.modelId;
+			let taskId = taskData.taskId;
+
+			// Prepare the payload
+			let payload = {
+				name: name,
+				age: age,
+				gender: gender,
+				modelId: modelId,
+				taskId: taskId,
+				history: history,
+				success: success
+			};
+
+			// Send a POST request to your server
+			$.ajax({
+				url: '/save-session-data',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(payload),
+				success: function (response) {
+					console.log(response);
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+
+			// Reset everything except the user data
+			sessionStorage.removeItem('taskData');
+			sessionStorage.removeItem('history');
+			sessionStorage.removeItem('totalDuration');
+		}
+
+		$(".btn-primary-found").on("click", function (event) {
+			sendData(true); // Send data when "Found" button is clicked
+		});
+
+		$(".btn-primary-gu").on("click", function (event) {
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
 				window.location.href = "/home";
@@ -50,5 +107,6 @@
 			}
 		});
 	</script>
+	
 </body>
 </html>
