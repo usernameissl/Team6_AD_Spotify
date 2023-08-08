@@ -16,11 +16,8 @@
                 <i class="fas fa-angle-right"></i>
             </button>
         </div>
-        <div class="model">
-            <span th:text="'Model ' + ${modelId}"></span>
-        </div>
-        <div th:class="${task}">
-            <span th:text="${task}"></span>
+        <div class="task">
+            <span th:text="'Model ' + ${modelNo} + ' | ' + ${task}"></span>
         </div>
         <div class="timer">
             <img src="/image/timer.svg">

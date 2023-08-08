@@ -74,7 +74,7 @@ body {
 }
 
 .topbar {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   position: fixed;
   display: flex;
@@ -97,7 +97,10 @@ body {
   background-color: #090909;
   margin-right: 10px;
 }
-
+.topbar .task span {
+    color: #ffffff;
+    font-size: 14px;
+}
 .topbar .timer {
     display: flex;
     justify-content: center;
