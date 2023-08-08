@@ -49,53 +49,82 @@
         </div>
     </div>
 <script>
-    let loadTime = new Date().getTime(); // Record the time when the page has fully loaded
+    let loadTime;
+    let interval;
+    let lastEventTime; // Time of the last event (click or page load). This updates within setClickListener or onPageChange
 
-    // Timer function
-    document.addEventListener("DOMContentLoaded", function() {
-        // Set to 0 if not present
-        let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
 
-        setInterval(function() {
-            totalDuration += 1000;
-            let minutes = Math.floor(totalDuration / 60000);
-            let seconds = ((totalDuration % 60000) / 1000).toFixed(0);
+    window.addEventListener('load', function() {
+        loadTime = new Date().getTime();
+        lastEventTime = loadTime; // Initialize last event time on page load
 
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            // currently no timer display
-            document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
-        }, 1000);
+        // Onclick listeners for the history function that takes into account layer and the html structure
+        if (document.querySelector('.section--body--item.category--item')) {
+            setClickListener(1, 'h3', '.section--body--item.category--item');
+        } else if (document.querySelector('.item')) {
+            setClickListener(2, 'h4', '.item');
+        }
+
+        // Display timer
+        displayElapsedTime();  
+        if(!interval) {
+            interval = setInterval(displayElapsedTime, 1000);  
+        }
+
+        // Page change event listener e.g. user presses back button
+        window.addEventListener('beforeunload', onPageChange);
     });
 
-
-    // Listener function
-    document.addEventListener("DOMContentLoaded", function() {
-        const itemDivs = document.querySelectorAll('.item');
+    function setClickListener(layer, selector, divClass) {
+        const itemDivs = document.querySelectorAll(divClass);
 
         itemDivs.forEach(div => {
             div.addEventListener('click', function(e) {
-                const h4Text = e.currentTarget.querySelector('h4').textContent;
+                const currentTime = new Date().getTime();
+                const duration = currentTime - lastEventTime;  // Calculate the duration then update the lastEventTime
+                lastEventTime = currentTime; 
 
-                let clickTime = new Date().getTime();
-                let duration = (clickTime - loadTime)
+                // Log the history
+                const itemText = e.currentTarget.querySelector(selector).textContent;
+                const logLine = `${duration}, ${layer}, ${itemText}`;
 
-                // TODO: Add model and task to line?
-
-                const logLine = `${duration}, 2, ${h4Text}`; // 2 stands for the layer
-
-                let history = JSON.parse(localStorage.getItem('history')) || [];
+                let history = JSON.parse(sessionStorage.getItem('history')) || [];
                 history.push(logLine);
 
-                localStorage.setItem('history', JSON.stringify(history));
+                sessionStorage.setItem('history', JSON.stringify(history));
 
-                // Get from localStorage or set to 0 - shouldn't see 0 on sub
-                let totalDuration = parseInt(localStorage.getItem('totalDuration')) || 0;
+                // Update the total duration
+                let totalDuration = parseInt(sessionStorage.getItem('totalDuration')) || 0;
                 totalDuration += duration;
-
-                localStorage.setItem('totalDuration', totalDuration.toString());
+                sessionStorage.setItem('totalDuration', totalDuration.toString());
             });
         });
-    });
+    }
+
+    function onPageChange() {
+        const currentTime = new Date().getTime();
+        const elapsedTime = currentTime - lastEventTime;
+        updateSessionStorage(elapsedTime);
+    }
+
+    function updateSessionStorage(elapsedTime) {
+        let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0);
+        totalElapsedTime += elapsedTime;
+        sessionStorage.setItem('totalDuration', totalElapsedTime);
+    }
+
+    function displayElapsedTime() {
+        let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0) + (new Date().getTime() - lastEventTime);
+
+        let minutes = Math.floor(totalElapsedTime / 60000);
+        let seconds = Math.floor((totalElapsedTime % 60000) / 1000);
+
+        let timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        let timerDisplay = document.getElementById('timerDisplay');
+        timerDisplay.textContent = timeStr;
+    }
+
 </script>
 </body>
 </html>
