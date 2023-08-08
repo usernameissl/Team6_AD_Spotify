@@ -58,7 +58,7 @@
         <h2 th:text="${layer1}"></h2>
         <div class="list">
             <div th:each="subgenre, stat : ${subgenres}" class="item">
-                <a th:href="@{'/' + ${modelNo} + '/category/' + ${layer1} + '/' + ${subgenre}}">
+                <a th:href="@{'/' + ${modelNo} +'/' + ${taskNo} + '/' + ${layer1} + '/' + ${subgenre}}">
                     <img th:src="${coverUrls[stat.index]}" alt="Album Cover" />
                 </a>
                 <div class="play">

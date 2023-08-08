@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SpotifyRepo extends JpaRepository<SpotifySong, Long> {
-    @Query("SELECT DISTINCT s.layer1 FROM SpotifySong s ORDER BY s.layer1")
+    @Query("SELECT DISTINCT s.layer1 FROM SpotifySong s")
     List<String> findDistinctLayer1();
 
     @Query("SELECT DISTINCT s.layer2 FROM SpotifySong s")

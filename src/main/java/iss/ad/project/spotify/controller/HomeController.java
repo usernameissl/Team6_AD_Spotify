@@ -39,12 +39,12 @@ public class HomeController {
 	@PostMapping("/home")
 	public String saveUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
 
-		int modelId = user.getModelId();
-		int taskId = user.getTaskId();
-		redirectAttributes.addAttribute("taskId", taskId);
-		redirectAttributes.addAttribute("modelId", modelId);
+		int modelNo = user.getModelId();
+		int taskNo = user.getTaskId();
+		redirectAttributes.addAttribute("taskNo", taskNo);
+		redirectAttributes.addAttribute("modelNo", modelNo);
 
-		if (modelId != 0) {
+		if (modelNo != 0) {
 			return "redirect:/model";
 		}
 		else {

@@ -20,7 +20,7 @@
 					<div th:each="category, iter : ${layerOneList}"
 						 th:style="'background-color: ' + ${backgroundColors[iter.index]} + ';'"
 						 class="section--body--item category--item">
-						<a th:href="@{/{modelNo}/category/{layer1} (modelNo=${modelId}, layer1=${category})}">
+						<a th:href="@{/{modelNo}/{taskNo}/{layer1} (modelNo=${modelNo}, taskNo=${taskNo}, layer1=${category})}">
 							<h3 th:text="${category}"></h3>
 							<img th:src="@{'/image/' + ${category} + '.jpg'}"
 								 th:alt="${category + ' Genre'}">

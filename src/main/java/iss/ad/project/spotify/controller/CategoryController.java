@@ -28,21 +28,22 @@ public class CategoryController {
     }
 
     @GetMapping("/model")
-    public String getModel1(@RequestParam("taskId") int taskId, @RequestParam("modelId") int modelId, User user, Model model) {
+    public String getModel1(@RequestParam("taskNo") int taskNo, @RequestParam("modelNo") int modelNo, User user, Model model) {
 
-        String task = getTask(taskId); // get task ID
+        String task = getTask(taskNo); // get task ID
         List<String> layerOneList;
-        if(modelId == 1) { // model 1
-            layerOneList = spotifyService.getDistinctLayer1(); // sorted to ascending order
+        if(modelNo == 1) { // model 1
+            layerOneList = spotifyService.getDistinctLayer1();
         }
-        else if(modelId == 2){ // model 2
-            layerOneList = clusterService.getDistinctLayer1(); // sorted to ascending order
+        else if(modelNo == 2){ // model 2
+            layerOneList = clusterService.getDistinctLayer1();
         }
         else {
             return "redirect:/home";
         }
         List<String> backgroundColors = backgroundColors(layerOneList);
-        model.addAttribute("modelId",modelId);
+        model.addAttribute("modelNo",modelNo);
+        model.addAttribute("taskNo",taskNo);
         model.addAttribute("task",task);
         model.addAttribute("layerOneList",layerOneList);
         model.addAttribute("backgroundColors", backgroundColors);
@@ -52,11 +53,11 @@ public class CategoryController {
     private String getTask(int taskId) {
         switch (taskId) {
             case 1:
-                return "Task 1: abc";
+                return "Task 1: Find a jazz love song by a male artist";
             case 2:
-                return "Task 2: def";
+                return "Task 2: Find 'Call Me Maybe' by Carl Rae Jepsen";
             case 3:
-                return "Task 3: gfh";
+                return "Task 3: Find a song by Irish rock band U2";
             default:
                 return "Invalid Task!";
         }

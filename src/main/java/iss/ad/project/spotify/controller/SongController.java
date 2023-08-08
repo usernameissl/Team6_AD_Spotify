@@ -27,11 +27,12 @@ public class SongController {
     public String getSongs() {
         return "songs";
     }
-    @GetMapping("/{modelNo}/category/{layer1}/{layer2}")
-    public String getPlaylistByLayer2(@PathVariable("modelNo") int modelNo,
+    @GetMapping("/{modelNo}/{taskNo}/{layer1}/{layer2}")
+    public String getPlaylistByLayer2(@PathVariable("modelNo") int modelNo, @PathVariable("taskNo") int taskNo,
                                       @PathVariable("layer1") String layer1,
                                       @PathVariable("layer2") String layer2,
                                       Model model) {
+    	String task = getTask(taskNo);
         if (modelNo == 1){
             Map<String, List<SpotifySong>> map = spotifyService.getLayer2ToSongsMapCache();
             List<SpotifySong> songs = map.get(layer2);
@@ -46,8 +47,21 @@ public class SongController {
             return "redirect:/home";
         }
         model.addAttribute("modelNo", modelNo);
+        model.addAttribute("task",task);
         model.addAttribute("layer1", layer1);
         model.addAttribute("layer2", layer2);
         return "songs";
+    }
+    private String getTask(int taskId) {
+        switch (taskId) {
+            case 1:
+                return "Task 1: Find a jazz love song by a male artist";
+            case 2:
+                return "Task 2: Find 'Call Me Maybe' by Carl Rae Jepsen";
+            case 3:
+                return "Task 3: Find a song by Irish rock band U2";
+            default:
+                return "Invalid Task!";
+        }
     }
 }
