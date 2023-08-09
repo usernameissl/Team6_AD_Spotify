@@ -10,7 +10,7 @@
     <div class="top-bar">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
     </div>
-    <form action="/home" method="post" onsubmit="storeFormData()" th:object="${user}">
+    <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
         <h3>Login Here</h3>
         <div>
             <label for="name">Name</label>
@@ -47,16 +47,39 @@
             </select>
         </div>
 
-        <button type="submit">Log In</button>
-        <br><br>
-        <!-- to change later? -->
-        <!-- <button type="submit">Submit Logfile</button> -->
-        <br><br>
+        <button type="submit">Proceed</button>
     </form>
 
-    <!-- Rest of your code? -->
-
     <script>
+        function checkTaskCompletion() {
+            const taskDataString = sessionStorage.getItem('taskData');
+            const foundDataJSON = sessionStorage.getItem('foundData');
+
+            if (taskDataString && foundDataJSON) {
+                const taskData = JSON.parse(taskDataString);
+                const foundData = JSON.parse(foundDataJSON);
+                const selectedTaskId = document.getElementById('taskId').value;
+                const selectedModelId = document.getElementById('modelId').value;
+
+                const taskOptions = document.querySelectorAll('#taskId option');
+                taskOptions.forEach(option => {
+                    const taskId = option.value;
+                    const isTaskCompletedForModel = foundData.some(entry => entry.taskId === taskId && entry.modelId === selectedModelId);
+                    option.disabled = isTaskCompletedForModel;
+                });
+
+                const isTaskCompleted = foundData.some(entry => entry.taskId === selectedTaskId && entry.modelId === selectedModelId);
+
+                if (isTaskCompleted) {
+                    window.alert("You have already completed this task for the selected model. Please choose another task.");
+                    return false; // Prevent form submission
+                }
+            }
+
+            storeFormData(); // Store form data before form submission
+            return true; // Allow form submission
+        }
+
         function storeFormData() {
             const name = document.getElementById('name').value;
             const age = document.getElementById('age').value;
@@ -64,42 +87,75 @@
             const modelId = document.getElementById('modelId').value;
             const taskId = document.getElementById('taskId').value;
 
-                // Generate a 6 character GUID
-                let guid = 'xxxxxx'.replace(/[x]/g, function() {
-                    return (Math.random() * 36 | 0).toString(36);
+            // Generate a 6 character GUID
+            let guid = 'xxxxxx'.replace(/[x]/g, function() {
+                return (Math.random() * 36 | 0).toString(36);
+            });
+
+            let uniqueName = name + '-' + guid;
+
+            const userData = {
+                name: name,
+                uniqueName: uniqueName,
+                age: age,
+                gender: gender,
+            };
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+
+            const taskData = {
+                modelId: modelId,
+                taskId: taskId
+            }
+            sessionStorage.setItem('taskData', JSON.stringify(taskData));
+
+            const selectedData = {
+                modelId: modelId,
+                taskId: taskId
+            }
+            sessionStorage.setItem('selectedData', JSON.stringify(selectedData));
+        }
+
+        function populateFields() {
+            const userDataString = sessionStorage.getItem('userData');
+            const taskDataString = sessionStorage.getItem('taskData');
+            const foundDataJSON = sessionStorage.getItem('foundData');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                const nameInput = document.getElementById('name');
+                const ageInput = document.getElementById('age');
+                const genderSelect = document.getElementById('gender');
+                const modelSelect = document.getElementById('modelId');
+                const taskSelect = document.getElementById('taskId');
+
+                nameInput.value = userData.name || '';
+                ageInput.value = userData.age || '';
+                genderSelect.value = userData.gender || '';
+
+                nameInput.disabled = userData.name ? true : false;
+                ageInput.disabled = userData.age ? true : false;
+                genderSelect.disabled = userData.gender ? true : false;
+
+                taskSelect.querySelectorAll('option').forEach(option => {
+                    option.disabled = false;
                 });
 
-                let uniqueName = name + '-'+ guid;
+                if (taskDataString && foundDataJSON) {
+                    const taskData = JSON.parse(taskDataString);
+                    const foundData = JSON.parse(foundDataJSON);
+                    const selectedModelId = modelSelect.value;
 
-                const  userData = {
-                    name: name,
-                    uniqueName: uniqueName,
-                    age: age,
-                    gender: gender,
-                };
-                sessionStorage.setItem('userData', JSON.stringify(userData));
-
-                const taskData = {
-                    modelId: modelId,
-                    taskId: taskId
-                }
-                sessionStorage.setItem('taskData', JSON.stringify(taskData));
-            }
-
-            function populateFields() {
-                const userDataString = sessionStorage.getItem('userData');
-                if (userDataString) {
-                    const userData = JSON.parse(userDataString);
-                    document.getElementById('name').value = userData.name || '';
-                    document.getElementById('age').value = userData.age || '';
-                    document.getElementById('gender').value = userData.gender || '';
+                    taskSelect.querySelectorAll('option').forEach(option => {
+                        const taskId = option.value;
+                        const isTaskCompletedForModel = foundData.some(entry => entry.taskId === taskId && entry.modelId === selectedModelId);
+                        
+                        // Disable the option only if the task is completed for the selected model
+                        option.disabled = isTaskCompletedForModel && taskData.modelId === selectedModelId;
+                    });
                 }
             }
+        }
 
-            window.onload = populateFields;
-        </script>
-        
-    </div>
-
+        window.onload = populateFields();
+    </script>
 </body>
 </html>
