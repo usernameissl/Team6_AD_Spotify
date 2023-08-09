@@ -123,6 +123,7 @@ modelSelect.addEventListener("change", function() {
     });
 });
 
+//clicking that will refresh the form and clear sessionStorage
 var completeButton = document.getElementById("completeButton");
 const nameInput = document.getElementById("name");
 const ageInput = document.getElementById("age");
