@@ -95,3 +95,9 @@ button:hover {
 .already-done {
   background-color: #f2f2f2;
 }
+
+p.complete-message {
+  color: rgb(186, 134, 84);
+  font-size: 14px;
+  margin-top: 20px;
+}
