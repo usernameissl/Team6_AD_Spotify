@@ -41,121 +41,16 @@
         <div>
             <label for="taskId">Task</label>
             <select id="taskId" name="taskId" required>
-                <option value="1">Task 1: Find a jazz love song by a male artist</option>
-                <option value="2">Task 2: Find 'Call Me Maybe' by Carl Rae Jepsen</option>
-                <option value="3">Task 3: Find a song by Irish rock band U2</option>
+                <option value="1" data-model="1">Task 1: Find a jazz love song by a male artist</option>
+                <option value="2" data-model="1">Task 2: Find 'Call Me Maybe' by Carly Rae Jepsen</option>
+                <option value="3" data-model="1">Task 3: Find a song by Irish rock band U2</option>
             </select>
         </div>
-
+    
         <button type="submit">Proceed</button>
+        <button type="button" id="completeButton">Complete</button>
     </form>
+    <script src="/js/val.js"></script>
 
-    <script>
-        function checkTaskCompletion() {
-            const taskDataString = sessionStorage.getItem('taskData');
-            const foundDataJSON = sessionStorage.getItem('foundData');
-
-            if (taskDataString && foundDataJSON) {
-                const taskData = JSON.parse(taskDataString);
-                const foundData = JSON.parse(foundDataJSON);
-                const selectedTaskId = document.getElementById('taskId').value;
-                const selectedModelId = document.getElementById('modelId').value;
-
-                const taskOptions = document.querySelectorAll('#taskId option');
-                taskOptions.forEach(option => {
-                    const taskId = option.value;
-                    const isTaskCompletedForModel = foundData.some(entry => entry.taskId === taskId && entry.modelId === selectedModelId);
-                    option.disabled = isTaskCompletedForModel;
-                });
-
-                const isTaskCompleted = foundData.some(entry => entry.taskId === selectedTaskId && entry.modelId === selectedModelId);
-
-                if (isTaskCompleted) {
-                    window.alert("You have already completed this task for the selected model. Please choose another task.");
-                    return false; // Prevent form submission
-                }
-            }
-
-            storeFormData(); // Store form data before form submission
-            return true; // Allow form submission
-        }
-
-        function storeFormData() {
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const gender = document.getElementById('gender').value;
-            const modelId = document.getElementById('modelId').value;
-            const taskId = document.getElementById('taskId').value;
-
-            // Generate a 6 character GUID
-            let guid = 'xxxxxx'.replace(/[x]/g, function() {
-                return (Math.random() * 36 | 0).toString(36);
-            });
-
-            let uniqueName = name + '-' + guid;
-
-            const userData = {
-                name: name,
-                uniqueName: uniqueName,
-                age: age,
-                gender: gender,
-            };
-            sessionStorage.setItem('userData', JSON.stringify(userData));
-
-            const taskData = {
-                modelId: modelId,
-                taskId: taskId
-            }
-            sessionStorage.setItem('taskData', JSON.stringify(taskData));
-
-            const selectedData = {
-                modelId: modelId,
-                taskId: taskId
-            }
-            sessionStorage.setItem('selectedData', JSON.stringify(selectedData));
-        }
-
-        function populateFields() {
-            const userDataString = sessionStorage.getItem('userData');
-            const taskDataString = sessionStorage.getItem('taskData');
-            const foundDataJSON = sessionStorage.getItem('foundData');
-            if (userDataString) {
-                const userData = JSON.parse(userDataString);
-                const nameInput = document.getElementById('name');
-                const ageInput = document.getElementById('age');
-                const genderSelect = document.getElementById('gender');
-                const modelSelect = document.getElementById('modelId');
-                const taskSelect = document.getElementById('taskId');
-
-                nameInput.value = userData.name || '';
-                ageInput.value = userData.age || '';
-                genderSelect.value = userData.gender || '';
-
-                nameInput.disabled = userData.name ? true : false;
-                ageInput.disabled = userData.age ? true : false;
-                genderSelect.disabled = userData.gender ? true : false;
-
-                taskSelect.querySelectorAll('option').forEach(option => {
-                    option.disabled = false;
-                });
-
-                if (taskDataString && foundDataJSON) {
-                    const taskData = JSON.parse(taskDataString);
-                    const foundData = JSON.parse(foundDataJSON);
-                    const selectedModelId = modelSelect.value;
-
-                    taskSelect.querySelectorAll('option').forEach(option => {
-                        const taskId = option.value;
-                        const isTaskCompletedForModel = foundData.some(entry => entry.taskId === taskId && entry.modelId === selectedModelId);
-                        
-                        // Disable the option only if the task is completed for the selected model
-                        option.disabled = isTaskCompletedForModel && taskData.modelId === selectedModelId;
-                    });
-                }
-            }
-        }
-
-        window.onload = populateFields();
-    </script>
 </body>
 </html>
