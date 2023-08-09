@@ -19,12 +19,12 @@ body {
 }
 
 form {
-  height: 800px;
+  height: 900px;
   width: 600px;
   background-color: rgba(255, 255, 255, 0.13);
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 85%;
+  top: 55%;
   left: 50%;
   border-radius: 10px;
   backdrop-filter: blur(10px);
@@ -91,4 +91,13 @@ button {
 }
 button:hover {
   transform: scale(1.01);
+}
+.already-done {
+  background-color: #f2f2f2;
+}
+
+p.complete-message {
+  color: rgb(186, 134, 84);
+  font-size: 14px;
+  margin-top: 20px;
 }

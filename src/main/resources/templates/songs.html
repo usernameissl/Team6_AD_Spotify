@@ -45,6 +45,21 @@
 		setTimeout(showGiveUpButton, 60000);
 		//setTimeout(showGiveUpButton, 1000);
 
+		function foundData() {
+			const selectedDataJSON = sessionStorage.getItem('selectedData');
+			const selectedData = selectedDataJSON ? JSON.parse(selectedDataJSON) : {};
+
+			let foundDataJSON = sessionStorage.getItem('foundData');
+			let foundData = foundDataJSON ? JSON.parse(foundDataJSON) : [];
+
+			const existingEntry = foundData.find(entry => entry.modelId === selectedData.modelId && entry.taskId === selectedData.taskId);
+
+			if (!existingEntry) {
+				foundData.push(selectedData);
+				sessionStorage.setItem('foundData', JSON.stringify(foundData));
+			}
+		}
+
 		// Function to send data to LogController endpoint
 		function sendData(success) {
 			let userDataJSON = sessionStorage.getItem('userData');
@@ -93,9 +108,11 @@
 		}
 
 		$(".btn-found").on("click", function (event) {
-			sendData(true); // Send data when "Found" button is clicked
+			foundData(); // Add new data to the foundData array
+			sendData(true); // Send data when "Found" button is clicked			
 			window.location.href = "/home";
 		});
+
 
 		$(".btn-give-up").on("click", function (event) {
 			const confirmed = confirm("Are you sure you want to give up?");
