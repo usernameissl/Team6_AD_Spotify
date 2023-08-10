@@ -95,6 +95,7 @@ function populateFields() {
     }
 }
 window.onload = function() {
+    sessionStorage.removeItem('totalDuration');
     populateFields();
     checkTaskCompletion();
 };

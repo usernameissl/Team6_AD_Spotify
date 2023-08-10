@@ -35,16 +35,9 @@
         <div class="navigation">
             <ul>
                 <li class="nav-item">
-                    <a href="/home" class="inactive">
-                        <img src="/image/home.svg">
-                        Home
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="active">
+                    <a href="#" id="dynamicLink" class="active">
                         <img src="/image/browse.svg">
-                        Browse
+                        Main Categories
                     </a>
                 </li>
             </ul>
@@ -58,7 +51,10 @@
     }
 
     function previous() {
-        window.history.back();
+        // Disable navigating back to the home page
+        if (!document.referrer.endsWith('home')) {
+            window.history.back();
+        }
     }
   
     let loadTime;
@@ -78,14 +74,24 @@
         }
 
         // Display timer
-        displayElapsedTime();  
+        displayElapsedTime();
         if(!interval) {
-            interval = setInterval(displayElapsedTime, 1000);  
+            interval = setInterval(displayElapsedTime, 1000);
         }
 
         // Page change event listener e.g. user presses back button
         window.addEventListener('beforeunload', onPageChange);
+
+        let taskData = JSON.parse(sessionStorage.getItem('taskData'));
+
+        // For updating the sidebar Main Categories link
+        if (taskData && taskData.modelId && taskData.taskId) {
+            let newUrl = `http://localhost:8000/model?taskNo=${taskData.taskId}&modelNo=${taskData.modelId}`;
+            document.getElementById('dynamicLink').setAttribute('href', newUrl);
+        }
+
     });
+
 
     function setClickListener(layer, selector, divClass) {
         const itemDivs = document.querySelectorAll(divClass);
