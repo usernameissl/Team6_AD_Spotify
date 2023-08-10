@@ -8,20 +8,20 @@
     <div th:include="common.html"></div>
 </head>
 <body>
-<form action="/home" method="post">
+<form action="/feedback" method="post">
     <div>
     <label for="feedback" class="feedback-hint">How do you rate our website?</label>
     <div class="feedback">
         <div class="rating">
-            <input type="radio" name="rating" id="rating-5">
+            <input type="radio" name="rating" value="5" id="rating-5">
             <label for="rating-5"></label>
-            <input type="radio" name="rating" id="rating-4">
+            <input type="radio" name="rating" value="4" id="rating-4">
             <label for="rating-4"></label>
-            <input type="radio" name="rating" id="rating-3">
+            <input type="radio" name="rating" value="3" id="rating-3">
             <label for="rating-3"></label>
-            <input type="radio" name="rating" id="rating-2">
+            <input type="radio" name="rating" value="2" id="rating-2">
             <label for="rating-2"></label>
-            <input type="radio" name="rating" id="rating-1">
+            <input type="radio" name="rating" value="1" id="rating-1">
             <label for="rating-1"></label>
             <div class="emoji-wrapper">
                 <div class="emoji">
@@ -115,7 +115,7 @@
         <div>
         </div>
             <label for="feedback" class="feedback-hint">Any advice for us to improve our website?</label>
-            <textarea id="feedback" name="feedback" rows="6" cols="50"></textarea>
+            <textarea id="feedback" name="text" rows="6" cols="50"></textarea>
         </div>
         <button type="submit" class="submit-btn">Submit</button>
     </form>
