@@ -61,7 +61,7 @@
 		}
 
 		// Function to send data to LogController endpoint
-		function sendData(success) {
+		function sendData(success, callback) {
 			let userDataJSON = sessionStorage.getItem('userData');
 			let taskDataJSON = sessionStorage.getItem('taskData');
 			let historyJSON = sessionStorage.getItem('history');
@@ -99,30 +99,52 @@
 				error: function (error) {
 					console.error(error);
 				}
-			});
+			}).always(function() {
+				console.log("AJAX call completed.");
+				// Reset everything except the user data here, after the AJAX request completes
+				sessionStorage.removeItem('taskData');
+				sessionStorage.removeItem('history');
+				sessionStorage.removeItem('totalDuration');
 
-			// Reset everything except the user data
-			sessionStorage.removeItem('taskData');
-			sessionStorage.removeItem('history');
-			sessionStorage.removeItem('totalDuration');
+				if (callback) callback();
+			});
 		}
 
 		$(".btn-found").on("click", function (event) {
-			foundData(); // Add new data to the foundData array
-			sendData(true); // Send data when "Found" button is clicked			
-			window.location.href = "/home";
+			stopTimer();
+			foundData();
+			sendData(true, function() {
+				setTimeout(function() {
+					window.location.href = "/home";
+				}, 500); // waiting for half a second
+			});
+
 		});
 
-
 		$(".btn-give-up").on("click", function (event) {
+			stopTimer();
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
-				sendData(false); // Send data when "Give Up" button is clicked
-				window.location.href = "/home";
+				sendData(true, function() {
+					setTimeout(function() {
+						window.location.href = "/home";
+					}, 500); // waiting for half a second
+				});
+
 			} else {
 				console.log("User canceled give up.");
 			}
 		});
+
+
+		function stopTimer() {
+			clearInterval(interval);
+			interval = null;
+			// Update the totalDuration one last time
+			const currentTime = new Date().getTime();
+			const elapsedTime = currentTime - lastEventTime;
+			updateSessionStorage(elapsedTime);
+		}
 
 	</script>
 	
