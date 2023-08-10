@@ -82,6 +82,7 @@
     return 'rgb(' + Math.round(r1 * 255) + ', ' + Math.round(g1 * 255) + ', ' + Math.round(b1 * 255) + ')';
 	}
 
+	// dynamic background colors based on mouse hovering
     const categories = document.querySelectorAll('.category--item');
     const body = document.querySelector('body');
     categories.forEach(category => {
@@ -89,6 +90,9 @@
         	const color = category.style.backgroundColor;
         	const darkerColor = makeDarker(color, 0.2);
             body.style.background = `linear-gradient(to bottom, ${darkerColor} 0%, #000000 50%, #000000 100%)`;
+        	category.addEventListener('click', () => {
+        		sessionStorage.setItem('backgroundColor', darkerColor);
+    		});
         });
         category.addEventListener('mouseout', () => {
             body.style.background = 'linear-gradient(to bottom, #333333 0%, #000000 50%, #000000 100%)';

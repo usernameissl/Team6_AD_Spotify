@@ -30,6 +30,10 @@ public class SubGenreController {
     public String getSubGenre() {
         return "sub-genre";
     }
+    @GetMapping("/feedback")
+    public String getFeedback(){
+        return "feedback";
+    }
     @GetMapping("/{modelNo}/{taskNo}/{layer1}")
     public String getSubGenreByLayer1(@PathVariable("modelNo") int modelNo, @PathVariable("taskNo") int taskNo,
                                       @PathVariable("layer1") String layer1,

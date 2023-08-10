@@ -28,6 +28,15 @@
         </div>
     </div>
 </div>
+<script>
+    window.onload = function() {
+    const storedColor = sessionStorage.getItem('backgroundColor');
+    if (storedColor) {
+        const body = document.querySelector('body');
+        body.style.background = `linear-gradient(to bottom, ${storedColor} 0%, #000000 50%, #000000 100%)`;
+    }
+    }
+</script>
 
 <script
         src="https://kit.fontawesome.com/23cecef777.js"
