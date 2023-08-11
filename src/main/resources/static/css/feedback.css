@@ -1,0 +1,110 @@
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    background: #53d380; 
+    background: -webkit-linear-gradient(to right, #11D967, #0C7C3C);  
+    background: linear-gradient(to right, #11D967, #0C7C3C);     
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  height:100vh;
+}
+
+.panel-container {
+  background-color: #12192c;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  font-size: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  max-width: 400px;
+  color:#11D967;
+  margin:10% auto 2% auto;
+}
+
+.panel-container strong {
+  line-height: 20px;
+}
+
+.ratings-container {
+  display: flex;
+  margin: 20px 0;
+}
+
+.rating {
+  flex: 1;
+  cursor: pointer;
+  padding: 20px;
+  margin: 10px 5px;
+}
+
+.rating:hover,
+.rating.active {
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.rating img {
+  width: 40px;
+}
+
+.rating small {
+  color: #fff;
+  display: inline-block;
+  margin: 10px 0 0;
+}
+
+.rating:hover small,
+.rating.active small {
+  color: #11D967;
+}
+
+.btn {
+  background-color: #11D967;
+  color: #000;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 30px;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.fa-heart {
+  color: red;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+
+.credit a{
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+
+  .credit {
+      text-align: center;
+  }
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    position: absolute;
+    top: 200px;
+    right: 780px;
+    cursor: pointer;
+     color:#11D967;
+}
