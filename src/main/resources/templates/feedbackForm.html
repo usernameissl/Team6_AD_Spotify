@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+		integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+		crossorigin="anonymous" />
+	<link rel="stylesheet" href="/css/feedback.css" />
+
+	<title>Feedback</title>
+</head>
+
+<body>
+	<div id="panel" class="panel-container">
+			<body>
+				<button id="closeButton" class="close-button">&times;</button>
+			</body>
+		<form action="/feedback" method="post" th:object="${feedback}">
+			<strong>How satisfied are you with our service?</strong>
+
+		
+			<div class="ratings-container">
+				<input type="hidden" id="experience" name="experience" />
+				<div class="rating" id="unhappy" value="UNHAPPY">
+					<img src="/image/unhappy.png" alt="" />
+					<small>Unhappy</small>
+				</div>
+
+				<div class="rating" id="neutral" value="NEUTRAL">
+					<img src="/image/happy.png" alt="" />
+					<small>Neutral</small>
+				</div>
+
+				<div class="rating" id="satisfied" value="SATISFIED">
+					<img src="/image/satisfy.png" alt="" />
+					<small>Satisfied</small>
+				</div>
+			</div>
+			<textarea rows="5" cols="30" name="comments" placeholder="Leave your comment here..."
+				th:field="*{comments}"></textarea>
+			<!-- Hidden inputs for name and age -->
+			<input type="hidden" name="userName" th:field="*{userName}" />
+			<input type="hidden" name="age" th:field="*{age}" />
+			<!-- You can add more form elements here -->
+			<br>
+			<br>
+			<button id="submitButton" class="btn" type="submit">Send Review</button>
+		</form>
+	</div>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var closeButton = document.getElementById("closeButton");
+
+			closeButton.addEventListener("click", function () {
+				window.location.href = "/home"; // Check the path to make sure it's correct
+			});
+		});
+
+		const userData = JSON.parse(sessionStorage.getItem('userData'));
+		const userName = userData.name;
+		const age = userData.age;
+
+		// Populate the hidden inputs with the values from userData
+		document.querySelector('input[name="userName"]').value = userName;
+		document.querySelector('input[name="age"]').value = age;
+
+		//rating experience
+		const ratings = document.querySelectorAll('.rating');
+
+		ratings.forEach(rating => {
+			rating.addEventListener('click', () => {
+				const experienceField = document.querySelector('#experience');
+				experienceField.value = rating.getAttribute('value');
+
+				// Highlight the selected rating
+				ratings.forEach(rating => rating.style.backgroundColor = '');
+				rating.style.backgroundColor = 'white';
+			});
+		});
+	</script>
+</body>
+
+</html>

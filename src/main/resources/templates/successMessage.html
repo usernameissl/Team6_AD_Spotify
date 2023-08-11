@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+		integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+		crossorigin="anonymous" />
+	<link rel="stylesheet" href="/css/feedback.css" />
+	<title>Feedback</title>
+</head>
+
+<body>
+	<div id="panel" class="panel-container">
+
+		<body>
+			<button id="closeButton" class="close-button">&times;</button>
+		</body>
+		<strong>Feedback has been submitted.</strong>
+
+
+		<div class="rating">
+			<img src="/image/heart.gif" alt="" />
+			<small>Thank You!!</small>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var closeButton = document.getElementById("closeButton");
+
+			closeButton.addEventListener("click", function () {
+				window.location.href = "/home"; // Check the path to make sure it's correct
+			});
+		});</script>
+</body>
+
+</html>
