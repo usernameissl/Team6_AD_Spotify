@@ -92,3 +92,39 @@ button {
 button:hover {
   transform: scale(1.01);
 }
+
+#feedback_button a {
+    position: fixed;
+    right: 0px;
+    top: 50%;
+    width: 100px;
+    height: 60px;
+    background-color: #1db954;
+    transform-origin: center top;
+    transform: rotate(-90deg);
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    transition: right 0.25s;
+    cursor: pointer;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    outline: none;
+    text-decoration: none;
+}
+
+#feedback_button a:hover,
+#feedback_button a:focus {
+    right: 10px
+}
+
+@media screen and (max-width: 800px) {
+    #feedback_button a {
+        position: static;
+        width: 100%;
+        max-width: 350px;
+        margin: auto;
+        height: 50px;
+        transform: rotate(0deg);
+    }
+}
