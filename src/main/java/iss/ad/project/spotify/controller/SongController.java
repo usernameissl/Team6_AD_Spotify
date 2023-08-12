@@ -27,7 +27,7 @@ public class SongController {
     public String getSongs() {
         return "songs";
     }
-    @GetMapping("/{modelNo}/{taskNo}/{layer1}/{layer2}")
+    @GetMapping("/{modelNo}/{taskNo}/{layer1}/{layer2}/songs")
     public String getPlaylistByLayer2(@PathVariable("modelNo") int modelNo, @PathVariable("taskNo") int taskNo,
                                       @PathVariable("layer1") String layer1,
                                       @PathVariable("layer2") String layer2,
