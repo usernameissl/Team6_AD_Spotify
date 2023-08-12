@@ -119,12 +119,26 @@
         });
     }
 
+    function isSongPage() {
+        return window.location.pathname.endsWith('songs');
+    }
 
     function onPageChange() {
         const currentTime = new Date().getTime();
         const elapsedTime = currentTime - lastEventTime;
         updateSessionStorage(elapsedTime);
+
+        if (isSongPage()) {
+            // Log the history for the song page
+            const logLine = `${elapsedTime}, 3, songs`;
+
+            let history = JSON.parse(sessionStorage.getItem('history')) || [];
+            history.push(logLine);
+
+            sessionStorage.setItem('history', JSON.stringify(history));
+        }
     }
+
 
     function updateSessionStorage(elapsedTime) {
         let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0);
