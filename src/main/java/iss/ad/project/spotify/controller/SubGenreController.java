@@ -81,9 +81,9 @@ public class SubGenreController {
     private String getTask(int taskId) {
         switch (taskId) {
             case 1:
-                return "Task 1: Find a jazz love song by a male artist(s)";
+                return "Task 1: Find a jazz song with 'Love' in the title performed by two artists";
             case 2:
-                return "Task 2: Find 'Call Me Maybe' by Carly Rae Jepsen";
+                return "Task 2: Find 'California Gurls by Katy Perry";
             case 3:
                 return "Task 3: Find a song by Irish rock band U2";
             default:
