@@ -21,6 +21,10 @@ public class LogController {
     private LogService logService;
     private static final String logFilePath = "C:\\Logs\\";
 
+    private static final Path processedFolder = Paths.get(logFilePath, "processed");
+
+
+
     @Autowired
     public LogController(LogService logService){
         this.logService = logService;
@@ -47,8 +51,11 @@ public class LogController {
     @PostMapping("/process-logs")
     public void processLogs() {
         try {
-            // Only files that end with json
-            Stream<Path> paths = Files.walk(Paths.get(logFilePath))
+            Map<String, Integer> nameCountMap = new HashMap<>();
+            Files.createDirectories(processedFolder);
+
+            // Only files that end with json that are in the Logs folder, excluding subdirectories
+            Stream<Path> paths = Files.list(Paths.get(logFilePath))
                     .filter(Files::isRegularFile)
                     .filter(p -> p.toString().endsWith(".json"));
 
@@ -56,11 +63,13 @@ public class LogController {
             paths.forEach(path -> {
                 try {
                     String content = new String(Files.readAllBytes(path));
-                    List<LogEntry> logEntries = convertJsonToLogEntry(content);
+                    List<LogEntry> logEntries = convertJsonToLogEntry(content, nameCountMap);
                     for (LogEntry logEntry : logEntries) {
                         System.out.println(logEntry);
                         logService.save(logEntry);
                     }
+
+                    Files.move(path, processedFolder.resolve(path.getFileName()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -70,7 +79,7 @@ public class LogController {
         }
     }
 
-    public List<LogEntry> convertJsonToLogEntry(String jsonStr) {
+    public List<LogEntry> convertJsonToLogEntry(String jsonStr, Map<String, Integer> nameCountMap) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<LogEntry> logEntries = new ArrayList<>();
 
@@ -78,7 +87,10 @@ public class LogController {
             JsonNode rootNode = objectMapper.readTree(jsonStr);
 
             // Get all the top level properties
-            String name = rootNode.get("name").asText();
+            String originalName = rootNode.get("name").asText();
+            String baseName = originalName.split("-")[0];
+            String newName = getNewName(baseName, nameCountMap); // change the GUID into sequential values if duplicates exist
+
             int age = rootNode.get("age").asInt();
             boolean gender = rootNode.get("gender").asText().equalsIgnoreCase("M");
             int modelId = rootNode.get("modelId").asInt();
@@ -100,7 +112,7 @@ public class LogController {
                     String[] parts = node.asText().split(", ");
                     if (parts.length == 3) {
                         LogEntry logEntry = new LogEntry();
-                        logEntry.setName(name);
+                        logEntry.setName(newName);
                         logEntry.setAge(age);
                         logEntry.setGender(gender);
                         logEntry.setModelId(modelId);
@@ -120,4 +132,11 @@ public class LogController {
 
         return logEntries;
     }
+
+    private String getNewName(String baseName, Map<String, Integer> nameCountMap) {
+        int count = nameCountMap.getOrDefault(baseName, 0) + 1; // Increment count for this base name
+        nameCountMap.put(baseName, count);
+        return baseName + "-" + count;
+    }
+
 }

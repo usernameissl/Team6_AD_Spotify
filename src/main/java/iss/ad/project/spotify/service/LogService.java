@@ -6,6 +6,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LogService {
 
@@ -17,5 +19,9 @@ public class LogService {
 
     public LogEntry save(LogEntry logEntry){
         return logRepo.save(logEntry);
+    }
+
+    public List<String> getDistinctNames() {
+        return logRepo.findDistinctNames();
     }
 }
