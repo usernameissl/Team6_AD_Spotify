@@ -8,6 +8,12 @@
 	<link rel="stylesheet" href="/css/songs.css">
 	<div th:include="common.html"></div>
 </head>
+<style>
+	.btn-give-up {
+		display: none;
+	}
+
+</style>
 <body>
 	<div class="main-container" style="margin-left: 265px;">
 
@@ -38,7 +44,7 @@
 
 		function showGiveUpButton() {
 			const giveUpButton = document.querySelector(".btn-give-up");
-			//giveUpButton.style.display = "block";
+			giveUpButton.style.display = "block";
 		}
 	
 		// Show the "Give up!" button after 3 minutes

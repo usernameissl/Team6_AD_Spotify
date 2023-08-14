@@ -9,6 +9,9 @@ body {
     background: linear-gradient(to bottom, #333d37, #000000);
     color: white;
 }
+.btn-give-up {
+    display: none;
+}
 
 .button-container {
     position: fixed;
