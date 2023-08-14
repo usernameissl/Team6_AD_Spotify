@@ -83,7 +83,6 @@ public class LogController {
     }
 
     public List<LogEntry> convertJsonToLogEntry(String jsonStr, String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
-        // ... [Rest of your code]
         ObjectMapper objectMapper = new ObjectMapper();
         List<LogEntry> logEntries = new ArrayList<>();
 
@@ -138,10 +137,18 @@ public class LogController {
     }
 
     private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
-        int count = nameCountMap.getOrDefault(uniqueIdentifier, 0) + 1; // Increment count for this unique identifier
-        nameCountMap.put(uniqueIdentifier, count);
+        String key = baseName + "-" + uniqueIdentifier;
+        int count = nameCountMap.getOrDefault(key, 0);
+
+        // Only increment if count is zero, i.e., this is a new unique name
+        if(count == 0) {
+            count = nameCountMap.size() + 1;
+            nameCountMap.put(key, count);
+        }
+
         return baseName + "-" + count;
     }
+
 
     // Get user's name from file name
     private String extractBaseName(String fileName) {
