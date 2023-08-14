@@ -23,7 +23,7 @@ public class LogController {
 
     private static final Path processedFolder = Paths.get(logFilePath, "processed");
 
-
+    private Set<String> processedNames = new HashSet<>();
 
     @Autowired
     public LogController(LogService logService){
@@ -53,6 +53,7 @@ public class LogController {
         try {
             Map<String, Integer> nameCountMap = new HashMap<>();
             Files.createDirectories(processedFolder);
+            processedNames.addAll(logService.getDistinctNames());
 
             // Only files that end with json that are in the Logs folder, excluding subdirectories
             Stream<Path> paths = Files.list(Paths.get(logFilePath))
@@ -137,26 +138,29 @@ public class LogController {
     }
 
     private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
-        // Combine the baseName and uniqueIdentifier to create a key
         String key = baseName + "-" + uniqueIdentifier;
 
-        // If this combination hasn't been seen before, assign the next available index
-        if (!nameCountMap.containsKey(key)) {
-            // Find the maximum current value for baseName, so that the next entry gets incremented by one
-            int maxCurrentCount = nameCountMap.values().stream()
-                    .filter(val -> val >= 1)
-                    .mapToInt(Integer::intValue)
-                    .max()
-                    .orElse(0);
-
-            nameCountMap.put(key, maxCurrentCount + 1);
+        // If this combination has been processed before, return its existing name
+        if (processedNames.contains(key)) {
+            if (nameCountMap.containsKey(baseName)) {
+                int count = nameCountMap.get(baseName);
+                return count > 1 ? baseName + "-" + count : baseName;
+            } else {
+                return baseName;
+            }
         }
 
-        if (nameCountMap.get(key) == 1) {
-            return baseName;
+        // If it's a new uniqueIdentifier for the given baseName
+        int currentCount = nameCountMap.getOrDefault(baseName, 1);
+        while(processedNames.contains(baseName + (currentCount > 1 ? "-" + currentCount : ""))) {
+            currentCount++;
         }
-        // Otherwise, return the base name with the assigned index as the suffix
-        return baseName + "-" + nameCountMap.get(key);
+        nameCountMap.put(baseName, currentCount + 1);  // Increment for the baseName
+
+        processedNames.add(key);  // Mark this combination as processed
+
+        // Return the appropriate name format
+        return currentCount > 1 ? baseName + "-" + currentCount : baseName;
     }
 
 
