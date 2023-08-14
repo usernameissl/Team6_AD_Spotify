@@ -1,6 +1,12 @@
 function checkTaskCompletion() {
     const taskDataString = sessionStorage.getItem('taskData');
     const foundDataJSON = sessionStorage.getItem('foundData');
+    const userDataString = sessionStorage.getItem('userData');
+
+    // Check if userData is not set in session storage
+    if (!userDataString) {
+        storeFormData();
+    }
 
     if (taskDataString && foundDataJSON) {
         const taskData = JSON.parse(taskDataString);
@@ -12,12 +18,12 @@ function checkTaskCompletion() {
 
         if (isTaskCompleted) {
             window.alert("You have already completed this task for the selected model. Please choose another task.");
-            return false; // Prevent form submission
+            return false;
         }
     }
-    storeFormData();
     return true;
 }
+
 
 function storeFormData() {
     const name = document.getElementById('name').value;
