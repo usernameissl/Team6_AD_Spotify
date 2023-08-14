@@ -41,9 +41,8 @@
 			//giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 1 minute (60,000 ms)
-		setTimeout(showGiveUpButton, 60000);
-		//setTimeout(showGiveUpButton, 1000);
+		// Show the "Give up!" button after 3 minutes
+		setTimeout(showGiveUpButton, 180000);
 
 		function foundData() {
 			const selectedDataJSON = sessionStorage.getItem('selectedData');
