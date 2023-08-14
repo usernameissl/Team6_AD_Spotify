@@ -1,12 +1,6 @@
 function checkTaskCompletion() {
     const taskDataString = sessionStorage.getItem('taskData');
     const foundDataJSON = sessionStorage.getItem('foundData');
-    const userDataString = sessionStorage.getItem('userData');
-
-    // Check if userData is not set in session storage
-    if (!userDataString) {
-        storeFormData();
-    }
 
     if (taskDataString && foundDataJSON) {
         const taskData = JSON.parse(taskDataString);
@@ -18,19 +12,25 @@ function checkTaskCompletion() {
 
         if (isTaskCompleted) {
             window.alert("You have already completed this task for the selected model. Please choose another task.");
-            return false;
+            return false; // Prevent form submission
         }
     }
+    updateTaskData();
     return true;
 }
 
+var startButton = document.getElementById("proceedButton");
+startButton.addEventListener("click", function() {
+    const userDataString = sessionStorage.getItem('userData');
+    if (!userDataString) {
+        storeUserData();
+    }
+});
 
-function storeFormData() {
+function storeUserData() {
     const name = document.getElementById('name').value;
     const age = document.getElementById('age').value;
     const gender = document.getElementById('gender').value;
-    const modelId = document.getElementById('modelId').value;
-    const taskId = document.getElementById('taskId').value;
 
     // Generate a 6 character GUID
     let guid = 'xxxxxx'.replace(/[x]/g, function() {
@@ -46,6 +46,11 @@ function storeFormData() {
         gender: gender,
     };
     sessionStorage.setItem('userData', JSON.stringify(userData));
+}
+
+function updateTaskData(){
+    const modelId = document.getElementById('modelId').value;
+    const taskId = document.getElementById('taskId').value;
 
     const taskData = {
         modelId: modelId,
@@ -59,7 +64,6 @@ function storeFormData() {
     }
     sessionStorage.setItem('selectedData', JSON.stringify(selectedData));
 }
-
 function populateFields() {
     const userDataString = sessionStorage.getItem('userData');
     const taskDataString = sessionStorage.getItem('taskData');
@@ -101,6 +105,7 @@ function populateFields() {
     }
 }
 window.onload = function() {
+    sessionStorage.removeItem('history');
     sessionStorage.removeItem('totalDuration');
     populateFields();
     checkTaskCompletion();
