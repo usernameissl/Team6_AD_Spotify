@@ -138,16 +138,14 @@ public class LogController {
 
     private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
         String key = baseName + "-" + uniqueIdentifier;
+
         int count = nameCountMap.getOrDefault(key, 0);
+        String newName = (count > 0) ? baseName + "-" + (count + 1) : baseName;
+        nameCountMap.put(key, count + 1);
 
-        // Only increment if count is zero, i.e., this is a new unique name
-        if(count == 0) {
-            count = nameCountMap.size() + 1;
-            nameCountMap.put(key, count);
-        }
-
-        return baseName + "-" + count;
+        return newName;
     }
+
 
 
     // Get user's name from file name
