@@ -137,14 +137,28 @@ public class LogController {
     }
 
     private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
+        // Combine the baseName and uniqueIdentifier to create a key
         String key = baseName + "-" + uniqueIdentifier;
 
-        int count = nameCountMap.getOrDefault(key, 0);
-        String newName = (count > 0) ? baseName + "-" + (count + 1) : baseName;
-        nameCountMap.put(key, count + 1);
+        // If this combination hasn't been seen before, assign the next available index
+        if (!nameCountMap.containsKey(key)) {
+            // Find the maximum current value for baseName, so that the next entry gets incremented by one
+            int maxCurrentCount = nameCountMap.values().stream()
+                    .filter(val -> val >= 1)
+                    .mapToInt(Integer::intValue)
+                    .max()
+                    .orElse(0);
 
-        return newName;
+            nameCountMap.put(key, maxCurrentCount + 1);
+        }
+
+        if (nameCountMap.get(key) == 1) {
+            return baseName;
+        }
+        // Otherwise, return the base name with the assigned index as the suffix
+        return baseName + "-" + nameCountMap.get(key);
     }
+
 
 
 
