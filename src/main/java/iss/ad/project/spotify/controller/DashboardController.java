@@ -45,7 +45,16 @@ public class DashboardController {
 
         return "dashboard";
     }
-  
+
+    @GetMapping("/logView")
+    public String LogViewForm(Model model) {
+        List<LogEntry> logs = logService.getAll();
+        model.addAttribute("logs",logs );
+        model.addAttribute("userList", logService.getDistinctNames());
+        model.addAttribute("taskList", logService.getDistinctByTaskId());
+        model.addAttribute("modelList",logService.getDistinctByModelId());
+        return "logView";
+    }
 
     @GetMapping("/genretimechart")
     public String getTimeChart(Model model) {
