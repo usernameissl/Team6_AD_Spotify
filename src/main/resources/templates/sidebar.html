@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/sidebar.css">
+
+<div class="wrapper">
+
+  <div id="topbar">
+    <h1 id="pageTitle"></h1>
+  </div>
+
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>User Charts</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <li><a class="manage-link tab-link" th:href="@{/backtracks}">User Backtracks</a></li>
+      <li><a class="manage-link tab-link" th:href="@{/}">User Traversal</a></li>
+      <li><a class="manage-link tab-link" th:href="@{/genretimechart}">Genre Statistics</a></li>
+      <li><a class="manage-link tab-link" th:href="@{/}">User Logs</a></li>
+
+    </ul>
+  </nav>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const titleText = document.title; // Gets the title of the current page
+    document.getElementById("pageTitle").innerText = titleText; // Sets the h1 element to the title
+  });
+
+</script>

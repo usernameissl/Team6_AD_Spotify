@@ -23,7 +23,7 @@ public class LogController {
 
     private static final Path processedFolder = Paths.get(logFilePath, "processed");
 
-
+    private Map<String, Set<String>> uniqueIdentifiersPerName = new HashMap<>();
 
     @Autowired
     public LogController(LogService logService){
@@ -48,11 +48,18 @@ public class LogController {
         }
     }
 
-    @PostMapping("/process-logs")
+    @GetMapping("/process-logs")
     public void processLogs() {
         try {
             Map<String, Integer> nameCountMap = new HashMap<>();
             Files.createDirectories(processedFolder);
+
+            uniqueIdentifiersPerName.clear();
+            // Fetch distinct names from the database and initialize with empty sets
+            List<String> distinctNamesFromDB = logService.getDistinctNames();
+            for (String name : distinctNamesFromDB) {
+                uniqueIdentifiersPerName.put(name, new HashSet<>());
+            }
 
             // Only files that end with json that are in the Logs folder, excluding subdirectories
             Stream<Path> paths = Files.list(Paths.get(logFilePath))
@@ -63,7 +70,10 @@ public class LogController {
             paths.forEach(path -> {
                 try {
                     String content = new String(Files.readAllBytes(path));
-                    List<LogEntry> logEntries = convertJsonToLogEntry(content, nameCountMap);
+                    String baseName = extractBaseName(path.getFileName().toString());
+                    String uniqueIdentifier = extractUniqueIdentifier(path.getFileName().toString());
+
+                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName, uniqueIdentifier, nameCountMap);
                     for (LogEntry logEntry : logEntries) {
                         System.out.println(logEntry);
                         logService.save(logEntry);
@@ -79,18 +89,18 @@ public class LogController {
         }
     }
 
-    public List<LogEntry> convertJsonToLogEntry(String jsonStr, Map<String, Integer> nameCountMap) {
+    public List<LogEntry> convertJsonToLogEntry(String jsonStr, String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<LogEntry> logEntries = new ArrayList<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(jsonStr);
 
-            // Get all the top level properties
-            String originalName = rootNode.get("name").asText();
-            String baseName = originalName.split("-")[0];
-            String newName = getNewName(baseName, nameCountMap); // change the GUID into sequential values if duplicates exist
+            // change the GUID into sequential values if duplicates exist
+            String newName = getNewName(baseName, uniqueIdentifier, nameCountMap);
 
+
+            // Get the rest of the top level properties
             int age = rootNode.get("age").asInt();
             boolean gender = rootNode.get("gender").asText().equalsIgnoreCase("M");
             int modelId = rootNode.get("modelId").asInt();
@@ -133,10 +143,35 @@ public class LogController {
         return logEntries;
     }
 
-    private String getNewName(String baseName, Map<String, Integer> nameCountMap) {
-        int count = nameCountMap.getOrDefault(baseName, 0) + 1; // Increment count for this base name
-        nameCountMap.put(baseName, count);
-        return baseName + "-" + count;
+
+
+    private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
+        uniqueIdentifiersPerName.putIfAbsent(baseName, new HashSet<>());
+        Set<String> identifiersForName = uniqueIdentifiersPerName.get(baseName);
+
+        identifiersForName.add(uniqueIdentifier);
+        int currentCount = identifiersForName.size();
+
+        if (currentCount > 1) {
+            return baseName + "-" + currentCount;
+        } else {
+            return baseName;
+        }
     }
+
+
+
+
+
+    // Get user's name from file name
+    private String extractBaseName(String fileName) {
+        return fileName.split("[-_]")[0];
+    }
+
+    // Get GUID
+    private String extractUniqueIdentifier(String fileName) {
+        return fileName.split("[-_]")[1];
+    }
+
 
 }

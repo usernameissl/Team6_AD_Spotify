@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Think Time Genre Chart</title>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</head>
+<body>
+	<div th:include="sidebar.html"></div>
+	<select id="taskSelector" style="display: block; margin: 0 auto; font-size: 1.25em;">
+		<option value="task1">Task 1</option>
+		<option value="task2">Task 2</option>
+		<option value="task3">Task 3</option>
+	</select>
+	<br/>
+	<div id="model1ChartContainer" style="height: 350px; width: 100%;"></div>
+ 	<br/>
+    <div id="model2ChartContainer" style="height: 350px; width: 100%;"></div>
+    <!-- Script to run the stacked column chart and task selector-->
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var taskSelector = document.getElementById("taskSelector");
+	    var sortedModel1Task1GenreThinkTime = /*[[${sortedModel1Task1GenreThinkTime}]]*/ 'default';
+	    var sortedModel1Task2GenreThinkTime = /*[[${sortedModel1Task2GenreThinkTime}]]*/ 'default';
+	    var sortedModel1Task3GenreThinkTime = /*[[${sortedModel1Task3GenreThinkTime}]]*/ 'default';
+	    
+	    var sortedModel2Task1GenreThinkTime = /*[[${sortedModel2Task1GenreThinkTime}]]*/ 'default';
+	    var sortedModel2Task2GenreThinkTime = /*[[${sortedModel2Task2GenreThinkTime}]]*/ 'default';
+	    var sortedModel2Task3GenreThinkTime = /*[[${sortedModel2Task3GenreThinkTime}]]*/ 'default';
+	    
+	    /*]]>*/
+        window.onload = function () {
+        	
+        	var sortedModel1GenreThinkTime = sortedModel1Task1GenreThinkTime;
+        	var model1Keys = Object.keys(sortedModel1GenreThinkTime);
+	    	var model1Values = Object.values(sortedModel1GenreThinkTime);
+	    	
+        	var sortedModel2GenreThinkTime = sortedModel2Task1GenreThinkTime;
+        	var model2Keys = Object.keys(sortedModel2GenreThinkTime);
+	    	var model2Values = Object.values(sortedModel2GenreThinkTime);
+	    	
+	    	taskSelector.addEventListener("change", function() {
+        		if (this.value === "task1") {
+        			sortedModel1GenreThinkTime = sortedModel1Task1GenreThinkTime;
+        			sortedModel2GenreThinkTime = sortedModel2Task1GenreThinkTime;
+        		} else if (this.value === "task2") {
+        			sortedModel1GenreThinkTime = sortedModel1Task2GenreThinkTime;
+        			sortedModel2GenreThinkTime = sortedModel2Task2GenreThinkTime;
+        		} else if (this.value === "task3") {
+        			sortedModel1GenreThinkTime = sortedModel1Task3GenreThinkTime;
+        			sortedModel2GenreThinkTime = sortedModel2Task3GenreThinkTime;
+        		}
+        		model1Keys = Object.keys(sortedModel1GenreThinkTime);
+	    		model1Values = Object.values(sortedModel1GenreThinkTime);
+	    		
+        		model2Keys = Object.keys(sortedModel2GenreThinkTime);
+	    		model2Values = Object.values(sortedModel2GenreThinkTime);
+	    		
+	    		// re-render model 1 chart
+	    		model1Chart.options.data.length = 0;
+	    		for (var i = 0; i < 5; i++) {
+	        	    var dataPoints = [];
+	        	    for (var j = 0; j < 8; j++) {
+	        	        dataPoints.push({ y: model1Values[i + j * 5], label: model1Keys[i + j * 5], indexLabel: model1Keys[i + j * 5], indexLabelPlacement: "inside" });
+	        	    }
+	        	    model1Chart.options.data.push({
+	        	        type: "stackedColumn",
+	        	        dataPoints: dataPoints
+	        	    });
+	        	}
+	        	model1Chart.render();
+	        	
+	    		// re-render model 2 chart
+	    		model2Chart.options.data.length = 0;
+	    		for (var i = 0; i < 5; i++) {
+	        	    var dataPoints = [];
+	        	    for (var j = 0; j < 6; j++) {
+	        	        dataPoints.push({ y: model2Values[i + j * 5], label: model2Keys[i + j * 5], indexLabel: model2Keys[i + j * 5], indexLabelPlacement: "inside" });
+	        	    }
+	        	    model2Chart.options.data.push({
+	        	        type: "stackedColumn",
+	        	        dataPoints: dataPoints
+	        	    });
+	        	}
+	        	model2Chart.render();
+        	});
+	    	
+        	var model1Labels = ["Metal", "Rock", "Punk", "EDM", "Hip Hop", "Jazz", "Pop", "Country"];
+        	
+        	// model 1 chart
+        	var model1Chart = new CanvasJS.Chart("model1ChartContainer", {
+        	    title: {
+        	        text: "Model 1"
+        	    },
+        	    axisX: {
+        	    	title: "Genres",
+        	        labelFormatter: function (e) {
+        	            return model1Labels[e.value % model1Labels.length];
+        	        }
+        	    },
+        	    axisY:{
+        	    	  title : "Total Time (mins)"
+        	    },
+        	    data: []
+        	});
+
+        	for (var i = 0; i < 5; i++) {
+        	    var dataPoints = [];
+        	    for (var j = 0; j < 8; j++) {
+        	        dataPoints.push({ y: model1Values[i + j * 5], label: model1Keys[i + j * 5], indexLabel: model1Keys[i + j * 5], indexLabelPlacement: "inside" });
+        	    }
+        	    model1Chart.options.data.push({
+        	        type: "stackedColumn",
+        	        dataPoints: dataPoints
+        	    });
+        	}
+        	model1Chart.render();
+        	
+        	// model 2 chart
+        	var model2Labels = ["Pop Tunes", "Relaxed Instrumentals", "Melodic and Soulful", "Electronica", "Global Rap and Rhythms", "Alternative and Rock"];
+
+        	var model2Chart = new CanvasJS.Chart("model2ChartContainer", {
+        	    title: {
+        	        text: "Model 2"
+        	    },
+        	    axisX: {
+        	    	title: "Genres",
+        	        labelFormatter: function (e) {
+        	            return model2Labels[e.value % model2Labels.length];
+        	        }
+        	    },
+        	    axisY:{
+      	    	  title : "Total Time (mins)"
+      	    	},
+        	    data: []
+        	});
+
+        	for (var i = 0; i < 5; i++) {
+        	    var dataPoints = [];
+        	    for (var j = 0; j < 6; j++) {
+        	        dataPoints.push({ y: model2Values[i + j * 5], label: model2Keys[i + j * 5], indexLabel: model2Keys[i + j * 5], indexLabelPlacement: "inside" });
+        	    }
+        	    model2Chart.options.data.push({
+        	        type: "stackedColumn",
+        	        dataPoints: dataPoints
+        	    });
+        	}
+        	model2Chart.render();
+        }
+    </script>
+</body>
+</html>
+
