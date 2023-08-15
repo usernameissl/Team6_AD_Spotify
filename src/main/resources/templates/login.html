@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+	<form id="login-form" th:action="@{/login}" method="post" th:object="${admin}">
+		<h3>Admin Login</h3>
+		<div>
+			<label for="username">Username: </label>
+			<input type="text" id="username" name="username" required>
+		</div>
+		<div>
+			<label for="password">Password: </label>
+			<input type="password" id="password" name="password" required>
+		</div>
+		<div class="error-message" th:if="${error}" style="color: red;">
+			[[${error}]]</div>
+		<button type="submit" id="login">Log In</button>
+		<button type="button" id="home">Back to home page</button>
+	</form>
+	<script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('login-form').addEventListener('submit', function (event) {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+
+                if (!isValidUsername || (username !== 'admin' && password !== 'password')) {
+                    event.preventDefault();
+                    var errorMessage = document.getElementById('error-message');
+                    errorMessage.style.display = 'block';
+                }
+            });
+            document.getElementById("home").addEventListener("click", function() {
+                window.location.href = "/home";
+            });
+        });
+        
+    </script>
+</body>
+</html>

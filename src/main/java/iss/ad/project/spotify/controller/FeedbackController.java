@@ -41,10 +41,7 @@ public class FeedbackController {
 		userFeedback.setExperience(experienceEnum);
 		userFeedback.setAge(feedback.getAge());
 		userFeedback.setUserName(feedback.getUserName());
-		feedbackService.create(userFeedback);
-		
-
-		
+		feedbackService.create(userFeedback);		
 		return "successMessage";
 		}
 	}
