@@ -47,8 +47,8 @@
 			giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 3 minutes
-		setTimeout(showGiveUpButton, 180000);
+		// Show the "Give up!" button after 2 minutes
+		setTimeout(showGiveUpButton, 120000);
 
 		function foundData() {
 			const selectedDataJSON = sessionStorage.getItem('selectedData');
@@ -75,7 +75,7 @@
 			let taskData = taskDataJSON ? JSON.parse(taskDataJSON) : {};
 			let history = historyJSON ? JSON.parse(historyJSON) : {};
 
-			let name = userData.uniqueName;
+			let name = userData.name;
 			let age = userData.age;
 			let gender = userData.gender;
 			let modelId = taskData.modelId;

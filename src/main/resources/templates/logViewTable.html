@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dropdown Example</title>
+	<style>
+		body {
+			background: #53d380;
+			background: -webkit-linear-gradient(to right, #11D967, #0C7C3C);
+			background: linear-gradient(to right, #11D967, #0C7C3C);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.form-table {
+			width: 30%;
+			border-collapse: collapse;
+			margin-bottom: 50px;
+      margin-top:-500px;
+		}
+
+		.form-table td {
+			padding: 5px;
+		}
+
+	.logview-table {
+			width: 50%;
+			background-color: #162614;
+			color: white;
+		}
+
+		.logview-table th,
+		.logview-table td {
+			border: 1px solid white;
+			padding: 8px;
+		}
+	</style>
+</head>
+
+<body>
+	<form action="/logViewTable" method="post" th:object="${logList}">
+	
+	<table class="logview-table">
+		<tr>
+			<th>Layer</th>
+			<th>Genere</th>
+			<th>Think-Time</th>
+            <th>Order</th>
+		</tr>
+		 <tr th:each="log : ${logList}">
+                    <td th:text="${log.layer}"></td>
+                    <td th:text="${log.genre}"></td>
+                    <td th:text="${log.thinkTime}"></td>
+                    <td th:text="${log.orderValue}"></td>
+                    </tr>
+     
+	</table>
+</body>
+
+</html>
