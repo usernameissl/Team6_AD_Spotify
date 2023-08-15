@@ -23,7 +23,7 @@ public class LogController {
 
     private static final Path processedFolder = Paths.get(logFilePath, "processed");
 
-    private Set<String> processedNames = new HashSet<>();
+    private Map<String, Set<String>> uniqueIdentifiersPerName = new HashMap<>();
 
     @Autowired
     public LogController(LogService logService){
@@ -48,12 +48,18 @@ public class LogController {
         }
     }
 
-    @PostMapping("/process-logs")
+    @GetMapping("/process-logs")
     public void processLogs() {
         try {
             Map<String, Integer> nameCountMap = new HashMap<>();
             Files.createDirectories(processedFolder);
-            processedNames.addAll(logService.getDistinctNames());
+
+            uniqueIdentifiersPerName.clear();
+            // Fetch distinct names from the database and initialize with empty sets
+            List<String> distinctNamesFromDB = logService.getDistinctNames();
+            for (String name : distinctNamesFromDB) {
+                uniqueIdentifiersPerName.put(name, new HashSet<>());
+            }
 
             // Only files that end with json that are in the Logs folder, excluding subdirectories
             Stream<Path> paths = Files.list(Paths.get(logFilePath))
@@ -137,31 +143,22 @@ public class LogController {
         return logEntries;
     }
 
+
+
     private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
-        String key = baseName + "-" + uniqueIdentifier;
+        uniqueIdentifiersPerName.putIfAbsent(baseName, new HashSet<>());
+        Set<String> identifiersForName = uniqueIdentifiersPerName.get(baseName);
 
-        // If this combination has been processed before, return its existing name
-        if (processedNames.contains(key)) {
-            if (nameCountMap.containsKey(baseName)) {
-                int count = nameCountMap.get(baseName);
-                return count > 1 ? baseName + "-" + count : baseName;
-            } else {
-                return baseName;
-            }
+        identifiersForName.add(uniqueIdentifier);
+        int currentCount = identifiersForName.size();
+
+        if (currentCount > 1) {
+            return baseName + "-" + currentCount;
+        } else {
+            return baseName;
         }
-
-        // If it's a new uniqueIdentifier for the given baseName
-        int currentCount = nameCountMap.getOrDefault(baseName, 1);
-        while(processedNames.contains(baseName + (currentCount > 1 ? "-" + currentCount : ""))) {
-            currentCount++;
-        }
-        nameCountMap.put(baseName, currentCount + 1);  // Increment for the baseName
-
-        processedNames.add(key);  // Mark this combination as processed
-
-        // Return the appropriate name format
-        return currentCount > 1 ? baseName + "-" + currentCount : baseName;
     }
+
 
 
 

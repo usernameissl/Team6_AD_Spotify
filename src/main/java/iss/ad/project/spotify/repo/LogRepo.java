@@ -10,4 +10,8 @@ import java.util.List;
 public interface LogRepo extends JpaRepository<LogEntry, Long> {
     @Query("SELECT DISTINCT le.name FROM LogEntry le")
     List<String> findDistinctNames();
+
+    List<LogEntry> findByNameAndTaskIdAndModelId(String name, int taskId, int modelId);
+
+    List<LogEntry> findByModelIdAndTaskId(int modelId, int taskId);
 }
