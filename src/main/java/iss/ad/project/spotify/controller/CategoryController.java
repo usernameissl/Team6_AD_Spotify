@@ -9,6 +9,7 @@ import iss.ad.project.spotify.service.ClusterService;
 import java.util.List;
 import java.util.ArrayList;
 
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +21,20 @@ public class CategoryController {
 
     private final SpotifyService spotifyService;
     private final ClusterService clusterService;
-
+    private final TaskService taskService;
     @Autowired
-    public CategoryController(SpotifyService spotifyService, ClusterService clusterService) {
+    public CategoryController(SpotifyService spotifyService, ClusterService clusterService, TaskService taskService) {
         this.spotifyService = spotifyService;
         this.clusterService = clusterService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/model")
     public String getModel1(@RequestParam("taskNo") int taskNo, @RequestParam("modelNo") int modelNo, User user, Model model) {
 
-        String task = getTask(taskNo); // get task ID
+        List<String> tasks = taskService.getFormattedTasksCache();
+        String task = tasks.get(taskNo-1); // get task ID
+
         List<String> layerOneList;
         if(modelNo == 1) { // model 1
             layerOneList = spotifyService.getDistinctLayer1();

@@ -3,8 +3,10 @@ package iss.ad.project.spotify.controller;
 import iss.ad.project.spotify.model.SpotifySong;
 import iss.ad.project.spotify.service.ClusterService;
 import iss.ad.project.spotify.service.SpotifyService;
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +22,13 @@ public class HomeController {
 
 	private final SpotifyService spotifyService;
 	private final ClusterService clusterService;
+	private final TaskService taskService;
 
 	@Autowired
-	public HomeController(SpotifyService spotifyService, ClusterService clusterService) {
-		this.clusterService = clusterService;
+	public HomeController(SpotifyService spotifyService, ClusterService clusterService, TaskService taskService) {
 		this.spotifyService = spotifyService;
+		this.clusterService = clusterService;
+		this.taskService = taskService;
 	}
 
 	@GetMapping("/")
@@ -32,7 +36,9 @@ public class HomeController {
 		return new RedirectView("/home");
 	}
 	@GetMapping("/home")
-	public String getHomePage() {
+	public String getHomePage(Model model) {
+		List<String> tasks = taskService.getFormattedTasksCache();
+		model.addAttribute("tasks",tasks);
 		return "home";
 	}
 
