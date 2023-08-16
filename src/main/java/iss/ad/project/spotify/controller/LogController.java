@@ -48,12 +48,11 @@ public class LogController {
         }
     }
 
-    @PostMapping("/process-logs")
+    @GetMapping("/process-logs")
     public void processLogs() {
         try {
             Map<String, Integer> nameCountMap = new HashMap<>();
             Files.createDirectories(processedFolder);
-            processedNames.addAll(logService.getDistinctNames());
 
             // Only files that end with json that are in the Logs folder, excluding subdirectories
             Stream<Path> paths = Files.list(Paths.get(logFilePath))
@@ -67,7 +66,7 @@ public class LogController {
                     String baseName = extractBaseName(path.getFileName().toString());
                     String uniqueIdentifier = extractUniqueIdentifier(path.getFileName().toString());
 
-                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName, uniqueIdentifier, nameCountMap);
+                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName);
                     for (LogEntry logEntry : logEntries) {
                         System.out.println(logEntry);
                         logService.save(logEntry);
@@ -83,16 +82,12 @@ public class LogController {
         }
     }
 
-    public List<LogEntry> convertJsonToLogEntry(String jsonStr, String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
+    public List<LogEntry> convertJsonToLogEntry(String jsonStr, String baseName) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<LogEntry> logEntries = new ArrayList<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(jsonStr);
-
-            // change the GUID into sequential values if duplicates exist
-            String newName = getNewName(baseName, uniqueIdentifier, nameCountMap);
-
 
             // Get the rest of the top level properties
             int age = rootNode.get("age").asInt();
@@ -116,7 +111,7 @@ public class LogController {
                     String[] parts = node.asText().split(", ");
                     if (parts.length == 3) {
                         LogEntry logEntry = new LogEntry();
-                        logEntry.setName(newName);
+                        logEntry.setName(baseName);
                         logEntry.setAge(age);
                         logEntry.setGender(gender);
                         logEntry.setModelId(modelId);

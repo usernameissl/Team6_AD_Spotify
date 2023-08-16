@@ -47,8 +47,26 @@
 			giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 3 minutes
-		setTimeout(showGiveUpButton, 180000);
+		// Show the "Give up!" button after  minutes
+		let totalDuration = parseInt(sessionStorage.getItem('totalDuration')) || 0;
+		const intervalDuration = 1000;  // 1 second
+		const maxDurationInMilliseconds = 120000; // 2 minutes
+
+		// Convert totalDuration to seconds for easier comparison
+		totalDuration /= 1000;
+
+		// Start the interval and keep a reference to it
+		const interval = setInterval(() => {
+			totalDuration++;
+
+			if (totalDuration * intervalDuration >= maxDurationInMilliseconds) {
+				showGiveUpButton();
+				clearInterval(interval); // Stop the counter once the give-up button is shown
+			}
+		}, intervalDuration);
+
+
+		//setTimeout(showGiveUpButton, 180000);
 
 		function foundData() {
 			const selectedDataJSON = sessionStorage.getItem('selectedData');
