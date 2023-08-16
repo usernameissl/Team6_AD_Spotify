@@ -3,12 +3,16 @@ package iss.ad.project.spotify.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import iss.ad.project.spotify.model.LogEntry;
+import com.google.gson.Gson;
+
+import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.LinkedHashMap;
@@ -16,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@RequestMapping(value = "/admin")
 @Controller
 public class DashboardController {
     private final LogService logService;
@@ -182,5 +186,13 @@ public class DashboardController {
         model.addAttribute("sortedModel2Task3GenreThinkTime",sortedModel2Task3GenreThinkTime);
         return "timechart";
     }
-    
+
+    @GetMapping("/userlogs/{username}")
+    public String visualizeUserLogs(@PathVariable String username, Model model) {
+        Node root = logService.buildTreeForUser(username);
+        Map<String, Object> treeMap = logService.convertTreeToMap(root);
+        
+        model.addAttribute("treeData", new Gson().toJson(treeMap)); // Convert the map to JSON string for D3.js
+        return "userlogs";
+    }
 }

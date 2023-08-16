@@ -28,7 +28,7 @@ public class AdminController {
         String username = (String)session.getAttribute("username");
      // TEST ADMIN PAGE
         model.addAttribute("username",username);
-        return "admin";
+        return "sidebar";
     }
 	
 	@GetMapping("/login")

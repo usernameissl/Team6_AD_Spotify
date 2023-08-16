@@ -1,6 +1,6 @@
 package iss.ad.project.spotify.service;
 
-import iss.ad.project.spotify.model.LogEntry;
+import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.repo.LogRepo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,9 @@ public class LogService {
         return logRepo.findDistinctModelId();
     }
 
-
     public List<LogEntry> getAll(){
         return logRepo.findAll();
     }
-
-
 
     public Map<String, Map<String, Integer>> fetchBacktracksPerUserForAllModelsTasks() {
         Map<String, Map<String, Integer>> modelTaskBacktracks = new HashMap<>();
@@ -103,8 +100,37 @@ public class LogService {
                 modelAverages.put("model" + modelId + user, average);
             }
         }
-
         return modelAverages;
+    }
+
+    public Node buildTreeForUser(String username) {
+        List<LogEntry> entries = logRepo.findByName(username);
+        return buildTree(entries, 0);
+    }
+
+    private Node buildTree(List<LogEntry> entries, int layer) {
+        if (entries.isEmpty() || layer >= entries.size()) return null;
+
+        Node node = new Node();
+        LogEntry entry = entries.get(layer);
+        
+        node.setName(entry.getGenre() + " (" + entry.getOrderValue() + ")");
+        
+        node.setLeft(buildTree(entries, 2 * layer + 1)); // Left child
+        node.setRight(buildTree(entries, 2 * layer + 2)); // Right child
+
+        return node;
+    }
+
+    public Map<String, Object> convertTreeToMap(Node node) {
+        Map<String, Object> map = new HashMap<>();
+        if (node == null) return map;
+
+        map.put("name", node.getName());
+        if (node.getLeft() != null) map.put("left", convertTreeToMap(node.getLeft()));
+        if (node.getRight() != null) map.put("right", convertTreeToMap(node.getRight()));
+
+        return map;
     }
 
 }
