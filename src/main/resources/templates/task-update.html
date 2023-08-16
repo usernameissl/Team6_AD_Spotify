@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<head>
-    <title>Update Task</title>
-    <link rel="stylesheet" href="/css/update.css">
-</head>
-<body>
-<!--    <header>
-        <div th:include="adminPage.html"></div>
-    </header>-->
-    <div class="container">
-		<button class="icon-button" onclick="goBack()">
-                <i style="font-size:30px" class="fa">&#xf137;</i>
-            </button>
-                        <h1>Update Task</h1>
-        <form th:action="@{/update/{id}(id=${task.id})}" th:object="${task}" method="post">
-			<input type="hidden" th:field="*{id}"/>
-            
 
-            <label for="taskName">Task Name:</label>
-            <input type="text" id="taskName" th:field="*{name}" required/><br/>
-            
-            <input type="submit" value="Update"/>
-            
-        </form>
-        <br>
-    </div>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+<head>
+	<title>Update Task</title>
+	<link rel="stylesheet" href="/css/update.css">
+</head>
+
+<body>
+<header>
+        <div th:include="admin.html"></div>
+    </header>
+	<div class="container">
+		<a href="/taskList" class="icon-button">
+			<i style="font-size:30px" class="fa">&#xf137;</i>
+		</a>
+		<h1>Update Task</h1>
+		<form th:action="@{/update/{id}(id=${task.id})}" th:object="${task}" method="post">
+			<input type="hidden" th:field="*{id}" />
+
+
+			<label for="taskName">Task Name:</label>
+			<input type="text" id="taskName" th:field="*{name}" required /><br />
+
+			<input type="submit" value="Update" />
+			<!-- Display success and error messages -->
+			<div th:if="${messageSuccess}" class="alert alert-success" role="alert">
+				<p th:text="${messageSuccess}"></p>
+			</div>
+			<div th:if="${messageError}" class="alert alert-danger" role="alert">
+				<p th:text="${messageError}"></p>
+			</div>
+
+		</form>
+		<br>
+	</div>
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
 </body>
+
 </html>
