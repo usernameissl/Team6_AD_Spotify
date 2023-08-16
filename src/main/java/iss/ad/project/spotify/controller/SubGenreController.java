@@ -5,6 +5,7 @@ import iss.ad.project.spotify.model.ClusterSong;
 import iss.ad.project.spotify.model.SpotifySong;
 import iss.ad.project.spotify.service.ClusterService;
 import iss.ad.project.spotify.service.SpotifyService;
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +19,13 @@ public class SubGenreController {
 
     private final SpotifyService spotifyService;
     private final ClusterService clusterService;
+    private final TaskService taskService;
 
     @Autowired
-    public SubGenreController(SpotifyService spotifyService, ClusterService clusterService) {
+    public SubGenreController(SpotifyService spotifyService, ClusterService clusterService, TaskService taskService) {
         this.spotifyService = spotifyService;
         this.clusterService = clusterService;
+        this.taskService = taskService;
     }
 
     // test routing
@@ -34,7 +37,8 @@ public class SubGenreController {
     public String getSubGenreByLayer1(@PathVariable("modelNo") int modelNo, @PathVariable("taskNo") int taskNo,
                                       @PathVariable("layer1") String layer1,
                                       Model model) throws JsonProcessingException {
-        String task = getTask(taskNo);
+        List<String> tasks = taskService.getFormattedTasksCache();
+        String task = tasks.get(taskNo-1); // get task ID
         Map<String, List<String>> map;
         List<String> subgenres;
         List<String> coverUrls = new ArrayList<>();

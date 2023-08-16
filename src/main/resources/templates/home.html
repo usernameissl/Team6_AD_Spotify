@@ -13,7 +13,7 @@
     <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
         <h3>Start</h3>
         <div>
-            <label for="name">Name</label>
+            <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required>
         </div>
 
@@ -41,13 +41,12 @@
         <div>
             <label for="taskId">Task</label>
             <select id="taskId" name="taskId" required>
-                <option value="1" data-model="1">Task 1: Find a jazz song with 'Love' in the title performed by two artists
-                </option>
-                <option value="2" data-model="1">Task 2: Find 'California Gurls by Katy Perry
-                </option>
-                <option value="3" data-model="1">Task 3: Find a song by Irish rock band U2</option>
+                <th:block th:each="task, iterStat : ${tasks}">
+                    <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+                </th:block>
             </select>
         </div>
+
     
         <button type="submit" id="proceedButton">Proceed</button>
         <button type="button" id="completeButton">Complete</button>
