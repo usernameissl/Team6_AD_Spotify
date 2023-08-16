@@ -18,21 +18,24 @@ public class AdminService {
 	public AdminService(TaskRepo taskRepo) {
 		this.taskRepo = taskRepo;
 	}
-	private void create(Task task) {
+	public void create(Task task) {
 		taskRepo.save(task);
 		
 	}
-	private void delete(Long id) {
+	public void delete(Long id) {
 		taskRepo.deleteById(id);
 	}
-	private Task update(Task task) {
+	public Task update(Task task) {
 		return taskRepo.save(task);
 	}
-	private List<Task> getAllTasks(){
+	public List<Task> getAllTasks(){
 		return taskRepo.findAll();	
 	}
-	private Optional<Task> findbyId(Long id) {
+	public Optional<Task> findbyId(Long id) {
 		return taskRepo.findById(id);
+	}
+	public Task findByTaskName(String name) {
+		return taskRepo.findByName(name);
 	}
 
 }
