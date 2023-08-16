@@ -1,0 +1,82 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #DDDDDD 25%, #EEEEEE 50%, #CCCCCC 75%, #BBBBBB 100%);
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 235px;
+  background-color: #000000;
+  padding: 24px;
+}
+.sidebar .adminName span {
+    color: #ffffff;
+    font-size: 20px;
+}
+.sidebar .navigation ul {
+  list-style: none;
+  margin-top: 20px;
+}
+.sidebar .navigation ul li {
+  padding: 12px 0px;
+}
+
+.sidebar .navigation ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.sidebar .navigation ul li a:hover {
+    color: #ff0000;
+}
+
+.topbar {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+.topbar .prev-next-buttons {
+  margin-left: 300px;
+}
+.topbar .prev-next-buttons button {
+  color: #81858a;
+  width: 34px;
+  height: 34px;
+  border-radius: 100%;
+  font-size: 22px;
+  border: 0px;
+  background-color: #090909;
+  margin-right: 10px;
+}
+.topbar .admin span {
+    color: #ffffff;
+    font-size: 24px;
+}
+.topbar .logout-button a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 40px;
+}
+
+.topbar .logout-button a:hover {
+    color: #ff0000;
+}
