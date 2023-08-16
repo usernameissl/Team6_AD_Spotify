@@ -46,9 +46,27 @@
 			const giveUpButton = document.querySelector(".btn-give-up");
 			giveUpButton.style.display = "block";
 		}
-	
+
 		// Show the "Give up!" button after 2 minutes
 		setTimeout(showGiveUpButton, 120000);
+
+		// Show the "Give up!" button after 2 minutes
+		let totalDuration = parseInt(sessionStorage.getItem('totalDuration')) || 0;
+		const songIntervalDuration = 1000;
+		const maxDurationInMilliseconds = 120000;
+
+		totalDuration /= 1000;
+
+		// Start the songInterval and keep a reference to it
+		const songInterval = setInterval(() => {
+			totalDuration++;
+
+			if (totalDuration * songIntervalDuration >= maxDurationInMilliseconds) {
+				showGiveUpButton();
+				clearInterval(songInterval);
+			}
+		}, songIntervalDuration);
+
 
 		function foundData() {
 			const selectedDataJSON = sessionStorage.getItem('selectedData');
@@ -115,7 +133,7 @@
 		$(".btn-found").on("click", function (event) {
 			foundData(); // Add new data to the foundData array
 			sendData(true); // Send data when "Found" button is clicked
-			window.location.href = "/feedback";
+			window.location.href = "/home";
 		});
 
 
@@ -123,7 +141,7 @@
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
 				sendData(false); // Send data when "Give Up" button is clicked
-				window.location.href = "/feedback";
+				window.location.href = "/home";
 			} else {
 				console.log("User canceled give up.");
 			}
