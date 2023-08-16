@@ -93,7 +93,8 @@ public class DashboardController {
         Map<String, Double> sortedModel1Task1GenreThinkTime = new LinkedHashMap<>();
         for (String model1SubGenre : model1SubGenres) {
             if (model1Task1GenreThinkTime.containsKey(model1SubGenre)) {
-            	sortedModel1Task1GenreThinkTime.put(model1SubGenre, model1Task1GenreThinkTime.get(model1SubGenre) / 60000.0);
+            	sortedModel1Task1GenreThinkTime.put(model1SubGenre, model1Task1GenreThinkTime.get(model1SubGenre) / 1000.0
+);
             } else {
             	sortedModel1Task1GenreThinkTime.put(model1SubGenre, 0.0);
             }
@@ -108,7 +109,8 @@ public class DashboardController {
         Map<String, Double> sortedModel1Task2GenreThinkTime = new LinkedHashMap<>();
         for (String model1SubGenre : model1SubGenres) {
             if (model1Task2GenreThinkTime.containsKey(model1SubGenre)) {
-            	sortedModel1Task2GenreThinkTime.put(model1SubGenre, model1Task2GenreThinkTime.get(model1SubGenre) / 60000.0);
+            	sortedModel1Task2GenreThinkTime.put(model1SubGenre, model1Task2GenreThinkTime.get(model1SubGenre) / 1000.0
+);
             } else {
             	sortedModel1Task2GenreThinkTime.put(model1SubGenre, 0.0);
             }
@@ -123,7 +125,8 @@ public class DashboardController {
         Map<String, Double> sortedModel1Task3GenreThinkTime = new LinkedHashMap<>();
         for (String model1SubGenre : model1SubGenres) {
             if (model1Task3GenreThinkTime.containsKey(model1SubGenre)) {
-            	sortedModel1Task3GenreThinkTime.put(model1SubGenre, model1Task3GenreThinkTime.get(model1SubGenre) / 60000.0);
+            	sortedModel1Task3GenreThinkTime.put(model1SubGenre, model1Task3GenreThinkTime.get(model1SubGenre) / 1000.0
+);
             } else {
             	sortedModel1Task3GenreThinkTime.put(model1SubGenre, 0.0);
             }
@@ -138,7 +141,8 @@ public class DashboardController {
         Map<String, Double> sortedModel2Task1GenreThinkTime = new LinkedHashMap<>();
         for (String model2SubGenre : model2SubGenres) {
             if (model2Task1GenreThinkTime.containsKey(model2SubGenre)) {
-            	sortedModel2Task1GenreThinkTime.put(model2SubGenre, model2Task1GenreThinkTime.get(model2SubGenre) / 60000.0);
+            	sortedModel2Task1GenreThinkTime.put(model2SubGenre, model2Task1GenreThinkTime.get(model2SubGenre) / 1000.0
+);
             } else {
             	sortedModel2Task1GenreThinkTime.put(model2SubGenre, 0.0);
             }
@@ -153,7 +157,8 @@ public class DashboardController {
         Map<String, Double> sortedModel2Task2GenreThinkTime = new LinkedHashMap<>();
         for (String model2SubGenre : model2SubGenres) {
             if (model2Task2GenreThinkTime.containsKey(model2SubGenre)) {
-            	sortedModel2Task2GenreThinkTime.put(model2SubGenre, model2Task2GenreThinkTime.get(model2SubGenre) / 60000.0);
+            	sortedModel2Task2GenreThinkTime.put(model2SubGenre, model2Task2GenreThinkTime.get(model2SubGenre) / 1000.0
+);
             } else {
             	sortedModel2Task2GenreThinkTime.put(model2SubGenre, 0.0);
             }
@@ -168,7 +173,8 @@ public class DashboardController {
         Map<String, Double> sortedModel2Task3GenreThinkTime = new LinkedHashMap<>();
         for (String model2SubGenre : model2SubGenres) {
             if (model2Task3GenreThinkTime.containsKey(model2SubGenre)) {
-            	sortedModel2Task3GenreThinkTime.put(model2SubGenre, model2Task3GenreThinkTime.get(model2SubGenre) / 60000.0);
+            	sortedModel2Task3GenreThinkTime.put(model2SubGenre, model2Task3GenreThinkTime.get(model2SubGenre) / 1000.0
+);
             } else {
             	sortedModel2Task3GenreThinkTime.put(model2SubGenre, 0.0);
             }
