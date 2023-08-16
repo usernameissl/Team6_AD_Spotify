@@ -1,0 +1,9 @@
+
+body {
+    background: #53d380; 
+    background: -webkit-linear-gradient(to right, #11D967, #0C7C3C);  
+    background: linear-gradient(to right, #11D967, #0C7C3C);     
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  height:100vh;
+}

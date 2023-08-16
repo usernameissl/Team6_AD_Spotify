@@ -47,8 +47,8 @@
 			giveUpButton.style.display = "block";
 		}
 	
-		// Show the "Give up!" button after 3 minutes
-		setTimeout(showGiveUpButton, 180000);
+		// Show the "Give up!" button after 2 minutes
+		setTimeout(showGiveUpButton, 120000);
 
 		function foundData() {
 			const selectedDataJSON = sessionStorage.getItem('selectedData');
@@ -75,7 +75,7 @@
 			let taskData = taskDataJSON ? JSON.parse(taskDataJSON) : {};
 			let history = historyJSON ? JSON.parse(historyJSON) : {};
 
-			let name = userData.uniqueName;
+			let name = userData.name;
 			let age = userData.age;
 			let gender = userData.gender;
 			let modelId = taskData.modelId;
@@ -115,7 +115,7 @@
 		$(".btn-found").on("click", function (event) {
 			foundData(); // Add new data to the foundData array
 			sendData(true); // Send data when "Found" button is clicked
-			window.location.href = "/feedback";
+			window.location.href = "/home";
 		});
 
 
@@ -123,7 +123,7 @@
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
 				sendData(false); // Send data when "Give Up" button is clicked
-				window.location.href = "/feedback";
+				window.location.href = "/home";
 			} else {
 				console.log("User canceled give up.");
 			}

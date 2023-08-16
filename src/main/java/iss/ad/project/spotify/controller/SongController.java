@@ -4,6 +4,7 @@ import iss.ad.project.spotify.model.ClusterSong;
 import iss.ad.project.spotify.model.SpotifySong;
 import iss.ad.project.spotify.service.ClusterService;
 import iss.ad.project.spotify.service.SpotifyService;
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,14 @@ import java.util.Map;
 
 @Controller
 public class SongController {
-    SpotifyService spotifyService;
-    ClusterService clusterService;
+    private final SpotifyService spotifyService;
+    private final ClusterService clusterService;
+    private final TaskService taskService;
 
-    public SongController(SpotifyService spotifyService, ClusterService clusterService) {
+    public SongController(SpotifyService spotifyService, ClusterService clusterService, TaskService taskService) {
         this.spotifyService = spotifyService;
         this.clusterService = clusterService;
+        this.taskService = taskService;
     }
 
     // test routing
@@ -32,7 +35,8 @@ public class SongController {
                                       @PathVariable("layer1") String layer1,
                                       @PathVariable("layer2") String layer2,
                                       Model model) {
-        String task = getTask(taskNo);
+        List<String> tasks = taskService.getFormattedTasksCache();
+        String task = tasks.get(taskNo-1); // get task ID
         if (modelNo == 1){
             Map<String, List<SpotifySong>> map = spotifyService.getLayer2ToSongsMapCache();
             List<SpotifySong> songs = map.get(layer2);

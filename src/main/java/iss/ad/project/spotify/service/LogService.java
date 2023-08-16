@@ -32,6 +32,14 @@ public class LogService {
         return logRepo.findByNameAndTaskIdAndModelId(name, taskId, modelId);
     }
 
+    public List<Integer> getDistinctByTaskId(){
+        return logRepo.findDistinctTaskId();
+    }
+
+    public List<Integer> getDistinctByModelId(){
+        return logRepo.findDistinctModelId();
+    }
+
 
     public List<LogEntry> getAll(){
         return logRepo.findAll();

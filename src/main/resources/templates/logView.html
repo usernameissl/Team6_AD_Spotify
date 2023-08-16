@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Log View Table</title>
+	<style>
+		body {
+			background: #53d380;
+			background: -webkit-linear-gradient(to right, #11D967, #0C7C3C);
+			background: linear-gradient(to right, #11D967, #0C7C3C);
+
+		}
+
+		.form-table {
+			width: 100%;
+			max-width: 500px;
+			height: auto;
+			border-collapse: collapse;
+			margin-bottom: 10px;
+			top: 20;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.details-table {
+			width: 100%;
+			max-width: 400px;
+			color: #162614;
+			background-color: white;
+			margin-top: 30px;
+		}
+
+		.details-table th,
+		.details-table td {
+			border: 1px solid black;
+			padding: 8px;
+			line-height: .5;
+		}
+	</style>
+
+</head>
+
+
+<body>
+<div th:include="sidebar.html"></div>
+	<center>
+		<table class="form-table">
+			<form id="logForm" th:action="@{/logView}" method="post">
+
+				<tr>
+					<td><label for="user">Choose User:</label></td>
+					<td>
+						<input id="userName" name="userName" placeholder="Type here..." list="users">
+						<datalist id="users">
+							<option th:each="u : ${userList}" th:text="${u}"></option>
+						</datalist>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="model">Choose Model:</label></td>
+					<td>
+						<select name="model_id" id="model_id">
+							<option value="">Select model</option>
+							<option th:each="m : ${modelList}" th:text="${m}"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="task">Choose Task:</label></td>
+					<td>
+						<select name="task_id" id="task_id">
+							<option value="">Select task</option>
+							<option th:each="t : ${taskList}" th:text="${t}"></option>
+						</select>
+					</td>
+				</tr>
+				<br>
+				<tr id="btna">
+					<td colspan="2"><input type="submit" name="button" id="submitBtn" value="Submit"></td>
+
+				</tr>
+			</form>
+		</table>
+		<table border="4" id="show" style="display:none;" class="details-table">
+			<thead>
+				<tr>
+					<td colspan="2"><input type="submit" name="button" id="clearBtn" value="Clear"></td>
+				</tr>
+				<tr>
+					<th>Layer</th>
+					<th>genre</th>
+					<th>Think-Time</th>
+					<th>Order</th>
+				</tr>
+			</thead>
+			<tbody id="show-body">
+				<!-- Table body will be dynamically populated -->
+			</tbody>
+		</table>
+	</center>
+	<script th:inline="javascript">
+		// Get a reference to the button element
+		var clearBtn = document.getElementById("clearBtn");
+
+		// Add a click event listener
+		clearBtn.addEventListener("click", function () {
+			// Redirect the user to the home page
+			window.location.href = "/logView"; // Replace with your home page URL
+		});
+		/*<![CDATA[*/
+		var logs = /*[[${logs}]]*/[];
+		/*]]>*/
+
+		// Event listener for the form submission
+		var logForm = document.getElementById("logForm");
+		logForm.addEventListener("submit", function (event) {
+			event.preventDefault();
+
+			// Get the values of the form elements
+			var userName = document.getElementById("userName").value;
+			var modelId = document.getElementById("model_id").value;
+			var taskId = document.getElementById("task_id").value;
+
+			var filteredLogs = logs.filter(function (log) {
+				return (userName === '' || log.name === userName) &&
+					(modelId === '' || log.modelId === parseInt(modelId)) &&
+					(taskId === '' || log.taskId === parseInt(taskId));
+			});
+
+			// Populate the show table with the filtered data
+			var showTable = document.getElementById("show");
+			var showBody = document.getElementById("show-body");
+			showBody.innerHTML = ''; // Clear existing rows
+
+			filteredLogs.forEach(function (log) {
+				var row = document.createElement("tr");
+				row.innerHTML = `
+                <td>${log.layer}</td>
+                <td>${log.genre}</td>
+                <td>${log.thinkTime}</td>
+                <td>${log.orderValue}</td>
+            `;
+				showBody.appendChild(row);
+			});
+
+			// Display the show table
+			showTable.style.display = "block";
+		});
+	</script>
+</body>
+
+</html>
