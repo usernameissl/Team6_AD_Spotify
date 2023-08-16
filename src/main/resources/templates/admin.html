@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Admin Home Page</title>
     <link rel="stylesheet" href="/css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
     <body>
     <div class="topbar">
@@ -25,16 +25,16 @@
     </div>
 
     <div class="sidebar">
-        <div class="adminName">
-            <span th:text="'Welcome, ' + ${name}"></span>
+        <div class="logo">
+            <a href="#">
+                <img src="/image/spotify.png" alt="Logo" />
+            </a>
         </div>
 
         <div class="navigation">
-            <ul>
-                <li><a th:href="@{/admin}">Admin</a></li>
-				<li><a th:href="@{/admin/}">Manage Tasks</a></li>
-				<li><a th:href="@{/admin/}">To put charts</a></li>
-			</ul>
+            <ul><li><a th:href="@{/admin}">Admin</a></li></ul>
+			<ul><li><a th:href="@{/taskList}">Manage Tasks</a></li></ul>
+			<ul><li><a th:href="@{/admin/}">View Dashboard</a></li></ul>
         </div>
     </div>
 <script>

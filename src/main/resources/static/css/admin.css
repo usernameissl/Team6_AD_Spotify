@@ -6,7 +6,7 @@ body {
   font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(to bottom, #FFFFFF 0%, #DDDDDD 25%, #EEEEEE 50%, #CCCCCC 75%, #BBBBBB 100%);
+    background: linear-gradient(to bottom, #333333 0%, #000000 50%, #000000 100%);
 }
 
 .sidebar {
@@ -18,9 +18,8 @@ body {
   background-color: #000000;
   padding: 24px;
 }
-.sidebar .adminName span {
-    color: #ffffff;
-    font-size: 20px;
+.sidebar .logo img {
+  width: 120px;
 }
 .sidebar .navigation ul {
   list-style: none;
@@ -53,7 +52,7 @@ body {
   padding: 15px 20px;
 }
 .topbar .prev-next-buttons {
-  margin-left: 300px;
+  margin-left: 240px;
 }
 .topbar .prev-next-buttons button {
   color: #81858a;
@@ -70,11 +69,22 @@ body {
     font-size: 24px;
 }
 .topbar .logout-button a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 5px 8px 5px;
+    gap: 8px;
+    height: 35px;
+    width: 95px;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    cursor: pointer;
     color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     font-size: 15px;
-    margin-right: 40px;
 }
 
 .topbar .logout-button a:hover {
