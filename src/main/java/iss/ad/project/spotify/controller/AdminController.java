@@ -50,7 +50,7 @@ public class AdminController {
     public String login(@ModelAttribute("admin") Admin admin, Model model, HttpSession session) {
 		if (authenticate(admin)) {
 			session.setAttribute("username", admin.getUsername());
-			return "redirect:/admin";
+			return "redirect:/backtracks";
 		} else {
 			model.addAttribute("error", "Invalid username or password");
 			return "login";
