@@ -30,14 +30,14 @@
     font-size: 2em;
 }
 /** Sidebar styles **/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Verdana:300,400,500,600,700";
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Verdana', sans-serif;
     background: #fafafa;
 }
 
 p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Verdana', sans-serif;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
@@ -109,7 +109,6 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul p {
@@ -126,6 +125,13 @@ a:focus {
 #sidebar ul li a:hover {
     color: #D8F3DC;
     background: #2D6A4F;
+}
+
+#sidebar h4{
+    margin: auto;
+    text-align: center;
+    font-family: 'Gill Sans', sans-serif;
+    font-size:25px;
 }
 
 #sidebar ul li.active>a,
@@ -203,8 +209,18 @@ a.article:hover {
 
 .title {
     padding-left: 50px;
+    font-weight: bold;
 
 }
+
+hr {
+    margin: 2px;
+    border-color: #1B4332; /* or any color you prefer */
+    border-width: 2px;
+    height: 1px;
+    background-color: #1B4332;
+}
+
 
 /* ensure the topbar doesnt overlap the content*/
 body {

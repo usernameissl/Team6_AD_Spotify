@@ -18,15 +18,18 @@
 
   <nav id="sidebar">
     <div class="sidebar-header">
-      <h3>Admin Portal</h3>
+      <h4>Admin Portal</h4>
     </div>
 
     <ul class="list-unstyled components">
       <li><a class="manage-link tab-link" th:href="@{/taskList}">Manage Tasks</a></li>
+      <hr>
       <li><a class="manage-link tab-link" th:href="@{/backtracks}">User Backtracks</a></li>
-<!--      <li><a class="manage-link tab-link" th:href="@{/}">User Traversal</a></li>-->
+      <li><a class="manage-link tab-link" th:href="@{/}">User Traversal</a></li>
       <li><a class="manage-link tab-link" th:href="@{/genretimechart}">Genre Statistics</a></li>
       <li><a class="manage-link tab-link" th:href="@{/logView}">User Logs</a></li>
+      <hr>
+      <li><a class="manage-link tab-link" th:href="@{/}">Back to Home</a></li>
 
     </ul>
   </nav>
