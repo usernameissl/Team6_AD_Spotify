@@ -69,8 +69,9 @@
 					<td><label for="task">Choose Task:</label></td>
 					<td>
 						<select name="task_id" id="task_id">
-							<option value="">Select task</option>
-							<option th:each="t : ${taskList}" th:text="${t}"></option>
+							<th:block th:each="task, iterStat : ${tasks}">
+								<option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+							</th:block>
 						</select>
 					</td>
 				</tr>
