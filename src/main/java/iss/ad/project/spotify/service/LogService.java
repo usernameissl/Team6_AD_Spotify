@@ -2,23 +2,32 @@ package iss.ad.project.spotify.service;
 
 import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.repo.LogRepo;
+import iss.ad.project.spotify.repo.SpotifyNameRepo;
+import iss.ad.project.spotify.repo.SpotifyRepo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class LogService {
 
-    private final LogRepo logRepo;
     @Autowired
-    public LogService(LogRepo logRepo){
-        this.logRepo = logRepo;
-    }
+    private LogRepo logRepo;
+
+    @Autowired
+    private SpotifyRepo spotifyRepo;
+
+    @Autowired
+    private SpotifyNameRepo sNameRepo;
 
     public LogEntry save(LogEntry logEntry){
         return logRepo.save(logEntry);
@@ -103,34 +112,109 @@ public class LogService {
         return modelAverages;
     }
 
-    public Node buildTreeForUser(String username) {
-        List<LogEntry> entries = logRepo.findByName(username);
-        return buildTree(entries, 0);
+    //Binary tree
+    // public Node buildTreeForUser(String username) {
+    //     List<LogEntry> entries = logRepo.findByName(username);
+    //     return buildTree(entries, 0);
+    // }
+
+    // private Node buildTree(List<LogEntry> entries, int layer) {
+    //     if (entries.isEmpty() || layer >= entries.size()) return null;
+
+    //     Node node = new Node();
+    //     LogEntry entry = entries.get(layer);
+        
+    //     node.setName(entry.getGenre() + " (" + entry.getOrderValue() + ")");
+        
+    //     node.setLeft(buildTree(entries, 2 * layer + 1)); // Left child
+    //     node.setRight(buildTree(entries, 2 * layer + 2)); // Right child
+
+    //     return node;
+    // }
+
+    // public Map<String, Object> convertTreeToMap(Node node) {
+    //     Map<String, Object> map = new HashMap<>();
+    //     if (node == null) return map;
+
+    //     map.put("name", node.getName());
+    //     if (node.getLeft() != null) map.put("left", convertTreeToMap(node.getLeft()));
+    //     if (node.getRight() != null) map.put("right", convertTreeToMap(node.getRight()));
+
+    //     return map;
+    // }
+    public SpotifyName buildSpotifyLayersTree() {
+        List<SpotifyName> layers = sNameRepo.findAll();
+    
+        Map<Double, SpotifyName> layerMap = layers.stream()
+            .collect(Collectors.toMap(SpotifyName::getLayerId, Function.identity()));
+    
+        SpotifyName root = new SpotifyName();
+        root.setName("Root");
+    
+        for (SpotifyName layer : layers) {
+            if (String.valueOf(layer.getLayerId()).endsWith(".0")) {
+                root.getChildren().add(layer);
+            } else {
+                double parentLayerId = Double.parseDouble(String.valueOf(layer.getLayerId()).split("\\.")[0] + ".0");
+                SpotifyName parent = layerMap.get(parentLayerId);
+                if (parent != null) {
+                    parent.getChildren().add(layer);
+                }
+            }
+        }
+    
+        return root;
     }
-
-    private Node buildTree(List<LogEntry> entries, int layer) {
-        if (entries.isEmpty() || layer >= entries.size()) return null;
-
-        Node node = new Node();
-        LogEntry entry = entries.get(layer);
-        
-        node.setName(entry.getGenre() + " (" + entry.getOrderValue() + ")");
-        
-        node.setLeft(buildTree(entries, 2 * layer + 1)); // Left child
-        node.setRight(buildTree(entries, 2 * layer + 2)); // Right child
-
+    
+    public SpotifyName buildTreeForUser(String username) {
+        SpotifyName spotifyRoot = buildSpotifyLayersTree();
+        List<LogEntry> userLogs = logRepo.findByName(username);
+    
+        modifyTreeWithLogs(spotifyRoot, userLogs);
+        return spotifyRoot;
+    }
+    
+    private SpotifyName modifyTreeWithLogs(SpotifyName node, List<LogEntry> userLogs) {
+        if (node == null) return null;
+    
+        // Find user logs related to this genre
+        List<LogEntry> relevantLogs = userLogs.stream()
+            .filter(log -> log.getGenre().equals(node.getName()))
+            .collect(Collectors.toList());
+    
+        // If there are no logs relevant to this node, remove the node.
+        if (relevantLogs.isEmpty()) return null;
+    
+        // Modify the node's name based on the logs
+        int sumOrderValue = relevantLogs.stream().mapToInt(LogEntry::getOrderValue).sum();
+        node.setName(node.getName() + " (" + sumOrderValue + ")");
+    
+        // Do the same for children and filter out null children (those without logs)
+        List<SpotifyName> prunedChildren = node.getChildren().stream()
+            .map(child -> modifyTreeWithLogs(child, userLogs))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    
+        node.setChildren(prunedChildren);
+    
         return node;
     }
+    
 
-    public Map<String, Object> convertTreeToMap(Node node) {
+    public Map<String, Object> convertSpotifyNameToMap(SpotifyName spotifyNode) {
         Map<String, Object> map = new HashMap<>();
-        if (node == null) return map;
-
-        map.put("name", node.getName());
-        if (node.getLeft() != null) map.put("left", convertTreeToMap(node.getLeft()));
-        if (node.getRight() != null) map.put("right", convertTreeToMap(node.getRight()));
-
+        if (spotifyNode == null) return map;
+    
+        map.put("name", spotifyNode.getName());
+    
+        List<Map<String, Object>> childrenMaps = new ArrayList<>();
+        for (SpotifyName child : spotifyNode.getChildren()) {
+            childrenMaps.add(convertSpotifyNameToMap(child));
+        }
+        if (!childrenMaps.isEmpty()) map.put("children", childrenMaps);
+    
         return map;
     }
+    
 
 }

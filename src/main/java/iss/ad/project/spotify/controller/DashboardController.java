@@ -189,10 +189,14 @@ public class DashboardController {
 
     @GetMapping("/userlogs/{username}")
     public String visualizeUserLogs(@PathVariable String username, Model model) {
-        Node root = logService.buildTreeForUser(username);
-        Map<String, Object> treeMap = logService.convertTreeToMap(root);
-        
-        model.addAttribute("treeData", new Gson().toJson(treeMap)); // Convert the map to JSON string for D3.js
+
+        SpotifyName root = logService.buildTreeForUser(username);
+    
+        Map<String, Object> treeMap = logService.convertSpotifyNameToMap(root);
+
+        model.addAttribute("treeData", new Gson().toJson(treeMap)); 
+    
         return "userlogs";
     }
+    
 }

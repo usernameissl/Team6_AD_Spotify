@@ -10,12 +10,12 @@
         .link {
             fill: none;
             stroke: #666;
-            stroke-width: 2px;
+            stroke-width: 1px;
         }
         
         /* Styling the nodes */
         .node {
-            font: 10px sans-serif;
+            font: 11px sans-serif; /* Increased font size */
         }
         
         /* Styling the circles inside nodes */
@@ -33,10 +33,12 @@
         /* Styles to position text near nodes */
         .node--internal text {
             text-anchor: end;
+            dx: -20; /* Adjusted label spacing */
         }
         
         .node--leaf text {
             text-anchor: start;
+            dx: 20; /* Adjusted label spacing */
         }
     </style>
 </head>
@@ -44,11 +46,11 @@
     <div id="tree"></div>
 
     <script th:inline="javascript">
-        let treeData = /*[[${treeData}]]*/ 'defaultTreeData'; // Fetches data passed from Spring backend
+        let treeData = /*[[${treeData}]]*/ 'defaultTreeData'; 
         treeData = JSON.parse(treeData);
 
-        let svgWidth = 600, svgHeight = 400;
-        let margin = {top: 20, right: 120, bottom: 20, left: 120};
+        let svgWidth = 1300, svgHeight = 700;  // Adjusted canvas size for more space
+        let margin = {top: 200, right: 70, bottom: 200, left: 70}; // Increased margin
         let width = svgWidth - margin.right - margin.left;
         let height = svgHeight - margin.top - margin.bottom;
         
@@ -58,26 +60,25 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-        let tree = d3.tree().size([height, width]);
+        let tree = d3.tree().size([width, height]);
         
         let root = d3.hierarchy(treeData, function(d) {
-            if (d && ('left' in d) && ('right' in d)) {
-                return [d.left, d.right];
-            }
-            return [];
+            return d.children;
         });
 
         tree(root);
         
         let link = svg.selectAll("path.link")
-            .data(root.descendants().slice(1))
+            .data(root.links())
             .enter().append("path")
             .attr("class", "link")
             .attr("d", function(d) {
-                return "M" + d.y + "," + d.x
-                     + "C" + (d.y + d.parent.y) / 2 + "," + d.x
-                     + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
-                     + " " + d.parent.y + "," + d.parent.x;
+                // Slight change in control points for better curve
+                let offset = (d.target.y - d.source.y) / 2;
+                return "M" + d.source.x + "," + d.source.y
+                    + "C" + d.source.x + "," + (d.source.y + offset)
+                    + " " + d.target.x + "," + (d.source.y + offset)
+                    + " " + d.target.x + "," + d.target.y;
             });
         
         let node = svg.selectAll("g.node")
@@ -87,18 +88,30 @@
                 return "node" + 
                     (d.children ? " node--internal" : " node--leaf"); })
             .attr("transform", function(d) { 
-                return "translate(" + d.y + "," + d.x + ")"; });
+                return "translate(" + d.x + "," + d.y + ")"; });
 
         node.append("circle")
             .attr("r", 10);
 
         node.append("text")
-            .attr("dy", 3)
+            .attr("dy", function(d) {
+                if (d.depth === 2) { return 0; } // Position below the node for layer 2 (20 + 5, where 20 is circle's radius and 5 is padding)
+                else { return 3; }
+            })
             .attr("x", function(d) { 
-                return d.children ? -15 : 15; })
+                if (d.depth === 2) { return -100; }  // Center below the node for layer 2
+                else { return d.children ? -15 : 15; }
+            }) 
             .style("text-anchor", function(d) { 
-                return d.children ? "end" : "start"; })
+                if (d.depth === 2) { return "middle"; }  // Center the text for layer 2
+                else { return d.children ? "end" : "start"; }
+            })
+            .attr("transform", function(d) {
+                if (d.depth === 2) { return "rotate(-90)"; } // Rotate for layer 2
+                else { return null; }
+            })
             .text(function(d) { return d.data.name; });
+
     </script>
 </body>
 </html>

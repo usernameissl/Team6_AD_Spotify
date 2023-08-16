@@ -1,12 +1,13 @@
 package iss.ad.project.spotify.model;
 
+import java.util.*;
+
 import lombok.Data;
 
 @Data
 public class Node {
     private String name;
-    private Node left;
-    private Node right;
+    private List<Node> children = new ArrayList<>();
     
     public Node(String name) {
         this.name = name;

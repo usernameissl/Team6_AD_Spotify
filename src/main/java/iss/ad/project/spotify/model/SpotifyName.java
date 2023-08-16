@@ -1,6 +1,7 @@
 package iss.ad.project.spotify.model;
 
 import java.io.Serializable;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -21,4 +22,6 @@ public class SpotifyName implements Serializable {
 
     private String name;
 
+    @Transient
+    private List<SpotifyName> children = new ArrayList<>();
 }
