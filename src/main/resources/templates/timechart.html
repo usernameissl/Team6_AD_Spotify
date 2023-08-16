@@ -8,16 +8,21 @@
 			width: 60%;
 			margin: auto;
 		}
+		.dropdown {
+			font-size: 18px;
+		}
+
 	</style>
 </head>
 <body>
 <div th:include="sidebar.html"></div>
 <div class = "container">
-	<select id="taskSelector" style="display: block; margin: 0 auto; font-size: 1.25em;">
-		<option value="task1">Task 1</option>
-		<option value="task2">Task 2</option>
-		<option value="task3">Task 3</option>
+	<select id="taskSelector" class="dropdown" style="display: block; margin: 0 auto;">
+		<th:block th:each="task, iterStat : ${tasks}">
+			<option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+		</th:block>
 	</select>
+	<br/>
 	<br/>
 	<div id="model1ChartContainer" style="height: 350px; width: 100%;"></div>
 	<br/>
@@ -130,10 +135,10 @@
 
 		taskSelector.addEventListener("change", function () {
 			var sortedModel1GenreThinkTime, sortedModel2GenreThinkTime;
-			if (this.value === "task1") {
+			if (this.value === "1") {
 				sortedModel1GenreThinkTime = sortedModel1Task1GenreThinkTime;
 				sortedModel2GenreThinkTime = sortedModel2Task1GenreThinkTime;
-			} else if (this.value === "task2") {
+			} else if (this.value === "2") {
 				sortedModel1GenreThinkTime = sortedModel1Task2GenreThinkTime;
 				sortedModel2GenreThinkTime = sortedModel2Task2GenreThinkTime;
 			} else {

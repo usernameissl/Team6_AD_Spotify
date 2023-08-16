@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import iss.ad.project.spotify.model.LogEntry;
 import iss.ad.project.spotify.service.LogService;
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +22,15 @@ import java.util.stream.Collectors;
 @Controller
 public class DashboardController {
     private final LogService logService;
+    private final TaskService taskService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    public DashboardController(LogService logService) {
+    public DashboardController(LogService logService, TaskService taskService) {
         this.logService = logService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/backtracks")
@@ -49,6 +52,8 @@ public class DashboardController {
 
     @GetMapping("/logView")
     public String LogViewForm(Model model) {
+        List<String> tasks = taskService.getFormattedTasksCache();
+        model.addAttribute("tasks",tasks);
         List<LogEntry> logs = logService.getAll();
         model.addAttribute("logs", logs);
         model.addAttribute("userList", logService.getDistinctNames());
@@ -59,6 +64,9 @@ public class DashboardController {
 
     @GetMapping("/genretimechart")
     public String getTimeChart(Model model) {
+
+        List<String> tasks = taskService.getFormattedTasksCache();
+        model.addAttribute("tasks",tasks);
 
         // model 1 subGenres
         String[] model1SubGenres = {
