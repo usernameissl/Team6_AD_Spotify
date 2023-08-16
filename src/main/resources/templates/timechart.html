@@ -31,6 +31,7 @@
 	// Initial variables
 	var taskSelector = document.getElementById("taskSelector");
 	var sortedModel1Task1GenreThinkTime = /*[[${sortedModel1Task1GenreThinkTime}]]*/ 'default';
+
 	var sortedModel1Task2GenreThinkTime = /*[[${sortedModel1Task2GenreThinkTime}]]*/ 'default';
 	var sortedModel1Task3GenreThinkTime = /*[[${sortedModel1Task3GenreThinkTime}]]*/ 'default';
 	var sortedModel2Task1GenreThinkTime = /*[[${sortedModel2Task1GenreThinkTime}]]*/ 'default';
@@ -49,23 +50,35 @@
 		axisX: {
 			title: "Genres"
 		},
-		data: []
+		data: [],
+		toolTip: {
+			fontColor: "#000000"
+		},
 	};
+
 
 	// Utility function to generate data points
 	function generateDataPoints(values, keys, i, j) {
 		var value = values[i + j * 5];
+		var key = keys[i + j * 5];
+		var truncatedKey = key;
+		if(key.length > 20) {  // truncate the label if too long
+			truncatedKey = key.substring(0, 20) + "...";
+		}
 		return {
 			y: value,
-			label: keys[i + j * 5],
-			indexLabel: value === 0 ? "" : keys[i + j * 5],
+			label: key,
+			indexLabel: value < 1 ? "" : truncatedKey,
 			indexLabelPlacement: "inside"
 		};
 	}
 
+
 	// Function to initialize or update chart
 	function initializeOrUpdateChart(chart, labels, values, keys) {
 		chart.options.data.length = 0;
+		var colors = ["#52b788", "#74c69d","#95d5b2", "#b7e4c7","#d8f3dc", ];
+
 		for (var i = 0; i < 5; i++) {
 			var dataPoints = [];
 			for (var j = 0; j < labels.length; j++) {
@@ -73,11 +86,13 @@
 			}
 			chart.options.data.push({
 				type: "stackedColumn",
-				dataPoints: dataPoints
+				dataPoints: dataPoints,
+				color: colors[i] // Set color for each series
 			});
 		}
 		chart.render();
 	}
+
 
 	// On window load
 	window.onload = function () {
