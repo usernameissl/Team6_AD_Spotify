@@ -8,13 +8,17 @@
 </head>
 
 <body>
-	<!--    <header>
-        <div th:include="common.html"></div>
-    </header>-->
+	<header>
+		<div th:include="admin.html"></div>
+	</header>
 	<div class="container">
 		<h1> Task List </h1>
-								<a class="btn btn-success custom-button" href="task/create">Create New Task</a>
-
+		<a class="btn btn-success custom-button" href="task/create">Create New Task</a>
+		<br /><br />
+		<div th:if="${messageSuccess}" class="alert alert-danger" role="alert">
+			<p th:text="*{messageSuccess}"></p>
+		</div>
+		<br /><br />
 		<div class="mb-3">
 			<label for="searchInput">Search:</label>
 			<input type="text" class="form-control" id="searchInput" placeholder="Enter keywords"
