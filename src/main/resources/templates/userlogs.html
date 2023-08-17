@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>User Logs Visualization</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="/css/userlogs.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body>
     <div th:include="sidebar.html"></div>
@@ -12,17 +15,28 @@
         <form action="/admin/userlogs" method="post" id="form">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <select id="name" name="name" required>
+                    <th:block th:each="user : ${userList}">
+                        <option th:value="${user}" th:text="${user}"></option>
+                    </th:block>
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="modelId">Model ID:</label>
-                <input type="number" id="modelId" name="modelId" required>
+                <select id="modelId" name="modelId" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="taskId">Task ID:</label>
-                <input type="number" id="taskId" name="taskId" required>
+                <select name="taskId" id="taskId">
+                    <th:block th:each="task, iterStat : ${tasks}">
+                        <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+                    </th:block>
+                </select>
             </div>
 
             <div class="form-group">
@@ -47,3 +61,5 @@
     </div>
 </body>
 </html>
+
+<script src="/js/username-search.js"></script>

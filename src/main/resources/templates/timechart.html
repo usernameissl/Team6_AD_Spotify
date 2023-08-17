@@ -63,18 +63,26 @@
 	};
 
 
-	// Utility function to generate data points
-	function generateDataPoints(values, keys, i, j) {
-		var value = values[i + j * 5];
-		var key = keys[i + j * 5];
-		var truncatedKey = key;
-		if(key.length > 20) {  // truncate the label if too long
-			truncatedKey = key.substring(0, 20) + "...";
+	// Utility function to generate sorted data points
+	function generateSortedDataPoints(values, keys, i, j) {
+		var dataPointsWithKeys = [];
+		for (var k = 0; k < 5; k++) {
+			var value = values[k + j * 5];
+			var key = keys[k + j * 5];
+			var truncatedKey = key;
+			if(key.length > 20) {  // truncate the label if too long
+				truncatedKey = key.substring(0, 20) + "...";
+			}
+			dataPointsWithKeys.push({ y: value, label: key, truncatedKey: truncatedKey });
 		}
+
+		// Sort by y-values in descending order
+		dataPointsWithKeys.sort((a, b) => b.y - a.y);
+
 		return {
-			y: value,
-			label: key,
-			indexLabel: value < 1 ? "" : truncatedKey,
+			y: dataPointsWithKeys[i].y,
+			label: dataPointsWithKeys[i].label,
+			indexLabel: dataPointsWithKeys[i].y < 1 ? "" : dataPointsWithKeys[i].truncatedKey,
 			indexLabelPlacement: "inside"
 		};
 	}
@@ -88,7 +96,7 @@
 		for (var i = 0; i < 5; i++) {
 			var dataPoints = [];
 			for (var j = 0; j < labels.length; j++) {
-				dataPoints.push(generateDataPoints(values, keys, i, j));
+				dataPoints.push(generateSortedDataPoints(values, keys, i, j));
 			}
 			chart.options.data.push({
 				type: "stackedColumn",
