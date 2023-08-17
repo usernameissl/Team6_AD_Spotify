@@ -28,12 +28,6 @@
     dx: 10;
 }
 
-.content-container {
-    padding: 60px 30px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -47,8 +41,38 @@
     margin-bottom: 10px;
 }
 
-#tree {
-    margin-left: 30px;
-    margin-top: -200px; 
+.result-display span.result {
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
+.form-group, .result-display{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.form-group label {
+    width: 150px; 
+}
+
+.form-group select, 
+.form-group input {
+    width: 500px; 
+    margin-right: 20px;
+}
+
+.custom-form {
+    position: fixed;
+    top: 50px;       
+    left: 250px;     
+    width: 600px;
+    height: 500px; 
+    overflow-y: auto;
+    background-color: #ffffff; 
+    padding: 20px; 
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1); 
+    z-index: 1000;
+}

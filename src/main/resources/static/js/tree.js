@@ -1,6 +1,6 @@
 //treeData = JSON.parse(treeData);
-let svgWidth = 1300, svgHeight = 700;
-let margin = {top: 220, right: 70, bottom: 220, left: 70};
+let svgWidth = 1300, svgHeight = 1000;
+let margin = {top: 550, right: 70, bottom: 120, left: 250};
 let width = svgWidth - margin.right - margin.left;
 let height = svgHeight - margin.top - margin.bottom;
 
@@ -10,12 +10,13 @@ let svg = d3.select("#tree").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-let tree = d3.tree().size([width, height]);
+let tree = d3.tree().size([width, height]); 
 
 let root = d3.hierarchy(treeData, function(d) {
     return d.children;
-});
+}).sum(function() { return 1; });
 
+root.y = height; 
 tree(root);
 
 let link = svg.selectAll("path.link")
