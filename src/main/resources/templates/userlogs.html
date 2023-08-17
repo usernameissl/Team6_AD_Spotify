@@ -3,46 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>User Logs Visualization</title>
-    <!-- D3.js Library -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
-        /* Styling the links/paths */
         .link {
             fill: none;
             stroke: #666;
             stroke-width: 1px;
         }
         
-        /* Styling the nodes */
         .node {
-            font: 11px sans-serif; /* Increased font size */
+            font: 11px sans-serif;
         }
-        
-        /* Styling the circles inside nodes */
+
         .node circle {
             fill: #fff;
             stroke: steelblue;
             stroke-width: 2px;
         }
-        
-        /* Styling the text of the nodes */
+
         .node text {
             fill: #333;
         }
-        
-        /* Styles to position text near nodes */
+
         .node--internal text {
             text-anchor: end;
-            dx: -20; /* Adjusted label spacing */
+            dx: -20;
         }
         
         .node--leaf text {
             text-anchor: start;
-            dx: 20; /* Adjusted label spacing */
+            dx: 20;
         }
     </style>
 </head>
 <body>
+    <div>
+        <form action="#" th:action="@{/userlogs}" method="get">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="modelId">Model ID:</label>
+            <input type="number" id="modelId" name="modelId" required>
+
+            <label for="taskId">Task ID:</label>
+            <input type="number" id="taskId" name="taskId" required>
+
+            <input type="submit" value="Filter">
+        </form>
+    </div>
     <div id="tree"></div>
 
     <script th:inline="javascript">
@@ -73,8 +81,8 @@
             .enter().append("path")
             .attr("class", "link")
             .attr("d", function(d) {
-                // Slight change in control points for better curve
-                let offset = (d.target.y - d.source.y) / 2;
+
+                let offset = (d.target.y - d.source.y) / 3;
                 return "M" + d.source.x + "," + d.source.y
                     + "C" + d.source.x + "," + (d.source.y + offset)
                     + " " + d.target.x + "," + (d.source.y + offset)
@@ -95,19 +103,18 @@
 
         node.append("text")
             .attr("dy", function(d) {
-                if (d.depth === 2) { return 0; } // Position below the node for layer 2 (20 + 5, where 20 is circle's radius and 5 is padding)
+                if (d.depth === 2) { return 0; } 
                 else { return 3; }
             })
             .attr("x", function(d) { 
-                if (d.depth === 2) { return -100; }  // Center below the node for layer 2
+                if (d.depth === 2) { return -190; }  
                 else { return d.children ? -15 : 15; }
             }) 
             .style("text-anchor", function(d) { 
-                if (d.depth === 2) { return "middle"; }  // Center the text for layer 2
-                else { return d.children ? "end" : "start"; }
+                return d.children ? "end" : "start";
             })
             .attr("transform", function(d) {
-                if (d.depth === 2) { return "rotate(-90)"; } // Rotate for layer 2
+                if (d.depth === 2) { return "rotate(-90)"; }
                 else { return null; }
             })
             .text(function(d) { return d.data.name; });

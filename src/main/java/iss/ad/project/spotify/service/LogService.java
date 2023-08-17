@@ -166,10 +166,11 @@ public class LogService {
         return root;
     }
     
-    public SpotifyName buildTreeForUser(String username) {
+    public SpotifyName buildTreeForUser(String name, int modelId, int taskId) {
         SpotifyName spotifyRoot = buildSpotifyLayersTree();
-        List<LogEntry> userLogs = logRepo.findByName(username);
-    
+        //List<LogEntry> userLogs = logRepo.findByName(username);
+        List<LogEntry> userLogs = logRepo.findByNameAndTaskIdAndModelId(name, modelId, taskId);
+        System.out.println("Retrieved logs: " + userLogs);
         modifyTreeWithLogs(spotifyRoot, userLogs);
         return spotifyRoot;
     }
@@ -182,14 +183,13 @@ public class LogService {
             .filter(log -> log.getGenre().equals(node.getName()))
             .collect(Collectors.toList());
     
-        // If there are no logs relevant to this node, remove the node.
-        if (relevantLogs.isEmpty()) return null;
+        // Modify the node's name based on the logs if there are relevant logs
+        if (!relevantLogs.isEmpty()) {
+            int sumOrderValue = relevantLogs.stream().mapToInt(LogEntry::getOrderValue).sum();
+            node.setName(node.getName() + " (" + sumOrderValue + ")");
+        }
     
-        // Modify the node's name based on the logs
-        int sumOrderValue = relevantLogs.stream().mapToInt(LogEntry::getOrderValue).sum();
-        node.setName(node.getName() + " (" + sumOrderValue + ")");
-    
-        // Do the same for children and filter out null children (those without logs)
+        // Do the same for children
         List<SpotifyName> prunedChildren = node.getChildren().stream()
             .map(child -> modifyTreeWithLogs(child, userLogs))
             .filter(Objects::nonNull)
@@ -197,8 +197,12 @@ public class LogService {
     
         node.setChildren(prunedChildren);
     
+        // If there are no logs relevant to this node and it doesn't have any children, remove the node.
+        if (relevantLogs.isEmpty() && prunedChildren.isEmpty()) return null;
+    
         return node;
     }
+    
     
 
     public Map<String, Object> convertSpotifyNameToMap(SpotifyName spotifyNode) {
