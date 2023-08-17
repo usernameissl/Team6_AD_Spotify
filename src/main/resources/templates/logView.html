@@ -24,7 +24,7 @@
 
 		.details-table {
 			width: 100%;
-			max-width: 400px;
+			max-width: 450px;
 			color: #162614;
 			background-color: white;
 			margin-top: 30px;
@@ -42,7 +42,7 @@
 
 
 <body>
-<div th:include="sidebar.html"></div>
+	<div th:include="sidebar.html"></div>
 	<center>
 		<table class="form-table">
 			<form id="logForm" th:action="@{/logView}" method="post">
@@ -50,10 +50,14 @@
 				<tr>
 					<td><label for="user">Choose User:</label></td>
 					<td>
-						<input id="userName" name="userName" placeholder="Type here..." list="users">
-						<datalist id="users">
+						<!--<input id="userName" name="userName" placeholder="Type here..." list="users">-->
+						<!--<datalist id="users">-->
+			<select name="userName" id="userName">
+							<option value="">Select user</option>
 							<option th:each="u : ${userList}" th:text="${u}"></option>
-						</datalist>
+						</select>
+
+						<!--</datalist>-->
 					</td>
 				</tr>
 				<tr>
