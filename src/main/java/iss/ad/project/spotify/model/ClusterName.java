@@ -1,6 +1,8 @@
 package iss.ad.project.spotify.model;
 
 import java.io.Serializable;
+import java.util.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,8 @@ public class ClusterName implements Serializable {
     @Column(name="layer_id")
     private double layerId;
 
-
-
     private String name;
 
+    @Transient
+    private List<ClusterName> children = new ArrayList<>();
 }

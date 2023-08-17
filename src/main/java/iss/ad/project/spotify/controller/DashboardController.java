@@ -147,20 +147,27 @@ public class DashboardController {
                                     @RequestParam int modelId,
                                     @RequestParam int taskId, 
                                     Model model) {
+    
+        if (modelId == 1) { 
+            SpotifyName spotifyRoot = logService.buildTreeForUser(name, modelId, taskId);
+            Map<String, Object> spotifyTreeMap = logService.convertSpotifyNameToMap(spotifyRoot);
+            model.addAttribute("treeData", spotifyTreeMap);
+        } else if (modelId == 2) { 
+            ClusterName clusterRoot = logService.buildClusterTreeForUser(name, modelId, taskId);
+            Map<String, Object> clusterTreeMap = logService.convertClusterNameToMap(clusterRoot);
+            model.addAttribute("treeData", clusterTreeMap);
+        } else {
+            throw new IllegalArgumentException("Invalid modelId provided.");
+        }
 
-        SpotifyName root = logService.buildTreeForUser(name, modelId, taskId);
-        Map<String, Object> treeMap = logService.convertSpotifyNameToMap(root);
         Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
-        
         model.addAttribute("success", successValue);
-        model.addAttribute("treeData", new Gson().toJson(treeMap)); 
         model.addAttribute("selectedName", name);
         model.addAttribute("selectedModelId", modelId);
         model.addAttribute("selectedTaskId", taskId);
-
-        return "userlogs";
+    
+        return "userlogs"; 
     }
-
 }
 
 
