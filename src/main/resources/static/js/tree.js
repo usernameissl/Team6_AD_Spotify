@@ -49,11 +49,11 @@ node.append("text")
         else { return 3; }
     })
     .attr("x", function(d) { 
-        if (d.depth === 2) { return -30; }  
+        if (d.depth === 2) { return 0; }  
         else { return d.children ? -15 : 15; }
     }) 
     .style("text-anchor", function(d) { 
-        if (d.depth === 2) { return "start"; }
+        if (d.depth === 2) { return "middle"; }
         else { return d.children ? "end" : "start"; }
     })
     .text(function(d) { return d.data.name; })
