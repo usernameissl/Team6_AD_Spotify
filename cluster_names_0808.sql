@@ -47,5 +47,3 @@ INSERT INTO team6_ad.cluster_names (layer_id,name) VALUES
 	 (6.7,'Rock'),
 	 (6.8,'Dance Rock'),
 	 (6.2,'Alt and Indie Pop'),
-	 (NULL,''),
-	 (NULL,'');

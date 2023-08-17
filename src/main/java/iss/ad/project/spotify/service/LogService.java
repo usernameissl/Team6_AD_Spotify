@@ -1,6 +1,7 @@
 package iss.ad.project.spotify.service;
 
 import iss.ad.project.spotify.model.*;
+import iss.ad.project.spotify.repo.ClusterNameRepo;
 import iss.ad.project.spotify.repo.LogRepo;
 import iss.ad.project.spotify.repo.SpotifyNameRepo;
 import iss.ad.project.spotify.repo.SpotifyRepo;
@@ -25,10 +26,10 @@ public class LogService {
     private LogRepo logRepo;
 
     @Autowired
-    private SpotifyRepo spotifyRepo;
+    private SpotifyNameRepo sNameRepo;
 
     @Autowired
-    private SpotifyNameRepo sNameRepo;
+    private ClusterNameRepo cNameRepo;
 
     public LogEntry save(LogEntry logEntry){
         return logRepo.save(logEntry);
@@ -178,6 +179,79 @@ public class LogService {
         List<Map<String, Object>> childrenMaps = new ArrayList<>();
         for (SpotifyName child : spotifyNode.getChildren()) {
             childrenMaps.add(convertSpotifyNameToMap(child));
+        }
+        if (!childrenMaps.isEmpty()) map.put("children", childrenMaps);
+    
+        return map;
+    }
+
+    // For ClusterName
+    public ClusterName buildClusterLayersTree() {
+        List<ClusterName> layers = cNameRepo.findAll();
+
+        Map<Double, ClusterName> layerMap = layers.stream()
+            .collect(Collectors.toMap(ClusterName::getLayerId, Function.identity()));
+
+        ClusterName root = new ClusterName();
+        root.setName("Start");
+
+        for (ClusterName layer : layers) {
+            if (String.valueOf(layer.getLayerId()).endsWith(".0")) {
+                root.getChildren().add(layer);
+            } else {
+                double parentLayerId = Double.parseDouble(String.valueOf(layer.getLayerId()).split("\\.")[0] + ".0");
+                ClusterName parent = layerMap.get(parentLayerId);
+                if (parent != null) {
+                    parent.getChildren().add(layer);
+                }
+            }
+        }
+        return root;
+    }
+
+    public ClusterName buildClusterTreeForUser(String name, int modelId, int taskId) {
+        ClusterName clusterRoot = buildClusterLayersTree();
+        List<LogEntry> userLogs = getUniqueLogEntry(name, modelId, taskId);
+        modifyTreeWithClusterLogs(clusterRoot, userLogs);
+        return clusterRoot;
+    }
+
+    private ClusterName modifyTreeWithClusterLogs(ClusterName node, List<LogEntry> userLogs) {
+        if (node == null) return null;
+    
+        // You may need to change the filter condition depending on the structure of ClusterName
+        List<LogEntry> relevantLogs = userLogs.stream()
+            .filter(log -> log.getGenre().equals(node.getName()))
+            .collect(Collectors.toList());
+    
+        if (!relevantLogs.isEmpty()) {
+            String concatenatedOrderValues = relevantLogs.stream()
+                .map(log -> Integer.toString(log.getOrderValue()))
+                .collect(Collectors.joining(", "));
+            node.setName(node.getName() + " (" + concatenatedOrderValues + ")");
+        }
+    
+        List<ClusterName> prunedChildren = node.getChildren().stream()
+            .map(child -> modifyTreeWithClusterLogs(child, userLogs))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    
+        node.setChildren(prunedChildren);
+    
+        if (relevantLogs.isEmpty() && prunedChildren.isEmpty()) return null;
+    
+        return node;
+    }
+    
+    public Map<String, Object> convertClusterNameToMap(ClusterName clusterNode) {
+        Map<String, Object> map = new HashMap<>();
+        if (clusterNode == null) return map;
+    
+        map.put("name", clusterNode.getName());
+    
+        List<Map<String, Object>> childrenMaps = new ArrayList<>();
+        for (ClusterName child : clusterNode.getChildren()) {
+            childrenMaps.add(convertClusterNameToMap(child));
         }
         if (!childrenMaps.isEmpty()) map.put("children", childrenMaps);
     
