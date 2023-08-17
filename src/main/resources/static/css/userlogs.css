@@ -1,0 +1,34 @@
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1px;
+}
+
+.node {
+    font: 11px sans-serif;
+}
+
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+.node text {
+    fill: #333;
+}
+
+.node--internal text {
+    text-anchor: end;
+    dx: -20;
+}
+
+.node--leaf text {
+    text-anchor: start;
+    dx: 20;
+}
+
+#form{
+    padding-top: 60px;
+    padding-left: 230px;
+}

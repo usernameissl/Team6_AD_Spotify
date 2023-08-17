@@ -149,7 +149,7 @@ public class LogService {
             .collect(Collectors.toMap(SpotifyName::getLayerId, Function.identity()));
     
         SpotifyName root = new SpotifyName();
-        root.setName("Root");
+        root.setName("Start");
     
         for (SpotifyName layer : layers) {
             if (String.valueOf(layer.getLayerId()).endsWith(".0")) {
@@ -162,34 +162,28 @@ public class LogService {
                 }
             }
         }
-    
         return root;
     }
     
     public SpotifyName buildTreeForUser(String name, int modelId, int taskId) {
         SpotifyName spotifyRoot = buildSpotifyLayersTree();
-        //List<LogEntry> userLogs = logRepo.findByName(username);
         List<LogEntry> userLogs = logRepo.findByNameAndTaskIdAndModelId(name, modelId, taskId);
-        System.out.println("Retrieved logs: " + userLogs);
         modifyTreeWithLogs(spotifyRoot, userLogs);
         return spotifyRoot;
     }
     
     private SpotifyName modifyTreeWithLogs(SpotifyName node, List<LogEntry> userLogs) {
         if (node == null) return null;
-    
-        // Find user logs related to this genre
+
         List<LogEntry> relevantLogs = userLogs.stream()
             .filter(log -> log.getGenre().equals(node.getName()))
             .collect(Collectors.toList());
     
-        // Modify the node's name based on the logs if there are relevant logs
         if (!relevantLogs.isEmpty()) {
             int sumOrderValue = relevantLogs.stream().mapToInt(LogEntry::getOrderValue).sum();
             node.setName(node.getName() + " (" + sumOrderValue + ")");
         }
-    
-        // Do the same for children
+
         List<SpotifyName> prunedChildren = node.getChildren().stream()
             .map(child -> modifyTreeWithLogs(child, userLogs))
             .filter(Objects::nonNull)
@@ -197,14 +191,11 @@ public class LogService {
     
         node.setChildren(prunedChildren);
     
-        // If there are no logs relevant to this node and it doesn't have any children, remove the node.
         if (relevantLogs.isEmpty() && prunedChildren.isEmpty()) return null;
     
         return node;
     }
     
-    
-
     public Map<String, Object> convertSpotifyNameToMap(SpotifyName spotifyNode) {
         Map<String, Object> map = new HashMap<>();
         if (spotifyNode == null) return map;
@@ -219,6 +210,4 @@ public class LogService {
     
         return map;
     }
-    
-
 }

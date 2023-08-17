@@ -21,6 +21,4 @@ public interface LogRepo extends JpaRepository<LogEntry, Long> {
     @Query("SELECT DISTINCT le.modelId FROM LogEntry le")
     List<Integer> findDistinctModelId();
 
-    List<LogEntry> findByName(String name);
-
 }
