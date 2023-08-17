@@ -30,6 +30,7 @@ public class AdminController {
 		this.adminSrv=adminSrv;
 	}
 	
+
 //    @GetMapping("/admin")
 //    public String getAdminPage(HttpSession session, Model model){
 //
@@ -41,6 +42,7 @@ public class AdminController {
 //        model.addAttribute("username",username);
 //        return "admin";
 //    }
+
 	
 	@GetMapping("/login")
 	public String login() {

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Logs Visualization</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="/css/userlogs.css">
+</head>
+<body>
+    <div th:include="sidebar.html"></div>
+    <div class="content-container">
+        <form action="/admin/userlogs" method="post" id="form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="modelId">Model ID:</label>
+                <input type="number" id="modelId" name="modelId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="taskId">Task ID:</label>
+                <input type="number" id="taskId" name="taskId" required>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Filter">
+            </div>
+        </form>
+
+        <div class="result-display">
+            <span class="result" th:if="${selectedName != null and selectedName != ''}" th:text="'Name: ' + ${selectedName}"></span>
+            <span class="result" th:if="${selectedModelId != null}" th:text="'Model ID: ' + ${selectedModelId}"></span>
+            <span class="result" th:if="${selectedTaskId != null}" th:text="'Task ID: ' + ${selectedTaskId}"></span>
+            <span class="result" th:if="${success != null}" th:text="${success == 1} ? 'Found: Yes' : (${success == 2} ? 'Found: No' : 'Success: ' + ${success})"></span>
+        </div>
+    </div>
+    <div id="tree"></div>
+
+    <div th:if="${treeData}" th:inline="javascript">
+        <script th:inline="javascript">
+            let treeData = /*[[${treeData}]]*/ 'defaultTreeData';
+        </script>
+        <script src="/js/tree.js"></script> 
+    </div>
+</body>
+</html>

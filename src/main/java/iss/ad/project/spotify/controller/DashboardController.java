@@ -3,13 +3,21 @@ package iss.ad.project.spotify.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import iss.ad.project.spotify.model.LogEntry;
+import com.google.gson.Gson;
+
+import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.service.LogService;
 import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -17,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@RequestMapping(value = "/admin")
 @Controller
 public class DashboardController {
     private final LogService logService;
@@ -128,6 +136,30 @@ public class DashboardController {
         return sortedGenreThinkTime;
     }
 
+
+    @GetMapping("/userlogs")
+    public String showForm() {
+        return "userlogs";
+    }
+
+    @PostMapping("/userlogs")
+    public String visualizeUserLogs(@RequestParam String name, 
+                                    @RequestParam int modelId,
+                                    @RequestParam int taskId, 
+                                    Model model) {
+
+        SpotifyName root = logService.buildTreeForUser(name, modelId, taskId);
+        Map<String, Object> treeMap = logService.convertSpotifyNameToMap(root);
+        Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
+        
+        model.addAttribute("success", successValue);
+        model.addAttribute("treeData", new Gson().toJson(treeMap)); 
+        model.addAttribute("selectedName", name);
+        model.addAttribute("selectedModelId", modelId);
+        model.addAttribute("selectedTaskId", taskId);
+
+        return "userlogs";
+    }
 
 }
 
