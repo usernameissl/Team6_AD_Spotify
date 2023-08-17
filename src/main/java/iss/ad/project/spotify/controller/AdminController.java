@@ -30,17 +30,17 @@ public class AdminController {
 		this.adminSrv=adminSrv;
 	}
 	
-    @GetMapping("/admin")
-    public String getAdminPage(HttpSession session, Model model){
-
-        String username = (String)session.getAttribute("username");
-        String[] parts = username.split("_");
-        String name = parts[parts.length - 1];
-        model.addAttribute("name", name);
-     // TEST ADMIN PAGE
-        model.addAttribute("username",username);
-        return "admin";
-    }
+//    @GetMapping("/admin")
+//    public String getAdminPage(HttpSession session, Model model){
+//
+//        String username = (String)session.getAttribute("username");
+//        String[] parts = username.split("_");
+//        String name = parts[parts.length - 1];
+//        model.addAttribute("name", name);
+//     // TEST ADMIN PAGE
+//        model.addAttribute("username",username);
+//        return "admin";
+//    }
 	
 	@GetMapping("/login")
 	public String login() {
@@ -77,7 +77,8 @@ public class AdminController {
 	
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("username");
+    	session.removeAttribute("username");
+    	session.invalidate();
         return "redirect:/home";
 	}
     
