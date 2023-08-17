@@ -1,31 +1,43 @@
 /** Topbar styles **/
-#topbar {
+/*#topbar {*/
+/*    width: 70%;*/
+/*    color: #000000;*/
+/*    padding-top: 20px;*/
+/*    padding-bottom: 20px;*/
+/*    text-align: center; !* Center the title, you can adjust this *!*/
+/*    position: sticky;*/
+/*    top: 0;*/
+/*    left: 250px; !* width of your sidebar *!*/
+/*    right: 0;*/
+/*    z-index: 1000; !* Keep it on top *!*/
+/*    box-sizing: border-box;*/
 
-    color: #000000;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    text-align: center; /* Center the title, you can adjust this */
-    position: sticky;
+/*}*/
+
+.topbar {
+    background-color: #fafafa;
+    position: fixed;
+    display: flex;
     top: 0;
-    left: 250px; /* width of your sidebar */
-    right: 0;
-    z-index: 1000; /* Keep it on top */
+    left: 200px;
+    width: calc(100% - 200px);
+    justify-content: space-between;
+    padding: 15px 20px;
+    z-index: 1000;
 }
-
-
 #pageTitle {
     margin: 0;
     font-size: 2em;
 }
 /** Sidebar styles **/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Verdana:300,400,500,600,700";
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Verdana', sans-serif;
     background: #fafafa;
 }
 
 p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Verdana', sans-serif;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
@@ -70,6 +82,7 @@ a:focus {
     display: flex;
     width: 100%;
     align-items: stretch;
+    box-sizing: border-box;
 }
 
 #sidebar {
@@ -78,7 +91,7 @@ a:focus {
     position: fixed; /* Fixed positioning */
     top: 0; /* Start from the top */
     left: 0; /* Start from the left side */
-    background: #7386D5;
+    background: #2C3333;
     color: #fff;
     overflow-y: auto; /* Add scroll if the content is taller than the screen */
     transition: all 0.3s;
@@ -91,12 +104,11 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #40916C;
 }
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul p {
@@ -111,8 +123,15 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #D8F3DC;
+    background: #2D6A4F;
+}
+
+#sidebar h4{
+    margin: auto;
+    text-align: center;
+    font-family: 'Gill Sans', sans-serif;
+    font-size:25px;
 }
 
 #sidebar ul li.active>a,
@@ -162,6 +181,58 @@ a.article:hover {
     color: #fff !important;
 }
 
+
+.logout-button a {
+    float:right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 5px;
+    gap: 8px;
+    height: 35px;
+    width: 95px;
+    border: none;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.logout-button a:hover {
+    color: #ff0000;
+}
+
+
+.title {
+    padding-left: 50px;
+    font-weight: bold;
+
+}
+
+hr {
+    margin: 2px;
+    border-color: #1B4332; /* or any color you prefer */
+    border-width: 2px;
+    height: 1px;
+    background-color: #1B4332;
+}
+
+
+/* ensure the topbar doesnt overlap the content*/
+body {
+    margin: 0;
+    padding: 0;
+...
+}
+body::before {
+    content: "";
+    display: block;
+    height: 100px;  /* The height of your topbar, including padding */
+}
 
 
 

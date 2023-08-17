@@ -12,12 +12,30 @@ body {
     display: flex; /* Align items in the center */
     align-items: center;
     padding: 0 30px;
+    justify-content: space-between;
 }
 .logo {
     width: 120px;
     height: auto;
 }
-
+.admin.login-button{
+    height: auto;
+	display: inline-block;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+	width: auto;
+	background-color: #a9a9a9;
+	color: #191414;
+	padding: 15px;
+	font-size: 15px;
+	font-weight: 600;
+	border-radius: 50px;
+	cursor: pointer;
+}
+.admin.login-button:hover {
+    transform: scale(1.01);
+}
 form {
   height: 900px;
   width: 600px;

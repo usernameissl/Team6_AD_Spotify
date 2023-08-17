@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Admin</title>
+    <meta charset="UTF-8">
+    <title>Admin Home Page</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-	<h1>Test Admin Home Page</h1>
-	<br/><br/>
-	<h3 th:text="${username}"></h3>
+    <body>
+    <div class="topbar">
+        <div class="prev-next-buttons">
+            <button class="previous round" onclick="previous()" id="backward">
+                <i class="fas fa-angle-left"></i>
+            </button>
+            <button class="next round" onClick="next()" id="forward">
+                <i class="fas fa-angle-right"></i>
+            </button>
+        </div>
+        <div class="admin">
+            <span th:text="'Test Top Bar Display for: ' + ${name}"></span>
+        </div>
+        <div class="logout-button">
+        	<a th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="logo">
+            <a href="#">
+                <img src="/image/spotify.png" alt="Logo" />
+            </a>
+        </div>
+
+        <div class="navigation">
+            <ul><li><a th:href="@{/admin}">Admin</a></li></ul>
+			<ul><li><a th:href="@{/taskList}">Manage Tasks</a></li></ul>
+			<ul><li><a th:href="@{/admin/}">View Dashboard</a></li></ul>
+        </div>
+    </div>
+<script>
+    function next() {
+        window.history.forward();
+    }
+
+    function previous() {
+        // Disable navigating back to the login page
+        if (!document.referrer.endsWith('login') && !window.location.href.endsWith('admin')) {
+            window.history.back();
+        }
+    }
+</script>
 </body>
 </html>
