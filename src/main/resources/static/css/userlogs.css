@@ -20,15 +20,35 @@
 
 .node--internal text {
     text-anchor: end;
-    dx: -20;
+    dx: -10;
 }
 
 .node--leaf text {
     text-anchor: start;
-    dx: 20;
+    dx: 10;
 }
 
-#form{
-    padding-top: 60px;
-    padding-left: 230px;
+.content-container {
+    padding: 60px 30px;
+    max-width: 800px;
+    margin: 0 auto;
 }
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.result-display {
+    margin-top: 20px;
+}
+
+.result {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#tree {
+    margin-left: 30px;
+    margin-top: -200px; 
+}
+

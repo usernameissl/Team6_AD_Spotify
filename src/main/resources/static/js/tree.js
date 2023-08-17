@@ -1,6 +1,6 @@
 treeData = JSON.parse(treeData);
-let svgWidth = 1300, svgHeight = 700;  // Adjusted canvas size for more space
-let margin = {top: 200, right: 70, bottom: 200, left: 70}; // Increased margin
+let svgWidth = 1300, svgHeight = 700;
+let margin = {top: 220, right: 70, bottom: 220, left: 70};
 let width = svgWidth - margin.right - margin.left;
 let height = svgHeight - margin.top - margin.bottom;
 
@@ -45,18 +45,52 @@ node.append("circle")
 
 node.append("text")
     .attr("dy", function(d) {
-        if (d.depth === 2) { return 0; } 
+        if (d.depth === 2) { return 30; } 
         else { return 3; }
     })
     .attr("x", function(d) { 
-        if (d.depth === 2) { return -190; }  
+        if (d.depth === 2) { return -30; }  
         else { return d.children ? -15 : 15; }
     }) 
     .style("text-anchor", function(d) { 
-        return d.children ? "end" : "start";
+        if (d.depth === 2) { return "start"; }
+        else { return d.children ? "end" : "start"; }
     })
-    .attr("transform", function(d) {
-        if (d.depth === 2) { return "rotate(-90)"; }
-        else { return null; }
-    })
-    .text(function(d) { return d.data.name; });
+    .text(function(d) { return d.data.name; })
+    .each(function(d) {
+        if (d.depth === 2 && d.data.name.length > 25) {
+            wrap(d3.select(this), 120);
+        }
+    });
+
+function wrap(text, width) {
+    text.each(function() {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.5, // ems
+            y = text.attr("y"),
+            x = text.attr("x"), // get x position
+            tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", "2.7em");
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", (++lineNumber * lineHeight) + "em").text(word);
+            }
+        }
+    });
+}
+    
+    
+    
+
+
+    
+    
+    

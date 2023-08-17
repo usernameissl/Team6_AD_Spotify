@@ -194,14 +194,19 @@ public class DashboardController {
     @PostMapping("/userlogs")
     public String visualizeUserLogs(@RequestParam String name, 
                                     @RequestParam int modelId,
-                                    @RequestParam int taskId,
+                                    @RequestParam int taskId, 
                                     Model model) {
 
         SpotifyName root = logService.buildTreeForUser(name, modelId, taskId);
         Map<String, Object> treeMap = logService.convertSpotifyNameToMap(root);
-
+        Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
+        
+        model.addAttribute("success", successValue);
         model.addAttribute("treeData", new Gson().toJson(treeMap)); 
-    
+        model.addAttribute("selectedName", name);
+        model.addAttribute("selectedModelId", modelId);
+        model.addAttribute("selectedTaskId", taskId);
+
         return "userlogs";
     }
 

@@ -6,6 +6,7 @@ import iss.ad.project.spotify.repo.SpotifyNameRepo;
 import iss.ad.project.spotify.repo.SpotifyRepo;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ public class LogService {
         return logRepo.findDistinctNames();
     }
     // check if length is exactly 1 easier than using Optional?
-    public List<LogEntry> getUniqueLogEntry(String name, int taskId, int modelId) {
-        return logRepo.findByNameAndTaskIdAndModelId(name, taskId, modelId);
+    public List<LogEntry> getUniqueLogEntry(String name, int modelId, int taskId) {
+        return logRepo.findByNameAndModelIdAndTaskId(name, modelId, taskId);
     }
 
     public List<Integer> getDistinctByTaskId(){
@@ -112,36 +113,6 @@ public class LogService {
         return modelAverages;
     }
 
-    //Binary tree
-    // public Node buildTreeForUser(String username) {
-    //     List<LogEntry> entries = logRepo.findByName(username);
-    //     return buildTree(entries, 0);
-    // }
-
-    // private Node buildTree(List<LogEntry> entries, int layer) {
-    //     if (entries.isEmpty() || layer >= entries.size()) return null;
-
-    //     Node node = new Node();
-    //     LogEntry entry = entries.get(layer);
-        
-    //     node.setName(entry.getGenre() + " (" + entry.getOrderValue() + ")");
-        
-    //     node.setLeft(buildTree(entries, 2 * layer + 1)); // Left child
-    //     node.setRight(buildTree(entries, 2 * layer + 2)); // Right child
-
-    //     return node;
-    // }
-
-    // public Map<String, Object> convertTreeToMap(Node node) {
-    //     Map<String, Object> map = new HashMap<>();
-    //     if (node == null) return map;
-
-    //     map.put("name", node.getName());
-    //     if (node.getLeft() != null) map.put("left", convertTreeToMap(node.getLeft()));
-    //     if (node.getRight() != null) map.put("right", convertTreeToMap(node.getRight()));
-
-    //     return map;
-    // }
     public SpotifyName buildSpotifyLayersTree() {
         List<SpotifyName> layers = sNameRepo.findAll();
     
@@ -167,7 +138,7 @@ public class LogService {
     
     public SpotifyName buildTreeForUser(String name, int modelId, int taskId) {
         SpotifyName spotifyRoot = buildSpotifyLayersTree();
-        List<LogEntry> userLogs = logRepo.findByNameAndTaskIdAndModelId(name, modelId, taskId);
+        List<LogEntry> userLogs = getUniqueLogEntry(name, modelId, taskId);
         modifyTreeWithLogs(spotifyRoot, userLogs);
         return spotifyRoot;
     }
@@ -180,8 +151,10 @@ public class LogService {
             .collect(Collectors.toList());
     
         if (!relevantLogs.isEmpty()) {
-            int sumOrderValue = relevantLogs.stream().mapToInt(LogEntry::getOrderValue).sum();
-            node.setName(node.getName() + " (" + sumOrderValue + ")");
+            String concatenatedOrderValues = relevantLogs.stream()
+                .map(log -> Integer.toString(log.getOrderValue()))
+                .collect(Collectors.joining(", ")); 
+            node.setName(node.getName() + " (" + concatenatedOrderValues + ")");
         }
 
         List<SpotifyName> prunedChildren = node.getChildren().stream()
@@ -209,5 +182,10 @@ public class LogService {
         if (!childrenMaps.isEmpty()) map.put("children", childrenMaps);
     
         return map;
+    }
+
+    public Integer findSuccessValueByCriteria(String name, int modelId, int taskId) {
+        List<Integer> results = logRepo.findSuccessValueByCriteriaOrderedByOrderValueDesc(name, modelId, taskId);
+        return results.isEmpty() ? null : results.get(0);
     }
 }
