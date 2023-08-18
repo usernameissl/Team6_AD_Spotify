@@ -68,9 +68,9 @@ function wrap(text, width) {
             word,
             line = [],
             lineNumber = 0,
-            lineHeight = 1.2, // ems
+            lineHeight = 1.2, 
             y = text.attr("y"),
-            x = text.attr("x"), // get x position
+            x = text.attr("x"),
             tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", "2.7em");
         while (word = words.pop()) {
             line.push(word);
