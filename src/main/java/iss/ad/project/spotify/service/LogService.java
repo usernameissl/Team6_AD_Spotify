@@ -4,10 +4,7 @@ import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.repo.ClusterNameRepo;
 import iss.ad.project.spotify.repo.LogRepo;
 import iss.ad.project.spotify.repo.SpotifyNameRepo;
-import iss.ad.project.spotify.repo.SpotifyRepo;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +34,14 @@ public class LogService {
 
     public List<String> getDistinctNames() {
         return logRepo.findDistinctNames();
+    }
+    public List<Integer> getDistinctModelIdsForUser(String userName) {
+        return logRepo.findDistinctModelIdByUserName(userName);
+    }
+
+    public Integer getDistinctTaskIdsForUserAndModel(String userName, Integer modelId) {
+    	Integer i = logRepo.findDistanceTaskIdByNameAndModel(userName, modelId);
+        return i;
     }
     // check if length is exactly 1 easier than using Optional?
     public List<LogEntry> getUniqueLogEntry(String name, int modelId, int taskId) {
@@ -114,6 +119,7 @@ public class LogService {
         return modelAverages;
     }
 
+    //Spotify model
     public SpotifyName buildSpotifyLayersTree() {
         List<SpotifyName> layers = sNameRepo.findAll();
     
@@ -219,7 +225,6 @@ public class LogService {
     private ClusterName modifyTreeWithClusterLogs(ClusterName node, List<LogEntry> userLogs) {
         if (node == null) return null;
     
-        // You may need to change the filter condition depending on the structure of ClusterName
         List<LogEntry> relevantLogs = userLogs.stream()
             .filter(log -> log.getGenre().equals(node.getName()))
             .collect(Collectors.toList());

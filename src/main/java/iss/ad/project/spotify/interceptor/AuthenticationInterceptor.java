@@ -48,4 +48,34 @@ public class AuthenticationInterceptor implements HandlerInterceptor{
     //     return true;
 
     // }
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException, UnauthorizedException {
+	    HttpSession session = request.getSession();
+	    String uri = request.getRequestURI();
+
+	    if (uri.startsWith("/admin")) {
+	        return true;
+	    }
+
+	    String username = null;
+	    if (session.getAttribute("username") != null){
+	        username = (String) session.getAttribute("username");
+	    }
+	    else if (request.getHeader("X-Username") != null) {
+	        username = request.getHeader("X-Username");
+	    }
+
+	    if (username == null){
+	        response.sendRedirect("/login");
+	        return false;
+	    }
+
+	    if (uri.startsWith("/admin") && username.charAt(0)!='a') {
+	        response.sendRedirect("/admin");
+	        return false;
+	    }
+
+	    return true;
+	}
+
 }

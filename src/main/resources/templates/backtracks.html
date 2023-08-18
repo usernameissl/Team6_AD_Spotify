@@ -36,7 +36,6 @@
             <button id="clearAll" type="button" class="btn-clear" >Clear All</button>
         </div>
 
-
         <div class="chart-container">
             <canvas id="consolidatedChart"></canvas>
         </div>
@@ -45,9 +44,6 @@
         <div id="backtracksDataContainer" th:attr="data-backtracks=${modelTaskBacktracksJson}" style="display: none;"></div>
         <div id="averagesDataContainer" th:attr="data-averages=${modelAveragesJson}" style="display: none;"></div>
     </div>
-
-
-
 
     <script th:inline="javascript">
         // Parse the data attributes to get the backtracks and averages data
@@ -81,8 +77,6 @@
                 };
             }
         }
-
-
 
         // Add users to userSet
         const userSet = new Set();
@@ -134,8 +128,6 @@
             }
         }
 
-
-
         // Initialize the chart
         const chartOptions = {
             type: 'line',
@@ -168,7 +160,6 @@
 
         const ctx = document.getElementById('consolidatedChart').getContext('2d');
         const backtrackChart = new Chart(ctx, chartOptions);
-
 
         const originalDatasets = JSON.parse(JSON.stringify(datasets));
 
@@ -208,10 +199,6 @@
 
             backtrackChart.update();
         }
-
-
     </script>
-
-
 </body>
 </html>

@@ -12,11 +12,11 @@
 <body>
 	<br/><br/><br/><br/>
 	<div class="container">
-		<a href="/taskList" class="icon-button">
+		<a href="/admin/taskList" class="icon-button">
 			<i style="font-size:30px" class="fa">&#xf137;</i>
 		</a>
 		<h1>Update Task</h1>
-		<form th:action="@{/update/{id}(id=${task.id})}" th:object="${task}" method="post">
+		<form th:action="@{/admin/update/{id}(id=${task.id})}" th:object="${task}" method="post">
 			<input type="hidden" th:field="*{id}" />
 
 
