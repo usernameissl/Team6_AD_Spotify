@@ -28,7 +28,5 @@ public class Feedback implements Serializable {
 	
 	private String userName;
 	private int age;
-	
-	
 
 }

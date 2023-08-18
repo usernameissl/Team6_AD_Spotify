@@ -24,6 +24,5 @@ public class FeedbackService {
 	public void create(Feedback feedback) {
 		feedbackRepo.save(feedback);
 	}
-	
 
 }

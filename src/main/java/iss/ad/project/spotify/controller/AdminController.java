@@ -68,9 +68,6 @@ public class AdminController {
 
 		if (actualAdmin != null) {
 			String actualPassword = actualAdmin.getPassword();
-
-			// Compare the entered password with the actual password
-			// and return its boolean state
 			return encoder.matches(enteredPassword, actualPassword);
 		}
 
