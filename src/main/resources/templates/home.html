@@ -8,13 +8,11 @@
 </head>
 <body>
     <div class="top-bar">
-        <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
-
-        <a class="admin login-button" th:href="@{/admin/login}">Admin</a>
-
+        <a th:href="@{/}"><img src="/image/spotify.png" alt="Spotify Logo" class="logo"></a>
+        <a class="admin login-button" th:href="@{/login}">Admin Login</a>
     </div>
     <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
-        <h3>Start</h3>
+        <h3>Start Here</h3>
         <div>
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required>
@@ -55,6 +53,11 @@
         <p class="complete-message">* Please click "Complete" button only after you have completed all the models/tasks.</p>        
 
     </form>
+
+    <div id="feedback_button">
+        <a href="/feedback">Feedback</a>
+    </div>
+
     <script src="/js/val.js"></script>
 
 </body>
