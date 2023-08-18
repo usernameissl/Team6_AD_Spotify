@@ -1,6 +1,6 @@
 //treeData = JSON.parse(treeData);
-let svgWidth = 1300, svgHeight = 1000;
-let margin = {top: 550, right: 70, bottom: 120, left: 250};
+let svgWidth = 1500, svgHeight = 1000;
+let margin = {top: 550, right: 70, bottom: 120, left: 200};
 let width = svgWidth - margin.right - margin.left;
 let height = svgHeight - margin.top - margin.bottom;
 
@@ -24,13 +24,10 @@ let link = svg.selectAll("path.link")
     .enter().append("path")
     .attr("class", "link")
     .attr("d", function(d) {
-
-        let offset = (d.target.y - d.source.y) / 3;
         return "M" + d.source.x + "," + d.source.y
-            + "C" + d.source.x + "," + (d.source.y + offset)
-            + " " + d.target.x + "," + (d.source.y + offset)
-            + " " + d.target.x + "," + d.target.y;
+            + "L" + d.target.x + "," + d.target.y;
     });
+
 
 let node = svg.selectAll("g.node")
     .data(root.descendants())
@@ -51,16 +48,16 @@ node.append("text")
     })
     .attr("x", function(d) { 
         if (d.depth === 2) { return 0; }  
-        else { return d.children ? -15 : 15; }
+        else { return -15; }
     }) 
     .style("text-anchor", function(d) { 
         if (d.depth === 2) { return "middle"; }
-        else { return d.children ? "end" : "start"; }
+        else { return "end";}
     })
     .text(function(d) { return d.data.name; })
     .each(function(d) {
-        if (d.depth === 2 && d.data.name.length > 25) {
-            wrap(d3.select(this), 120);
+        if (d.depth === 2 && d.data.name.length > 15) {
+            wrap(d3.select(this), 85);
         }
     });
 
@@ -71,7 +68,7 @@ function wrap(text, width) {
             word,
             line = [],
             lineNumber = 0,
-            lineHeight = 1.5, // ems
+            lineHeight = 1.2, // ems
             y = text.attr("y"),
             x = text.attr("x"), // get x position
             tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", "2.7em");

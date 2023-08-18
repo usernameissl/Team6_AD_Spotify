@@ -9,8 +9,8 @@
 }
 
 .node circle {
-    fill: #fff;
-    stroke: steelblue;
+    fill: #7db193;
+    stroke: #7db193;
     stroke-width: 2px;
 }
 
@@ -34,6 +34,7 @@
 
 .result-display {
     margin-top: 20px;
+
 }
 
 .result {
@@ -51,10 +52,15 @@
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
+    
+}
+.list-group{
+    color: #19412f;
 }
 
 .form-group label {
     width: 150px; 
+    
 }
 
 .form-group select, 
@@ -68,11 +74,26 @@
     top: 50px;       
     left: 250px;     
     width: 600px;
-    height: 500px; 
+    height: 460px; 
     overflow-y: auto;
     background-color: #ffffff; 
     padding: 20px; 
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1); 
     z-index: 1000;
+    background: linear-gradient(to bottom, #7db193, #f5f8e9);
+    font-family: sans-serif;
+    color: #19412f;
+}
+
+.btn-primary{
+    background: linear-gradient(to left, #115c2f, #115c2f);
+}
+
+body {
+    background: linear-gradient(to bottom, #0d2316, #000000);
+    height: 100vh;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
