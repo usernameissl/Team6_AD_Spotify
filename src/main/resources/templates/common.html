@@ -156,9 +156,9 @@
         timerDisplay.textContent = timeStr;
 
 
-        // display the give up button on songs.html if 2 minutes have passed
+        // display the give up button on songs.html if 1 minute have passed
         const giveUpButton = document.querySelector(".btn-give-up");
-        if (minutes > 1)
+        if (minutes >= 1)
             giveUpButton.style.display = "block";
     }
 

@@ -26,4 +26,9 @@ public interface LogRepo extends JpaRepository<LogEntry, Long> {
     @Query("SELECT l.successValue FROM LogEntry l WHERE l.name = :name AND l.modelId = :modelId AND l.taskId = :taskId ORDER BY l.orderValue DESC")
     List<Integer> findSuccessValueByCriteriaOrderedByOrderValueDesc(@Param("name") 
         String name, @Param("modelId") int modelId, @Param("taskId") int taskId);
+
+    @Query("SELECT SUM(l.thinkTime) FROM LogEntry l WHERE l.name = :name AND l.modelId = :modelId AND l.taskId = :taskId")
+    Long sumThinkTimeByNameModelIdAndTaskId(@Param("name") String name, 
+                                            @Param("modelId") int modelId, 
+                                            @Param("taskId") int taskId);
 }

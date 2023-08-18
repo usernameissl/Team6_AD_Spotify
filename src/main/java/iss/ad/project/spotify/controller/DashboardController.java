@@ -16,9 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
-
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -161,6 +158,10 @@ public class DashboardController {
 
         Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
         model.addAttribute("success", successValue);
+
+        String totalThinkTime = logService.getTotalThinkTimeFormat(name, modelId, taskId);
+        model.addAttribute("totalThinkTime", totalThinkTime);
+
         model.addAttribute("selectedName", name);
         model.addAttribute("selectedModelId", modelId);
         model.addAttribute("selectedTaskId", taskId);
