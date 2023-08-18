@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,31 +25,21 @@ import iss.ad.project.spotify.service.AdminService;
 @Controller
 public class AdminController {
 	private final AdminService adminSrv;
+    private final TaskService taskSrv;
 	
 	@Autowired
-	public AdminController(AdminService adminSrv) {
+	public AdminController(AdminService adminSrv, TaskService taskSrv) {
 		this.adminSrv=adminSrv;
+        this.taskSrv = taskSrv;
 	}
-	
 
-//    @GetMapping("/admin")
-//    public String getAdminPage(HttpSession session, Model model){
-//
-//        String username = (String)session.getAttribute("username");
-//        String[] parts = username.split("_");
-//        String name = parts[parts.length - 1];
-//        model.addAttribute("name", name);
-//     // TEST ADMIN PAGE
-//        model.addAttribute("username",username);
-//        return "admin";
-//    }
 
 	
-	@GetMapping("/login")
+	@GetMapping("/admin/login")
 	public String login() {
 		return "login";
 	}
-    @PostMapping("/login")
+    @PostMapping("/admin/login")
     public String login(@ModelAttribute("admin") Admin admin, Model model, HttpSession session) {
 		if (authenticate(admin)) {
 			session.setAttribute("username", admin.getUsername());
@@ -81,18 +72,18 @@ public class AdminController {
         return "redirect:/home";
 	}
     
-	@GetMapping("/taskList")
+	@GetMapping("/admin/taskList")
 	public String getAllTask(Model model) {
 		model.addAttribute("taskList",adminSrv.getAllTasks());
 		return "task-list";
 		
 	}
-	@GetMapping("/task/create")
+	@GetMapping("admin/task/create")
 	public String createTaskFom(Model model) {
 		model.addAttribute("task",new Task());
 		return "task-create";
 	}
-    @PostMapping("/task/create")
+    @PostMapping("admin/task/create")
     public String createTaskSubmit(@ModelAttribute("task")Task task,
                                    BindingResult result,
                                     Model model) {
@@ -112,6 +103,7 @@ public class AdminController {
         } 
         else {
             adminSrv.create(task);
+            taskSrv.refreshCache();
             String messageSuccess = "Task has been successfully created!";
             model.addAttribute("messageSuccess", messageSuccess);
         }
@@ -119,12 +111,12 @@ public class AdminController {
         return "task-create";
              
     }
-    @GetMapping("/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
     	adminSrv.delete(id);
-    	 return "redirect:/taskList";
+    	 return "redirect:/admin/taskList";
     }
-    @GetMapping("/update/{id}")
+    @GetMapping("/admin/update/{id}")
     public String updateTask(@PathVariable("id") long id, Model model){
         Optional<Task> task = adminSrv.findbyId(id);
      if (task.isPresent()) {
@@ -134,7 +126,7 @@ public class AdminController {
      return "errorpage";
  
     }
-    @PostMapping(value = "/update/{id}")
+    @PostMapping(value = "/admin/update/{id}")
     public String updateTaskSubmit(@Valid @PathVariable("id") long id,
                                    @ModelAttribute("task") Task task,
                                    BindingResult result,
@@ -155,6 +147,7 @@ public class AdminController {
         } 
         else {
             adminSrv.update(task);
+            taskSrv.refreshCache();
             String messageSuccess = "Task has been successfully updated!";
             model.addAttribute("messageSuccess", messageSuccess);
         }

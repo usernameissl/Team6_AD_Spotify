@@ -2,18 +2,22 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Task List</title>
 	<link rel="stylesheet" href="/css/list.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<div th:include="common-admin.html"></div>
 </head>
+
 
 <body>
 	<header>
+
 		<div th:include="sidebar.html"></div>
-	</header><br/><br/><br/><br/>
+	</header><br /><br /><br /><br />
+
 	<div class="container">
 		<h1> Task List </h1>
-		<a class="btn btn-success custom-button" href="task/create">Create New Task</a>
+		<a class="btn btn-success custom-button" href="/admin/task/create">Create New Task</a>
 		<br /><br />
 		<div th:if="${messageSuccess}" class="alert alert-danger" role="alert">
 			<p th:text="*{messageSuccess}"></p>
@@ -24,7 +28,6 @@
 			<input type="text" class="form-control" id="searchInput" placeholder="Enter keywords"
 				oninput="filterTable()">
 		</div>
-
 
 		<table class="table table-striped" id="taskTable">
 			<thead>
@@ -41,26 +44,20 @@
 					<td th:text="${tl.id}"></td>
 					<td th:text="${tl.name}"></td>
 					<td>
-						<div class="dropdown">
-							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-									class="bi bi-three-dots" viewBox="0 0 16 16">
-									<path
-										d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-								</svg>
-							</button>
-							<div class="dropdown-content" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" th:href="@{update/} + ${tl.id}">Edit</a>
-								<a class="dropdown-item" th:href="@{delete/} + ${tl.id}"
-									onclick="return confirmDelete()">Remove</a>
-							</div>
-						</div>
+						<a th:href="@{/admin/update/{id}(id=${tl.id})}" class="edit-button">
+							<img src="/image/edit.png" alt="" />
+						</a>
+						<a th:href="@{/admin/delete/{id}(id=${tl.id})}" class="delete-button">
+							<img src="/image/delete.png" alt="" />
+						</a>
 					</td>
+
+
 				</tr>
 			</tbody>
 		</table>
-		<script>
+	</div>
+	<script>
 			function filterTable() {
 				// Retrieve the search input value
 				const searchInput = document.querySelector('#searchInput').value.toLowerCase();
@@ -96,11 +93,9 @@
 				});
 			});
 		</script>
-		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-	</div>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

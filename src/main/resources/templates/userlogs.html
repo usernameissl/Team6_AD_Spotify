@@ -1,55 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>User Logs Visualization</title>
-        <link rel="stylesheet" href="/css/userlogs.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css">
-        
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        
-    </head>
-    <body>
-        <div th:include="sidebar.html"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>User Logs Visualization</title>
 
-        <div class="custom-form container mt-5">
-            <form action="/admin/userlogs" method="post" id="form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <select id="name" name="name" class="form-control" required>
-                        <th:block th:each="user : ${userList}">
-                            <option th:value="${user}" th:text="${user}"></option>
-                        </th:block>
-                    </select>
-                </div>
+    <link rel="stylesheet" href="/css/userlogs.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css">
 
-                <div class="form-group">
-                    <label for="modelId">Model ID:</label>
-                    <select id="modelId" name="modelId" class="form-control" required>
-                        <option value="1">Spotify Model</option>
-                        <option value="2">Own Model</option>
-                    </select>
-                </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                <div class="form-group">
-                    <label for="taskId">Task:</label>
-                    <select name="taskId" id="taskId" class="form-control">
-                        <th:block th:each="task, iterStat : ${tasks}">
-                            <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
-                        </th:block>
-                    </select>
-                </div>
+</head>
+<body>
+<div th:include="sidebar.html"></div>
 
-                <div class="form-group">
-                    <input type="submit" value="Filter" class="btn btn-primary">
-                </div>
+<div class="custom-form container mt-5">
+    <form action="/admin/userlogs" method="post" id="form">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <select id="name" name="name" class="form-control" required>
+                <th:block th:each="user : ${userList}">
+                    <option th:value="${user}" th:text="${user}" th:selected="${user == selectedName}"></option>
+                </th:block>
+            </select>
+        </div>
 
-            </form>
+        <div class="form-group">
+            <label for="modelId">Model ID:</label>
+            <select id="modelId" name="modelId" class="form-control" required>
+                <option value="1" th:selected="${selectedModelId == 1}"> 1: Spotify Model</option>
+                <option value="2" th:selected="${selectedModelId == 2}"> 2: Own Model</option>
 
             <div class="result-display mt-3">
                 <p>
@@ -64,17 +48,39 @@
                     <span th:if="${totalThinkTime != null}" th:text="'Total Think Time: ' + ${totalThinkTime}"></span>
                 </p>
             </div>
-                       
-        </div>
-        <div id="tree"></div>
-        <div th:if="${treeData}" th:inline="javascript">
-            <script th:inline="javascript">
-                let treeData = /*[[${treeData}]]*/ 'defaultTreeData';
-            </script>
-            <script src="/js/tree.js"></script> 
-        </div>
-    </body>
-    <script src="/js/username-search.js"></script>
-</html>
 
+        <div class="form-group">
+            <label for="taskId">Task:</label>
+            <select name="taskId" id="taskId" class="form-control">
+                <th:block th:each="task, iterStat : ${tasks}">
+                    <option th:value="${iterStat.index + 1}" th:text="${task}" th:selected="${(iterStat.index + 1) == selectedTaskId}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Filter" class="btn btn-primary">
+        </div>
+
+    </form>
+
+    <div class="result-display mt-3">
+        <ul class="list-group">
+            <li class="list-group-item" th:if="${selectedName != null and selectedName != ''}" th:text="'Name: ' + ${selectedName}"></li>
+            <li class="list-group-item" th:if="${selectedModelId != null}" th:text="'Model ID: ' + ${selectedModelId}"></li>
+            <li class="list-group-item" th:if="${selectedTaskId != null}" th:text="'Task ID: ' + ${selectedTaskId}"></li>
+            <li class="list-group-item" th:if="${success != null}" th:text="${success == 1} ? 'Found: Yes' : (${success == 2} ? 'Found: No' : 'Success: ' + ${success})"></li>
+        </ul>
+    </div>
+</div>
+<div id="tree"></div>
+<div th:if="${treeData}" th:inline="javascript">
+    <script th:inline="javascript">
+        let treeData = /*[[${treeData}]]*/ 'defaultTreeData';
+    </script>
+    <script src="/js/tree.js"></script>
+</div>
+</body>
+<script src="/js/username-search.js"></script>
+</html>
 
