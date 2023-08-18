@@ -72,6 +72,7 @@ public class LogController {
 
             // Get the history array and create a log entry for each history index
             JsonNode historyNode = rootNode.get("history");
+            String previousGenre = null;
             if (historyNode.isArray()) {
                 for (int i = 0; i < historyNode.size(); i++) {
                     JsonNode node = historyNode.get(i);
