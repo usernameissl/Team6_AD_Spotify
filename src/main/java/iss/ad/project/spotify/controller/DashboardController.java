@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -118,27 +118,23 @@ public class DashboardController {
 
     // Helper function to get and sort genre think time
     private Map<String, Double> getSortedGenreThinkTime(List<LogEntry> logs, int modelId, int taskId, String[] subGenres) {
-        // Create a map to store summed think time for each genre
         Map<String, Integer> genreThinkTime = logs.stream()
                 .filter(log -> log.getModelId() == modelId && log.getTaskId() == taskId && log.getLayer() == 2)
                 .collect(Collectors.toMap(LogEntry::getGenre, LogEntry::getThinkTime, Integer::sum));
 
-        // Sort the map based on values in descending order
-        Map<String, Double> sortedGenreThinkTime = Arrays.stream(subGenres)
-                .sorted((genre1, genre2) -> genreThinkTime.getOrDefault(genre2, 0).compareTo(genreThinkTime.getOrDefault(genre1, 0)))
-                .collect(Collectors.toMap(
-                        genre -> genre,
-                        genre -> genreThinkTime.getOrDefault(genre, 0) / 1000.0,
-                        (oldValue, newValue) -> oldValue,
-                        LinkedHashMap::new
-                ));
+        Map<String, Double> sortedGenreThinkTime = new LinkedHashMap<>();
+        for (String subGenre : subGenres) {
+            sortedGenreThinkTime.put(subGenre, genreThinkTime.getOrDefault(subGenre, 0) / 1000.0);
+        }
 
         return sortedGenreThinkTime;
     }
 
-
     @GetMapping("/userlogs")
-    public String showForm() {
+    public String showForm(Model model) {
+        List<String> tasks = taskService.getFormattedTasksCache();
+        model.addAttribute("tasks",tasks);
+        model.addAttribute("userList", logService.getDistinctNames());
         return "userlogs";
     }
 
@@ -159,6 +155,9 @@ public class DashboardController {
         } else {
             throw new IllegalArgumentException("Invalid modelId provided.");
         }
+        List<String> tasks = taskService.getFormattedTasksCache();
+        model.addAttribute("tasks",tasks);
+        model.addAttribute("userList", logService.getDistinctNames());
 
         Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
         model.addAttribute("success", successValue);

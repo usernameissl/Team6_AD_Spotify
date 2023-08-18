@@ -44,11 +44,11 @@ public class AdminController {
 //    }
 
 	
-	@GetMapping("/login")
+	@GetMapping("/admin/login")
 	public String login() {
 		return "login";
 	}
-    @PostMapping("/login")
+    @PostMapping("/admin/login")
     public String login(@ModelAttribute("admin") Admin admin, Model model, HttpSession session) {
 		if (authenticate(admin)) {
 			session.setAttribute("username", admin.getUsername());
@@ -68,9 +68,6 @@ public class AdminController {
 
 		if (actualAdmin != null) {
 			String actualPassword = actualAdmin.getPassword();
-
-			// Compare the entered password with the actual password
-			// and return its boolean state
 			return encoder.matches(enteredPassword, actualPassword);
 		}
 
@@ -90,12 +87,12 @@ public class AdminController {
 		return "task-list";
 		
 	}
-	@GetMapping("/admin/task/create")
+	@GetMapping("admin/task/create")
 	public String createTaskFom(Model model) {
 		model.addAttribute("task",new Task());
 		return "task-create";
 	}
-    @PostMapping("/admin/task/create")
+    @PostMapping("admin/task/create")
     public String createTaskSubmit(@ModelAttribute("task")Task task,
                                    BindingResult result,
                                     Model model) {

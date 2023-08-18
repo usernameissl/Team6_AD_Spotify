@@ -10,7 +10,7 @@
     <div class="top-bar">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
 
-        <a class="admin login-button" th:href="@{/login}">Admin</a>
+        <a class="admin login-button" th:href="@{/admin/login}">Admin</a>
 
     </div>
     <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
@@ -36,7 +36,7 @@
         <div>
             <label for="modelId">Model</label>
             <select id="modelId" name="modelId" required>
-                <option value="1">Model 1 (Base Model)</option>
+                <option value="1">Model 1 (Spotify Model)</option>
                 <option value="2">Model 2 (Own Model)</option>
             </select>
         </div>
