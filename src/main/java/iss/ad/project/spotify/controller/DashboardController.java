@@ -11,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -160,6 +157,10 @@ public class DashboardController {
 
         Integer successValue = logService.findSuccessValueByCriteria(name, modelId, taskId);
         model.addAttribute("success", successValue);
+
+        String totalThinkTime = logService.getTotalThinkTimeFormat(name, modelId, taskId);
+        model.addAttribute("totalThinkTime", totalThinkTime);
+
         model.addAttribute("selectedName", name);
         model.addAttribute("selectedModelId", modelId);
         model.addAttribute("selectedTaskId", taskId);

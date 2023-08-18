@@ -170,7 +170,7 @@
         timerDisplay.textContent = timeStr;
 
         const giveUpButton = document.querySelector(".btn-give-up");
-        if (giveUpButton && minutes > 1) {
+        if (giveUpButton && minutes >= 1) {
             giveUpButton.style.display = "block";
         }
 
