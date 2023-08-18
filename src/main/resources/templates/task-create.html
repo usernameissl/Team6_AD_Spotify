@@ -11,8 +11,8 @@
         <div th:include="sidebar.html"></div>
     </header><br/><br/><br/><br/>
 
-    <form th:action="@{/task/create}" th:object="${task}" method="post">
-        <a href="/taskList" class="icon-button">
+    <form th:action="@{/admin/task/create}" th:object="${task}" method="post">
+        <a href="/admin/taskList" class="icon-button">
             <i style="font-size:30px" class="fa">&#xf137;</i>
         </a>
         <br/>

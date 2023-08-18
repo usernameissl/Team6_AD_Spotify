@@ -35,6 +35,14 @@ public class LogService {
     public List<String> getDistinctNames() {
         return logRepo.findDistinctNames();
     }
+    public List<Integer> getDistinctModelIdsForUser(String userName) {
+        return logRepo.findDistinctModelIdByUserName(userName);
+    }
+
+    public Integer getDistinctTaskIdsForUserAndModel(String userName, Integer modelId) {
+    	Integer i = logRepo.findDistanceTaskIdByNameAndModel(userName, modelId);
+        return i;
+    }
     // check if length is exactly 1 easier than using Optional?
     public List<LogEntry> getUniqueLogEntry(String name, int modelId, int taskId) {
         return logRepo.findByNameAndModelIdAndTaskId(name, modelId, taskId);

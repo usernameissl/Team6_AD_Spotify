@@ -10,7 +10,7 @@
     <div class="top-bar">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
 
-        <a class="admin login-button" th:href="@{/login}">Admin</a>
+        <a class="admin login-button" th:href="@{/admin/login}">Admin</a>
 
     </div>
     <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
