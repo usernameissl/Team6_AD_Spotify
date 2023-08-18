@@ -7,8 +7,8 @@ body {
 }
 
 .top-bar {
-    background-color: #000000; /* Black color */
-    height: 100px; /* Height of the top bar */
+    background-color: #000000;
+    height: 100px;
     display: flex; /* Align items in the center */
     align-items: center;
     padding: 0 30px;
@@ -125,4 +125,40 @@ p.complete-message {
   color: rgb(186, 134, 84);
   font-size: 14px;
   margin-top: 20px;
+}
+
+#feedback_button a {
+    position: fixed;
+    right: 0px;
+    top: 50%;
+    width: 100px;
+    height: 60px;
+    background-color: #1db954;
+    transform-origin: center top;
+    transform: rotate(-90deg);
+    color: black;
+    text-align: center;
+    line-height: 50px;
+    transition: right 0.25s;
+    cursor: pointer;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    outline: none;
+    text-decoration: none;
+}
+
+#feedback_button a:hover,
+#feedback_button a:focus {
+    right: 10px
+}
+
+@media screen and (max-width: 800px) {
+    #feedback_button a {
+        position: static;
+        width: 100%;
+        max-width: 350px;
+        margin: auto;
+        height: 50px;
+        transform: rotate(0deg);
+    }
 }

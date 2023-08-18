@@ -132,7 +132,7 @@ body {
     height: 35px;
     width: 95px;
     border: none;
-    background: rgba(0, 0, 0, 0.8);
+    background: #808080;
     backdrop-filter: blur(12px);
     border-radius: 20px;
     cursor: pointer;
