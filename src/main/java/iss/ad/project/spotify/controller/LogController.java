@@ -105,11 +105,19 @@ public class LogController {
 
             // Get the history array and create a log entry for each history index
             JsonNode historyNode = rootNode.get("history");
+            String previousGenre = null;
             if (historyNode.isArray()) {
                 for (int i = 0; i < historyNode.size(); i++) {
                     JsonNode node = historyNode.get(i);
                     String[] parts = node.asText().split(", ");
                     if (parts.length == 3) {
+                        String currentGenre = parts[2];
+
+                        // Skip if genre is the same to prevent logging multiple clicks on the same box
+                        if (currentGenre.equals(previousGenre)) {
+                            continue;
+                        }
+
                         LogEntry logEntry = new LogEntry();
                         logEntry.setName(baseName);
                         logEntry.setAge(age);
@@ -117,11 +125,13 @@ public class LogController {
                         logEntry.setModelId(modelId);
                         logEntry.setTaskId(taskId);
                         logEntry.setSuccessValue(successValue);
-                        logEntry.setOrderValue(i + 1); // +1 because order is 1-indexed
+                        logEntry.setOrderValue(i + 1);
                         logEntry.setThinkTime(Integer.parseInt(parts[0]));
                         logEntry.setLayer(Integer.parseInt(parts[1]));
-                        logEntry.setGenre(parts[2]);
+                        logEntry.setGenre(currentGenre);
                         logEntries.add(logEntry);
+
+                        previousGenre = currentGenre;
                     }
                 }
             }
