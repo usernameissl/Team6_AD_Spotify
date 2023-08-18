@@ -44,11 +44,11 @@ public class AdminController {
 //    }
 
 	
-	@GetMapping("/login")
+	@GetMapping("/admin/login")
 	public String login() {
 		return "login";
 	}
-    @PostMapping("/login")
+    @PostMapping("/admin/login")
     public String login(@ModelAttribute("admin") Admin admin, Model model, HttpSession session) {
 		if (authenticate(admin)) {
 			session.setAttribute("username", admin.getUsername());
@@ -84,18 +84,18 @@ public class AdminController {
         return "redirect:/home";
 	}
     
-	@GetMapping("/taskList")
+	@GetMapping("/admin/taskList")
 	public String getAllTask(Model model) {
 		model.addAttribute("taskList",adminSrv.getAllTasks());
 		return "task-list";
 		
 	}
-	@GetMapping("/task/create")
+	@GetMapping("admin/task/create")
 	public String createTaskFom(Model model) {
 		model.addAttribute("task",new Task());
 		return "task-create";
 	}
-    @PostMapping("/task/create")
+    @PostMapping("admin/task/create")
     public String createTaskSubmit(@ModelAttribute("task")Task task,
                                    BindingResult result,
                                     Model model) {
@@ -122,12 +122,12 @@ public class AdminController {
         return "task-create";
              
     }
-    @GetMapping("/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
     	adminSrv.delete(id);
-    	 return "redirect:/taskList";
+    	 return "redirect:/admin/taskList";
     }
-    @GetMapping("/update/{id}")
+    @GetMapping("/admin/update/{id}")
     public String updateTask(@PathVariable("id") long id, Model model){
         Optional<Task> task = adminSrv.findbyId(id);
      if (task.isPresent()) {
@@ -137,7 +137,7 @@ public class AdminController {
      return "errorpage";
  
     }
-    @PostMapping(value = "/update/{id}")
+    @PostMapping(value = "/admin/update/{id}")
     public String updateTaskSubmit(@Valid @PathVariable("id") long id,
                                    @ModelAttribute("task") Task task,
                                    BindingResult result,
