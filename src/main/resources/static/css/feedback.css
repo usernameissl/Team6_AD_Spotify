@@ -18,6 +18,16 @@ body {
     width: 120px;
     height: auto;
 }
+.container-ty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container-ty h2 {
+    color: white;
+    text-weight: bold;
+}
 .admin.login-button{
     height: auto;
 	display: inline-block;

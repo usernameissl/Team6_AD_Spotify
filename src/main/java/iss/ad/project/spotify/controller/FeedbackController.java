@@ -23,7 +23,11 @@ public class FeedbackController {
 		feedback.setRating(rating);
 		feedback.setComments(comments);
 		feedbackService.saveFeedback(feedback);
-		return "redirect:/feedback";
+		return "redirect:/thankyou";
+	}
+	@GetMapping("/thankyou")
+	public String getFeedbackTyPage(){
+		return "feedback-ty";
 	}
 }
 
