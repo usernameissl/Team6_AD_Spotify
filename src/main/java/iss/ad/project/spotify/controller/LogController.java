@@ -98,9 +98,9 @@ public class LogController {
             // Check if success value is present and assign value accordingly
             // 1 for success and 2 for fail
             JsonNode successNode = rootNode.get("success");
-            int successValue = 0;
+            int finalSuccessValue = 0;
             if (successNode != null) {
-                successValue = successNode.asBoolean() ? 1 : 2;
+                finalSuccessValue = successNode.asBoolean() ? 1 : 2;
             }
 
             // Get the history array and create a log entry for each history index
@@ -124,11 +124,18 @@ public class LogController {
                         logEntry.setGender(gender);
                         logEntry.setModelId(modelId);
                         logEntry.setTaskId(taskId);
-                        logEntry.setSuccessValue(successValue);
+                        logEntry.setSuccessValue(finalSuccessValue);
                         logEntry.setOrderValue(i + 1);
                         logEntry.setThinkTime(Integer.parseInt(parts[0]));
                         logEntry.setLayer(Integer.parseInt(parts[1]));
                         logEntry.setGenre(currentGenre);
+
+                        // Set successValue to 1 or 2 only for the last entry, else set to 0
+                        if (i == historyNode.size() - 1) {
+                            logEntry.setSuccessValue(finalSuccessValue);
+                        } else {
+                            logEntry.setSuccessValue(0);
+                        }
                         logEntries.add(logEntry);
 
                         previousGenre = currentGenre;
