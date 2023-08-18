@@ -6,45 +6,45 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-    <body>
-    <div class="topbar">
-        <div class="prev-next-buttons">
-            <button class="previous round"onclick="previous()" id="backward">
-                <i class="fas fa-angle-left"></i>
-            </button>
-            <button class="next round" onClick="next()" id="forward">
-                <i class="fas fa-angle-right"></i>
-            </button>
-        </div>
-        <div class="task">
-            <span th:text="'Model ' + ${modelNo} + ' | ' + ${task}"></span>
-        </div>
-        <div class="timer">
-            <img src="/image/timer.svg">
-            <span id="timerDisplay" class="label"></span>
-        </div>
+<body>
+<div class="topbar">
+    <div class="prev-next-buttons">
+        <button class="previous round"onclick="previous()" id="backward">
+            <i class="fas fa-angle-left"></i>
+        </button>
+        <button class="next round" onClick="next()" id="forward">
+            <i class="fas fa-angle-right"></i>
+        </button>
+    </div>
+    <div class="task">
+        <span th:text="'Model ' + ${modelNo} + ' | ' + ${task}"></span>
+    </div>
+    <div class="timer">
+        <img src="/image/timer.svg">
+        <span id="timerDisplay" class="label"></span>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div class="logo">
+        <a href="#">
+            <img src="/image/spotify.png" alt="Logo" />
+        </a>
     </div>
 
-    <div class="sidebar">
-        <div class="logo">
-            <a href="#">
-                <img src="/image/spotify.png" alt="Logo" />
-            </a>
-        </div>
-
-        <div class="navigation">
-            <ul>
-                <li class="nav-item">
-                    <a href="#" id="dynamicLink" class="active">
-                        <img src="/image/browse.svg">
-                        Main Categories
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="navigation">
+        <ul>
+            <li class="nav-item">
+                <a href="#" id="dynamicLink" class="active">
+                    <img src="/image/browse.svg">
+                    Main Categories
+                </a>
+            </li>
+        </ul>
     </div>
+</div>
 <script>
-  
+
     // pre/next buttons:
     function next() {
         window.history.forward();
@@ -56,10 +56,11 @@
             window.history.back();
         }
     }
-  
+
     let loadTime;
     let interval;
     let lastEventTime; // Time of the last event (click or page load). This updates within setClickListener or onPageChange
+
 
     window.addEventListener('load', function() {
         loadTime = new Date().getTime();
@@ -91,6 +92,7 @@
 
     });
 
+
     function setClickListener(layer, selector, divClass) {
         const itemDivs = document.querySelectorAll(divClass);
 
@@ -98,7 +100,7 @@
             div.addEventListener('click', function(e) {
                 const currentTime = new Date().getTime();
                 const duration = currentTime - lastEventTime;  // Calculate the duration then update the lastEventTime
-                lastEventTime = currentTime; 
+                lastEventTime = currentTime;
 
                 // Log the history
                 const itemText = e.currentTarget.querySelector(selector).textContent;
@@ -137,6 +139,7 @@
         }
     }
 
+
     function updateSessionStorage(elapsedTime) {
         let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0);
         totalElapsedTime += elapsedTime;
@@ -147,7 +150,6 @@
         let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0) + (new Date().getTime() - lastEventTime);
 
         let minutes = Math.floor(totalElapsedTime / 60000);
-        console.log(minutes);
         let seconds = Math.floor((totalElapsedTime % 60000) / 1000);
 
         let timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -155,11 +157,11 @@
         let timerDisplay = document.getElementById('timerDisplay');
         timerDisplay.textContent = timeStr;
 
-
-        // display the give up button on songs.html if 2 minutes have passed
         const giveUpButton = document.querySelector(".btn-give-up");
-        if (minutes > 1)
+        if (giveUpButton && minutes > 1) {
             giveUpButton.style.display = "block";
+        }
+
     }
 
 </script>

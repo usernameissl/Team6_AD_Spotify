@@ -78,6 +78,12 @@ public class LogController {
                     JsonNode node = historyNode.get(i);
                     String[] parts = node.asText().split(", ");
                     if (parts.length == 3) {
+
+                        // Skip if genre is the same to prevent logging multiple clicks on the same box
+                        String currentGenre = parts[2];
+                        if (currentGenre.equals(previousGenre)) {
+                            continue;
+                        }
                         LogEntry logEntry = new LogEntry();
                         logEntry.setName(name);
                         logEntry.setAge(age);
@@ -85,11 +91,11 @@ public class LogController {
                         logEntry.setModelId(modelId);
                         logEntry.setTaskId(taskId);
                         logEntry.setSuccessValue(finalSuccessValue);
-                        logEntry.setOrderValue(i + 1); // +1 because order is 1-indexed
+                        logEntry.setOrderValue(i + 1);
                         logEntry.setThinkTime(Integer.parseInt(parts[0]));
                         logEntry.setLayer(Integer.parseInt(parts[1]));
                         logEntry.setGenre(parts[2]);
-                        logEntries.add(logEntry);
+
 
                         // Set successValue to 1 or 2 only for the last entry, else set to 0
                         if (i == historyNode.size() - 1) {
@@ -97,6 +103,10 @@ public class LogController {
                         } else {
                             logEntry.setSuccessValue(0);
                         }
+                        logEntries.add(logEntry); // save the entry
+
+                        previousGenre = currentGenre;
+
                     }
                 }
             }
