@@ -3,12 +3,10 @@
 
 <head>
 	<title>Log View Table</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
 	<style>
 		.form-table {
 			width: 100%;
-			max-width: 600px;
+			max-width: 500px;
 			height: auto;
 			border-collapse: collapse;
 			margin-bottom: 10px;
@@ -16,14 +14,10 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
-		.form-table td {
-			padding: 8px;
-			line-height: 1.5;
-		}
 
 		.details-table {
 			width: 100%;
-			max-width: 450px;
+			max-width: 400px;
 			color: #162614;
 			background-color: white;
 			margin-top: 30px;
@@ -33,7 +27,11 @@
 		.details-table td {
 			border: 1px solid black;
 			padding: 8px;
-			line-height: .5;
+			line-height: .8;
+		}
+
+		.toast {
+			display: none;
 		}
 	</style>
 
@@ -44,19 +42,19 @@
 	<div th:include="sidebar.html"></div>
 	<center>
 		<table class="form-table">
-			<form id="logForm" th:action="@{/logView}" method="post">
+			<form id="logForm" th:action="@{/admin/logView}" method="post">
 
 				<tr>
 					<td><label for="user">Choose User:</label></td>
 					<td>
-						<!--<input id="userName" name="userName" placeholder="Type here..." list="users">-->
-						<!--<datalist id="users">-->
-			<select name="userName" id="userName">
-							<option value="">Select user</option>
-							<option th:each="u : ${userList}" th:text="${u}"></option>
-						</select>
 
-						<!--</datalist>-->
+						<select name="userName" id="userName">
+							<option value="">Select user</option>
+							<!--<input id="userName" name="userName" placeholder="Type here..." list="users">
+						<datalist id="users">-->
+							<option th:each="u : ${userList}" th:text="${u}"></option>
+							<!--						</datalist>-->
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -72,16 +70,26 @@
 					<td><label for="task">Choose Task:</label></td>
 					<td>
 						<select name="task_id" id="task_id">
-							<th:block th:each="task, iterStat : ${tasks}">
-								<option th:value="${iterStat.index + 1}" th:text="${task}"></option>
-							</th:block>
+							<option value="">Select task</option>
+							<option th:each="t : ${taskList}" th:text="${t}"></option>
 						</select>
 					</td>
 				</tr>
 				<br>
 				<tr id="btna">
 					<td colspan="2"><input type="submit" name="button" id="submitBtn" value="Submit"></td>
-
+					<div class="toast" id="errorToast" role="alert" aria-live="assertive" aria-atomic="true"
+						data-autohide="true" data-delay="5000">
+						<div class="toast-header">
+							<strong class="mr-auto">Error</strong>
+							<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="toast-body">
+							Please choose all necessary data.
+						</div>
+					</div>
 				</tr>
 			</form>
 		</table>
@@ -125,10 +133,17 @@
 			var modelId = document.getElementById("model_id").value;
 			var taskId = document.getElementById("task_id").value;
 
+			// Check if userName, modelId, or taskId is empty
+			if (userName === '' || modelId === '' || taskId === '') {
+				var errorToast = new bootstrap.Toast(document.getElementById("errorToast"));
+				errorToast.show();
+				return;
+			}
+
 			var filteredLogs = logs.filter(function (log) {
-				return (userName === '' || log.name === userName) &&
-					(modelId === '' || log.modelId === parseInt(modelId)) &&
-					(taskId === '' || log.taskId === parseInt(taskId));
+				return (log.name === userName) &&
+					(log.modelId === parseInt(modelId)) &&
+					(log.taskId === parseInt(taskId));
 			});
 
 			// Populate the show table with the filtered data
@@ -139,17 +154,18 @@
 			filteredLogs.forEach(function (log) {
 				var row = document.createElement("tr");
 				row.innerHTML = `
-                <td>${log.layer}</td>
-                <td>${log.genre}</td>
-                <td>${log.thinkTime}</td>
-                <td>${log.orderValue}</td>
-            `;
+            <td>${log.layer}</td>
+            <td>${log.genre}</td>
+            <td>${log.thinkTime}</td>
+            <td>${log.orderValue}</td>
+        `;
 				showBody.appendChild(row);
 			});
 
 			// Display the show table
-			showTable.style.display = "block";
+			showTable.style.display = "inline";
 		});
+
 	</script>
 </body>
 
