@@ -2,249 +2,108 @@
 <html lang="en">
 
 <head>
-<<<<<<< HEAD
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Log View Table</title>
-	<style>
-		.form-table {
-			width: 100%;
-			max-width: 500px;
-			height: auto;
-			border-collapse: collapse;
-			margin-bottom: 10px;
-			top: 20;
-			margin-left: auto;
-			margin-right: auto;
-		}
-
-		.details-table {
-			width: 100%;
-			max-width: 400px;
-			color: #162614;
-			background-color: white;
-			margin-top: 30px;
-		}
-
-		.details-table th,
-		.details-table td {
-			border: 1px solid black;
-			padding: 8px;
-			line-height: .8;
-		}
-
-		.toast {
-			display: none;
-		}
-	</style>
-
-=======
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log View Table</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="/css/logView.css">
->>>>>>> f4d151208d401a49d6169833592a5f888f2d5a66
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+	<link rel="stylesheet" href="/css/logView.css">
 </head>
 
 <body>
-<<<<<<< HEAD
-	<div th:include="sidebar.html"></div>
-	<center>
-		<table class="form-table">
-			<form id="logForm" th:action="@{/admin/logView}" method="post">
+<div th:include="sidebar.html"></div>
+<div class="container">
+	<form id="logForm" th:action="@{/logView}" method="post" class="mb-5">
+		<div class="form-group">
+			<label for="userName">Choose User:</label>
+			<select id="userName" name="userName" class="form-control" required>
+				<th:block th:each="user : ${userList}">
+					<option th:value="${user}" th:text="${user}"></option>
+				</th:block>
+			</select>
+		</div>
 
-				<tr>
-					<td><label for="user">Choose User:</label></td>
-					<td>
+		<div class="form-group">
+			<label for="model_id">Choose Model:</label>
+			<select name="model_id" id="model_id" class="form-control">
+				<option th:each="m : ${modelList}" th:text="${m}"></option>
+			</select>
+		</div>
 
-						<select name="userName" id="userName">
-							<option value="">Select user</option>
-							<!--<input id="userName" name="userName" placeholder="Type here..." list="users">
-						<datalist id="users">-->
-							<option th:each="u : ${userList}" th:text="${u}"></option>
-							<!--						</datalist>-->
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><label for="model">Choose Model:</label></td>
-					<td>
-						<select name="model_id" id="model_id">
-							<option value="">Select model</option>
-							<option th:each="m : ${modelList}" th:text="${m}"></option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><label for="task">Choose Task:</label></td>
-					<td>
-						<select name="task_id" id="task_id">
-							<option value="">Select task</option>
-							<option th:each="t : ${taskList}" th:text="${t}"></option>
-						</select>
-					</td>
-				</tr>
-				<br>
-				<tr id="btna">
-					<td colspan="2"><input type="submit" name="button" id="submitBtn" value="Submit"></td>
-					<div class="toast" id="errorToast" role="alert" aria-live="assertive" aria-atomic="true"
-						data-autohide="true" data-delay="5000">
-						<div class="toast-header">
-							<strong class="mr-auto">Error</strong>
-							<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="toast-body">
-							Please choose all necessary data.
-						</div>
-					</div>
-				</tr>
-			</form>
-		</table>
-		<table border="4" id="show" style="display:none;" class="details-table">
-			<thead>
-				<tr>
-					<td colspan="2"><input type="submit" name="button" id="clearBtn" value="Clear"></td>
-				</tr>
-				<tr>
-					<th>Layer</th>
-					<th>genre</th>
-					<th>Think-Time</th>
-					<th>Order</th>
-				</tr>
-			</thead>
-			<tbody id="show-body">
-				<!-- Table body will be dynamically populated -->
-			</tbody>
-		</table>
-	</center>
-	<script th:inline="javascript">
-		// Get a reference to the button element
-		var clearBtn = document.getElementById("clearBtn");
-=======
-    <div th:include="sidebar.html"></div>
-    <div class="container">
-        <form id="logForm" th:action="@{/logView}" method="post" class="mb-5">
-            <div class="form-group">
-                <label for="userName">Choose User:</label>
-                <select id="userName" name="userName" class="form-control" required>
-                    <th:block th:each="user : ${userList}">
-                        <option th:value="${user}" th:text="${user}"></option>
-                    </th:block>
-                </select>
-            </div>
+		<div class="form-group">
+			<label for="task_id">Choose Task:</label>
+			<select name="task_id" id="task_id" class="form-control">
+				<th:block th:each="task, iterStat : ${tasks}">
+					<option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+				</th:block>
+			</select>
+		</div>
 
-            <div class="form-group">
-                <label for="model_id">Choose Model:</label>
-                <select name="model_id" id="model_id" class="form-control">
-                    <option th:each="m : ${modelList}" th:text="${m}"></option>
-                </select>
-            </div>
+		<div class="text">
+			<input type="submit" name="button" id="submitBtn" value="Submit" class="btn btn-primary">
+		</div>
+	</form>
 
-            <div class="form-group">
-                <label for="task_id">Choose Task:</label>
-                <select name="task_id" id="task_id" class="form-control">
-                    <th:block th:each="task, iterStat : ${tasks}">
-                        <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
-                    </th:block>
-                </select>
-            </div>
+	<table id="show" style="display:none;" class="details-table table table-bordered">
+		<thead>
+		<tr>
+			<td colspan="4" class="text"><button id="clearBtn" class="btn btn-danger">Clear</button></td>
+		</tr>
+		<tr>
+			<th>Order</th>
+			<th>Layer</th>
+			<th>Genre</th>
+			<th>Think-Time</th>
+		</tr>
+		</thead>
+		<tbody id="show-body"></tbody>
+	</table>
+</div>
 
-            <div class="text">
-                <input type="submit" name="button" id="submitBtn" value="Submit" class="btn btn-primary">
-            </div>
-        </form>
+<script th:inline="javascript">
+	var clearBtn = document.getElementById("clearBtn");
 
-        <table id="show" style="display:none;" class="details-table table table-bordered">
-            <thead>
-                <tr>
-                    <td colspan="4" class="text"><button id="clearBtn" class="btn btn-danger">Clear</button></td>
-                </tr>
-                <tr>
-                    <th>Order</th>
-                    <th>Layer</th>
-                    <th>Genre</th>
-                    <th>Think-Time</th>
-                </tr>
-            </thead>
-            <tbody id="show-body"></tbody>
-        </table>
-    </div>
+	clearBtn.addEventListener("click", function () {
+		window.location.href = "/admin/logView";
+	});
+	/*<![CDATA[*/
+	var logs = /*[[${logs}]]*/[];
+	/*]]>*/
 
-    <script th:inline="javascript">
-        var clearBtn = document.getElementById("clearBtn");
->>>>>>> f4d151208d401a49d6169833592a5f888f2d5a66
+	var logForm = document.getElementById("logForm");
+	logForm.addEventListener("submit", function (event) {
+		event.preventDefault();
 
-		clearBtn.addEventListener("click", function () {
-<<<<<<< HEAD
-			// Redirect the user to the home page
-			window.location.href = "/admin/logView"; // Replace with your home page URL
-=======
-			window.location.href = "/admin/logView";
->>>>>>> f4d151208d401a49d6169833592a5f888f2d5a66
-		});
-		/*<![CDATA[*/
-		var logs = /*[[${logs}]]*/[];
-		/*]]>*/
+		var userName = document.getElementById("userName").value;
+		var modelId = document.getElementById("model_id").value;
+		var taskId = document.getElementById("task_id").value;
 
-		var logForm = document.getElementById("logForm");
-		logForm.addEventListener("submit", function (event) {
-			event.preventDefault();
-
-			var userName = document.getElementById("userName").value;
-			var modelId = document.getElementById("model_id").value;
-			var taskId = document.getElementById("task_id").value;
-
-			// Check if userName, modelId, or taskId is empty
-			if (userName === '' || modelId === '' || taskId === '') {
-				var errorToast = new bootstrap.Toast(document.getElementById("errorToast"));
-				errorToast.show();
-				return;
-			}
-
-			var filteredLogs = logs.filter(function (log) {
-				return (log.name === userName) &&
-					(log.modelId === parseInt(modelId)) &&
-					(log.taskId === parseInt(taskId));
-			});
-
-			var showTable = document.getElementById("show");
-			var showBody = document.getElementById("show-body");
-			showBody.innerHTML = '';
-
-			filteredLogs.forEach(function (log) {
-				var row = document.createElement("tr");
-				row.innerHTML = `
-<<<<<<< HEAD
-            <td>${log.layer}</td>
-            <td>${log.genre}</td>
-            <td>${log.thinkTime}</td>
-            <td>${log.orderValue}</td>
-        `;
-				showBody.appendChild(row);
-			});
-
-			// Display the show table
-			showTable.style.display = "inline";
+		var filteredLogs = logs.filter(function (log) {
+			return (userName === '' || log.name === userName) &&
+					(modelId === '' || log.modelId === parseInt(modelId)) &&
+					(taskId === '' || log.taskId === parseInt(taskId));
 		});
 
-	</script>
-=======
+		var showTable = document.getElementById("show");
+		var showBody = document.getElementById("show-body");
+		showBody.innerHTML = '';
+
+		filteredLogs.forEach(function (log) {
+			var row = document.createElement("tr");
+			row.innerHTML = `
 				<td>${log.orderValue}</td>
 				<td>${log.layer}</td>
 				<td>${log.genre}</td>
 				<td>${log.thinkTime}</td>
 			`;
-				showBody.appendChild(row);
-			});
-
-			showTable.style.display = "block";
+			showBody.appendChild(row);
 		});
-    </script>
-    <script src="/js/username-search.js"></script>
->>>>>>> f4d151208d401a49d6169833592a5f888f2d5a66
+
+		showTable.style.display = "block";
+	});
+</script>
+<script src="/js/username-search.js"></script>
 </body>
 
 </html>
