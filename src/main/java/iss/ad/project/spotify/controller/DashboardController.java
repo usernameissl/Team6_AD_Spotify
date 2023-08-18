@@ -3,7 +3,6 @@ package iss.ad.project.spotify.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import iss.ad.project.spotify.model.*;
 import iss.ad.project.spotify.service.LogService;

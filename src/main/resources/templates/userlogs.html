@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>User Logs Visualization</title>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/userlogs.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="/css/backtrack.css">
+    <div th:include="common-admin.html"></div>
 </head>
 <body>
-    <div th:include="sidebar.html"></div>
+<div class="main-container">
     <div class="content-container">
         <form action="/admin/userlogs" method="post" id="form">
             <div class="form-group">
@@ -45,5 +48,6 @@
         </script>
         <script src="/js/tree.js"></script> 
     </div>
+</div>
 </body>
 </html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 	<title>Log View Table</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+	<div th:include="common-admin.html"></div>
 	<style>
 		body {
 			background: #53d380;
@@ -44,7 +45,6 @@
 
 
 <body>
-<div th:include="sidebar.html"></div>
 	<center>
 		<table class="form-table">
 			<form id="logForm" th:action="@{/logView}" method="post">

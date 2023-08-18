@@ -1,0 +1,55 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom, #333333, #000000);
+    color: white;
+}
+.main-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 110px auto;
+    background: #F5F5F5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.checkboxFilter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.checkboxFilter label {
+     color: #303030;
+ }
+
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    height: auto;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.checkboxFilter{
+    width: 60%;
+    padding-left: 50px;
+    margin: auto;
+}
+
+.checkbox-spacing {
+    margin-right: 10px;
+}
+.btn-clear {
+    background-color: #95D5B2;
+    color: #000000;
+    padding: 4px 10px;
+    border-radius: 10px;
+    border: none;
+}
