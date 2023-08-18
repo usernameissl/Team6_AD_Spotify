@@ -9,7 +9,7 @@
 <body>
 	<div class="top-bar">
 		<a th:href="@{/}"><img src="/image/spotify.png" alt="Spotify Logo" class="logo"></a>
-		<a class="admin login-button" th:href="@{/login}">Admin Login</a>
+		<a class="admin login-button" th:href="@{/admin/login}">Admin Login</a>
 	</div>
 
 	<form id="login-form" th:action="@{/login}" method="post" th:object="${admin}">
