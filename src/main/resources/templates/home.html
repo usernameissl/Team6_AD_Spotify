@@ -9,7 +9,9 @@
 <body>
     <div class="top-bar">
         <img src="/image/spotify.png" alt="Spotify Logo" class="logo">
-        <a class="admin login-button" th:href="@{/admin}">Admin Login</a>
+
+        <a class="admin login-button" th:href="@{/login}">Admin</a>
+
     </div>
     <form action="/home" method="post" onsubmit="return checkTaskCompletion()" th:object="${user}">
         <h3>Start</h3>
@@ -48,7 +50,6 @@
             </select>
         </div>
 
-    
         <button type="submit" id="proceedButton">Proceed</button>
         <button type="button" id="completeButton">Complete</button>
         <p class="complete-message">* Please click "Complete" button only after you have completed all the models/tasks.</p>        

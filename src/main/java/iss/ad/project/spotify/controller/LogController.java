@@ -30,88 +30,44 @@ public class LogController {
         this.logService = logService;
     }
     @PostMapping("/save-session-data")
-    public String saveSessionData(@RequestBody SessionData sessionData) {
+    public String saveSessionData(@RequestBody String jsonStr) {
         try {
-            // Convert the data to JSON (or any other format you prefer)
-            String json = new ObjectMapper().writeValueAsString(sessionData);
+            List<LogEntry> logEntries = convertJsonToLogEntry(jsonStr);
+            for (LogEntry logEntry : logEntries) {
+                logService.save(logEntry);
 
-            String filename = sessionData.getName() + "_" + sessionData.getModelId() + "_" + sessionData.getTaskId() + ".json";
-
-            try (FileWriter file = new FileWriter( logFilePath + filename)) {
-                file.write(json);
+                // Print the name, modelId, and taskId after saving
+                System.out.printf("Saved LogEntry: Name: %s, Model: %d, Task: %d, Order: %d%n ",
+                        logEntry.getName(), logEntry.getModelId(), logEntry.getTaskId(), logEntry.getOrderValue());
             }
 
             return "Data saved successfully!";
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "An error occurred while saving the data.";
         }
     }
 
-    @GetMapping("/process-logs")
-    public void processLogs() {
-        try {
-            Map<String, Integer> nameCountMap = new HashMap<>();
-            Files.createDirectories(processedFolder);
 
-            uniqueIdentifiersPerName.clear();
-            // Fetch distinct names from the database and initialize with empty sets
-            List<String> distinctNamesFromDB = logService.getDistinctNames();
-            for (String name : distinctNamesFromDB) {
-                uniqueIdentifiersPerName.put(name, new HashSet<>());
-            }
 
-            // Only files that end with json that are in the Logs folder, excluding subdirectories
-            Stream<Path> paths = Files.list(Paths.get(logFilePath))
-                    .filter(Files::isRegularFile)
-                    .filter(p -> p.toString().endsWith(".json"));
-
-            // For each file read it, return its list of LogEntries and save them.
-            paths.forEach(path -> {
-                try {
-                    String content = new String(Files.readAllBytes(path));
-                    String baseName = extractBaseName(path.getFileName().toString());
-                    String uniqueIdentifier = extractUniqueIdentifier(path.getFileName().toString());
-
-                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName, uniqueIdentifier, nameCountMap);
-                    for (LogEntry logEntry : logEntries) {
-                        System.out.println(logEntry);
-                        logService.save(logEntry);
-                    }
-
-                    Files.move(path, processedFolder.resolve(path.getFileName()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<LogEntry> convertJsonToLogEntry(String jsonStr, String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
+    public List<LogEntry> convertJsonToLogEntry(String jsonStr) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<LogEntry> logEntries = new ArrayList<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(jsonStr);
 
-            // change the GUID into sequential values if duplicates exist
-            String newName = getNewName(baseName, uniqueIdentifier, nameCountMap);
-
-
-            // Get the rest of the top level properties
+            // Get all the top level properties
+            String name = rootNode.get("name").asText();
             int age = rootNode.get("age").asInt();
             boolean gender = rootNode.get("gender").asText().equalsIgnoreCase("M");
             int modelId = rootNode.get("modelId").asInt();
             int taskId = rootNode.get("taskId").asInt();
 
-            // Check if success value is present and assign value accordingly
-            // 1 for success and 2 for fail
             JsonNode successNode = rootNode.get("success");
-            int successValue = 0;
+            int finalSuccessValue = 0;
             if (successNode != null) {
-                successValue = successNode.asBoolean() ? 1 : 2;
+                finalSuccessValue = successNode.asBoolean() ? 1 : 2;
             }
 
             // Get the history array and create a log entry for each history index
@@ -122,17 +78,24 @@ public class LogController {
                     String[] parts = node.asText().split(", ");
                     if (parts.length == 3) {
                         LogEntry logEntry = new LogEntry();
-                        logEntry.setName(newName);
+                        logEntry.setName(name);
                         logEntry.setAge(age);
                         logEntry.setGender(gender);
                         logEntry.setModelId(modelId);
                         logEntry.setTaskId(taskId);
-                        logEntry.setSuccessValue(successValue);
+                        logEntry.setSuccessValue(finalSuccessValue);
                         logEntry.setOrderValue(i + 1); // +1 because order is 1-indexed
                         logEntry.setThinkTime(Integer.parseInt(parts[0]));
                         logEntry.setLayer(Integer.parseInt(parts[1]));
                         logEntry.setGenre(parts[2]);
                         logEntries.add(logEntry);
+
+                        // Set successValue to 1 or 2 only for the last entry, else set to 0
+                        if (i == historyNode.size() - 1) {
+                            logEntry.setSuccessValue(finalSuccessValue);
+                        } else {
+                            logEntry.setSuccessValue(0);
+                        }
                     }
                 }
             }
@@ -145,33 +108,46 @@ public class LogController {
 
 
 
-    private String getNewName(String baseName, String uniqueIdentifier, Map<String, Integer> nameCountMap) {
-        uniqueIdentifiersPerName.putIfAbsent(baseName, new HashSet<>());
-        Set<String> identifiersForName = uniqueIdentifiersPerName.get(baseName);
-
-        identifiersForName.add(uniqueIdentifier);
-        int currentCount = identifiersForName.size();
-
-        if (currentCount > 1) {
-            return baseName + "-" + currentCount;
-        } else {
-            return baseName;
-        }
-    }
-
-
-
-
-
-    // Get user's name from file name
-    private String extractBaseName(String fileName) {
-        return fileName.split("[-_]")[0];
-    }
-
-    // Get GUID
-    private String extractUniqueIdentifier(String fileName) {
-        return fileName.split("[-_]")[1];
-    }
+//    @GetMapping("/process-logs")
+//    public void processLogs() {
+//        try {
+//            Map<String, Integer> nameCountMap = new HashMap<>();
+//            Files.createDirectories(processedFolder);
+//
+//            uniqueIdentifiersPerName.clear();
+//            // Fetch distinct names from the database and initialize with empty sets
+//            List<String> distinctNamesFromDB = logService.getDistinctNames();
+//            for (String name : distinctNamesFromDB) {
+//                uniqueIdentifiersPerName.put(name, new HashSet<>());
+//            }
+//
+//            // Only files that end with json that are in the Logs folder, excluding subdirectories
+//            Stream<Path> paths = Files.list(Paths.get(logFilePath))
+//                    .filter(Files::isRegularFile)
+//                    .filter(p -> p.toString().endsWith(".json"));
+//
+//            // For each file read it, return its list of LogEntries and save them.
+//            paths.forEach(path -> {
+//                try {
+//                    String content = new String(Files.readAllBytes(path));
+//                    String baseName = extractBaseName(path.getFileName().toString());
+//                    String uniqueIdentifier = extractUniqueIdentifier(path.getFileName().toString());
+//
+//                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName, uniqueIdentifier, nameCountMap);
+//                    for (LogEntry logEntry : logEntries) {
+//                        System.out.println(logEntry);
+//                        logService.save(logEntry);
+//                    }
+//
+//                    Files.move(path, processedFolder.resolve(path.getFileName()));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

@@ -150,12 +150,19 @@
         let totalElapsedTime = parseFloat(sessionStorage.getItem('totalDuration') || 0) + (new Date().getTime() - lastEventTime);
 
         let minutes = Math.floor(totalElapsedTime / 60000);
+        console.log(minutes);
         let seconds = Math.floor((totalElapsedTime % 60000) / 1000);
 
         let timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
         let timerDisplay = document.getElementById('timerDisplay');
         timerDisplay.textContent = timeStr;
+
+
+        // display the give up button on songs.html if 2 minutes have passed
+        const giveUpButton = document.querySelector(".btn-give-up");
+        if (minutes > 1)
+            giveUpButton.style.display = "block";
     }
 
 </script>

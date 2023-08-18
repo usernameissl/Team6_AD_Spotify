@@ -30,17 +30,19 @@ public class AdminController {
 		this.adminSrv=adminSrv;
 	}
 	
-    @GetMapping("/admin")
-    public String getAdminPage(HttpSession session, Model model){
 
-        String username = (String)session.getAttribute("username");
-        String[] parts = username.split("_");
-        String name = parts[parts.length - 1];
-        model.addAttribute("name", name);
-     // TEST ADMIN PAGE
-        model.addAttribute("username",username);
-        return "admin";
-    }
+//    @GetMapping("/admin")
+//    public String getAdminPage(HttpSession session, Model model){
+//
+//        String username = (String)session.getAttribute("username");
+//        String[] parts = username.split("_");
+//        String name = parts[parts.length - 1];
+//        model.addAttribute("name", name);
+//     // TEST ADMIN PAGE
+//        model.addAttribute("username",username);
+//        return "admin";
+//    }
+
 	
 	@GetMapping("/login")
 	public String login() {
@@ -50,7 +52,7 @@ public class AdminController {
     public String login(@ModelAttribute("admin") Admin admin, Model model, HttpSession session) {
 		if (authenticate(admin)) {
 			session.setAttribute("username", admin.getUsername());
-			return "redirect:/admin";
+			return "redirect:/admin/backtracks";
 		} else {
 			model.addAttribute("error", "Invalid username or password");
 			return "login";
@@ -77,7 +79,8 @@ public class AdminController {
 	
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("username");
+    	session.removeAttribute("username");
+    	session.invalidate();
         return "redirect:/home";
 	}
     

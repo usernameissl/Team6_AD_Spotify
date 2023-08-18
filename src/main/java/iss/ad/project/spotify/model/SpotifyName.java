@@ -3,19 +3,16 @@ package iss.ad.project.spotify.model;
 import java.io.Serializable;
 import java.util.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="cluster_names")
-public class ClusterName implements Serializable {
+@Table(name="spotify_layers")
+public class SpotifyName implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,5 +23,5 @@ public class ClusterName implements Serializable {
     private String name;
 
     @Transient
-    private List<ClusterName> children = new ArrayList<>();
+    private List<SpotifyName> children = new ArrayList<>();
 }
