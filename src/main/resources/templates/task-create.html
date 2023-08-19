@@ -7,12 +7,8 @@
     <div th:include="common-admin.html"></div>
 </head>
 <body>
-    <br/><br/><br/><br/>
-
+    <br/><br/>
     <form th:action="@{/admin/task/create}" th:object="${task}" method="post">
-        <a href="/admin/taskList" class="icon-button">
-            <i style="font-size:30px" class="fa">&#xf137;</i>
-        </a>
         <br/>
         <h1>Create Task</h1>
         <input type="hidden" name="id" th:value="${task.id}" />
@@ -29,6 +25,5 @@
             <p th:text="${messageError}"></p>
         </div>
     </form>
-
 </body>
 </html>

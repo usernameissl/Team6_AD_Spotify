@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/common-admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
         </button>
     </div>
     <div class="task">
-        <h4 id="pageTitle"></h4>
+        <h3 id="pageTitle">Manage Tasks</h3>
     </div>
     <div class="logout-button logout-style">
         <a th:href="@{/logout}" class="label">Logout</a>
@@ -34,7 +34,7 @@
     <div class="navigation">
         <ul>
             <li class="nav-item">
-                <a class="active" th:href="@{/taskList}">
+                <a class="active" th:href="@{/admin/taskList}">
                     <img src="/image/manage-task.svg">
                     Manage Tasks
                 </a>
