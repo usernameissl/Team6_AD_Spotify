@@ -4,23 +4,28 @@
 	<meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+	<div class="top-bar">
+		<a th:href="@{/}"><img src="/image/spotify.png" alt="Spotify Logo" class="logo"></a>
+		<a class="admin login-button" th:href="@{/admin/login}">Admin Login</a>
+	</div>
+
 	<form id="login-form" th:action="@{/admin/login}" method="post" th:object="${admin}">
+
 		<h3>Admin Login</h3>
 		<div>
-			<label for="username">Username: </label>
+			<label for="username">Username</label>
 			<input type="text" id="username" name="username" required>
 		</div>
 		<div>
-			<label for="password">Password: </label>
+			<label for="password">Password</label>
 			<input type="password" id="password" name="password" required>
 		</div>
 		<div class="error-message" th:if="${error}" style="color: red;">
 			[[${error}]]</div>
 		<button type="submit" id="login">Log In</button>
-		<button type="button" id="home">Back to home page</button>
 	</form>
 	<script>
         window.addEventListener('DOMContentLoaded', (event) => {

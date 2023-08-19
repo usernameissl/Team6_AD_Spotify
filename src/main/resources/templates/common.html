@@ -25,11 +25,23 @@
     </div>
 </div>
 
-<div class="sidebar">
-    <div class="logo">
-        <a href="#">
-            <img src="/image/spotify.png" alt="Logo" />
-        </a>
+    <div class="sidebar">
+        <div class="logo">
+            <a th:href="@{/home}">
+                <img src="/image/spotify.png" alt="Logo" />
+            </a>
+        </div>
+
+        <div class="navigation">
+            <ul>
+                <li class="nav-item">
+                    <a href="#" id="dynamicLink" class="active">
+                        <img src="/image/browse.svg">
+                        Main Categories
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="navigation">
@@ -158,7 +170,7 @@
         timerDisplay.textContent = timeStr;
 
         const giveUpButton = document.querySelector(".btn-give-up");
-        if (giveUpButton && minutes > 1) {
+        if (giveUpButton && minutes >= 1) {
             giveUpButton.style.display = "block";
         }
 

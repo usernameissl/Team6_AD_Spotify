@@ -11,9 +11,9 @@ import iss.ad.project.spotify.model.Feedback;
 
 @Repository
 public interface FeedbackRepo extends JpaRepository<Feedback, Long> {
-	
-	@Query("SELECT f FROM Feedback f WHERE f.experience = :experience")
-    List<Feedback> findByExperience(@Param("experience") String experience);
+
+//	@Query("SELECT f FROM Feedback f WHERE f.experience = :experience")
+//    List<Feedback> findByExperience(@Param("experience") String experience);
 }
 
 

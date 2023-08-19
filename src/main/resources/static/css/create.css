@@ -1,5 +1,5 @@
 body {
-    background-color: #e9f2fd;
+    background-color: white;
 
     font-family: Arial, Helvetica, sans-serif;
 
@@ -16,8 +16,8 @@ h1 {
 }
 
 form {
-    background-color: #e3f0ff;
-    border: 1px solid #b3d9ff;
+    background-color: white;
+    border: 1px solid #4CAF50;
     border-radius: 5px;
     padding: 20px;
     width: 400px;

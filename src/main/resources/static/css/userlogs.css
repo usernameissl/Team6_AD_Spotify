@@ -15,7 +15,7 @@
 }
 
 .node text {
-    fill: #333;
+    fill: #fffdfd;
 }
 
 .node--internal text {
@@ -74,7 +74,7 @@
     top: 50px;       
     left: 250px;     
     width: 600px;
-    height: 460px; 
+    height: 300px; 
     overflow-y: auto;
     background-color: #ffffff; 
     padding: 20px; 

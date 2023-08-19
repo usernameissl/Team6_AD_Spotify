@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,24 +25,14 @@ import iss.ad.project.spotify.service.AdminService;
 @Controller
 public class AdminController {
 	private final AdminService adminSrv;
+    private final TaskService taskSrv;
 	
 	@Autowired
-	public AdminController(AdminService adminSrv) {
+	public AdminController(AdminService adminSrv, TaskService taskSrv) {
 		this.adminSrv=adminSrv;
+        this.taskSrv = taskSrv;
 	}
-	
 
-//    @GetMapping("/admin")
-//    public String getAdminPage(HttpSession session, Model model){
-//
-//        String username = (String)session.getAttribute("username");
-//        String[] parts = username.split("_");
-//        String name = parts[parts.length - 1];
-//        model.addAttribute("name", name);
-//     // TEST ADMIN PAGE
-//        model.addAttribute("username",username);
-//        return "admin";
-//    }
 
 	
 	@GetMapping("/admin/login")
@@ -112,6 +103,7 @@ public class AdminController {
         } 
         else {
             adminSrv.create(task);
+            taskSrv.refreshCache();
             String messageSuccess = "Task has been successfully created!";
             model.addAttribute("messageSuccess", messageSuccess);
         }
@@ -155,6 +147,7 @@ public class AdminController {
         } 
         else {
             adminSrv.update(task);
+            taskSrv.refreshCache();
             String messageSuccess = "Task has been successfully updated!";
             model.addAttribute("messageSuccess", messageSuccess);
         }
