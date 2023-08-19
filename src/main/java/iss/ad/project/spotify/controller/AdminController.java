@@ -1,21 +1,23 @@
 package iss.ad.project.spotify.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import iss.ad.project.spotify.dto.TaskUpdateDTO;
 import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import iss.ad.project.spotify.model.Admin;
@@ -100,7 +102,7 @@ public class AdminController {
         if (nameExists || result.hasErrors()) {
             String messageError = "This task name already exists.";
             model.addAttribute("messageError", messageError);
-        } 
+        }
         else {
             adminSrv.create(task);
             taskSrv.refreshCache();
@@ -109,7 +111,7 @@ public class AdminController {
         }
         model.addAttribute("task", task);
         return "task-create";
-             
+
     }
     @GetMapping("/admin/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
@@ -127,33 +129,36 @@ public class AdminController {
  
     }
     @PostMapping(value = "/admin/update/{id}")
-    public String updateTaskSubmit(@Valid @PathVariable("id") long id,
-                                   @ModelAttribute("task") Task task,
-                                   BindingResult result,
-                                   Model model) {
-    	List<Task> taskList = adminSrv.getAllTasks();
+    public ResponseEntity<Map<String, Object>> updateTaskSubmit(@PathVariable("id") long id,
+                                                                @RequestBody TaskUpdateDTO taskUpdateDTO) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<Task> taskList = adminSrv.getAllTasks();
         boolean nameExists = false;
 
         for (Task t : taskList) {
-            if (t.getName().equalsIgnoreCase(task.getName())) {
+            if (t.getName() != null && t.getName().equalsIgnoreCase(taskUpdateDTO.getName())) {
                 nameExists = true;
                 break;
             }
         }
-
-        if (nameExists || result.hasErrors()) {
-            String messageError = "This task name already exists.";
-            model.addAttribute("messageError", messageError);
-        } 
-        else {
-            adminSrv.update(task);
-            taskSrv.refreshCache();
-            String messageSuccess = "Task has been successfully updated!";
-            model.addAttribute("messageSuccess", messageSuccess);
+        if (nameExists) {
+            response.put("success", false);
+            response.put("message", "This task name already exists.");
+        } else {
+            Task task = adminSrv.getTaskById(id);
+            if (task != null) {
+                task.setName(taskUpdateDTO.getName());
+                adminSrv.update(task);
+                taskSrv.refreshCache();
+                response.put("success", true);
+                response.put("message", "Task has been successfully updated!");
+            } else {
+                response.put("success", false);
+                response.put("message", "Task not found.");
+            }
         }
-        model.addAttribute("task", task);
-        return "task-update";
-             
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 
