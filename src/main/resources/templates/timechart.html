@@ -70,7 +70,7 @@
 		}
 
 	    // Round sum to 1 decimal place
-	    sum = sum.toFixed(1);
+	    sum = Math.round(sum);
 		
 		// Sort by y-values in descending order
 		dataPointsWithKeys.sort((a, b) => b.y - a.y);
