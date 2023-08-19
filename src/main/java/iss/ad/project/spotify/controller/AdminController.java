@@ -79,11 +79,9 @@ public class AdminController {
 		model.addAttribute("task",new Task());
 		return "task-create";
 	}
-    @PostMapping("admin/task/create")
-    public String createTaskSubmit(@ModelAttribute("task")Task task,
-                                   BindingResult result,
-                                    Model model) {
-    	List<Task> taskList = adminSrv.getAllTasks();
+    @PostMapping("/admin/task/create")
+    public ResponseEntity<Map<String, Object>> createTaskSubmit(@RequestBody Task task) {
+        List<Task> taskList = adminSrv.getAllTasks();
         boolean nameExists = false;
 
         for (Task t : taskList) {
@@ -93,20 +91,15 @@ public class AdminController {
             }
         }
 
-        if (nameExists || result.hasErrors()) {
-            String messageError = "This task name already exists.";
-            model.addAttribute("messageError", messageError);
-        }
-        else {
+        if (nameExists) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "This task name already exists."));
+        } else {
             adminSrv.create(task);
             taskSrv.refreshCache();
-            String messageSuccess = "Task has been successfully created!";
-            model.addAttribute("messageSuccess", messageSuccess);
+            return ResponseEntity.ok(Map.of("success", true, "message", "Task has been successfully created!"));
         }
-        model.addAttribute("task", task);
-        return "redirect:/admin/taskList";
-
     }
+
     @GetMapping("/admin/task/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
     	adminSrv.delete(id);
