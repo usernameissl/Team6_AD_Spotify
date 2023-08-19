@@ -73,24 +73,24 @@ public class DashboardController {
 
         // model 1 subGenres
         String[] model1SubGenres = {
-                "Heavy Metal", "Metal Mix", "00s Metal Classics", "Metal Covers", "2023 Metal Core Playlist",
+        		"Dance Pop", "Pop Songs Everyone Knows", "Pop Hits 2023", "Pop Hits in 2000s- Throwback Vibes", "Pop Mix",
+        		"Heavy Metal", "Metal Mix", "00s Metal Classics", "Metal Covers", "2023 Metal Core Playlist",
                 "Classic Rock", "90 Rock Anthems", "All New Rocks", "Best of Rock 2000", "Rock 2023 International",
                 "Classic Punk", "Pink Punk", "Punk Goes Disney", "Punk Goes Pop 2023 Lates Hits", "Punk Unplugged",
                 "Club Beats 2023", "EDM BANGERZ", "EDM Gaming", "EDM Workout", "Best EDM Songs of All The Times",
                 "Hip Hop 90-20", "Hip Hop Classic", "Hip Hop Dance Playlist", "Hip Hop Hits", "Hip Hop Workout",
                 "Jazz 2023", "Jazz Classic", "Jazz For Sleep", "Jazz In The Rain", "Lofi Jazz",
-                "Dance Pop", "Pop Songs Everyone Knows", "Pop Hits 2023", "Pop Hits in 2000s- Throwback Vibes", "Pop Mix",
                 "Old Country Songs", "Country Love Songs", "Country Popular 2023", "Classic Road Trip Songs", "Best Country Songs"
         };
 
         // model 2 subGenres
         String[] model2SubGenres = {
                 "Throwback Tunes", "High Energy Hip Hop", "Pop and Punk", "High Energy Pop", "Rap",
-                "Melodic Ambient Soundtracks", "Strings", "Energetic Instrumentals", "Soothing Instrumentals", "Otherwordly Vibes",
-                "Acoustic Pop", "Jazz and Blues", "Folk", "Country", "Soulful",
+                "Reggae", "R&B", "Rock", "Dance Rock", "Alt and Indie Pop",
                 "Club Beats", "Jazztronica", "Indietronica", "Organic Electronic", "Electropop",
                 "World", "Trap", "Hip Hop", "Pop Rock", "Percussive Beats",
-                "Reggae", "R&B", "Rock", "Dance Rock", "Alt and Indie Pop"
+                "Acoustic Pop", "Jazz and Blues", "Folk", "Country", "Soulful",
+                "Melodic Ambient Soundtracks", "Strings", "Energetic Instrumentals", "Soothing Instrumentals", "Otherwordly Vibes"
         };
         List<LogEntry> logs = logService.getAll();
 

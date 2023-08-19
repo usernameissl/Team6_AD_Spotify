@@ -35,8 +35,8 @@
 	var sortedModel2Task2GenreThinkTime = /*[[${sortedModel2Task2GenreThinkTime}]]*/ 'default';
 	var sortedModel2Task3GenreThinkTime = /*[[${sortedModel2Task3GenreThinkTime}]]*/ 'default';
 
-	var model1Labels = ["Metal", "Rock", "Punk", "EDM", "Hip Hop", "Jazz", "Pop", "Country"];
-	var model2Labels = ["Pop Tunes", "Relaxed Instrumentals", "Melodic and Soulful", "Electronica", "Global Rap and Rhythms", "Alternative and Rock"];
+	var model1Labels = ["Pop", "Metal", "Rock", "Punk", "EDM", "Hip Hop", "Jazz", "Country"];
+	var model2Labels = ["Pop Tunes", "Alternative and Rock", "Electronica", "Global Rap and Rhythms", "Melodic and Soulful", "Relaxed Instrumentals"];
 
 	// Common UI configs. Title font has to be specified in the chart config itself otherwise it gets overridden.
 	var commonChartConfig = {
@@ -57,6 +57,7 @@
 	// Utility function to generate sorted data points
 	function generateSortedDataPoints(values, keys, i, j) {
 		var dataPointsWithKeys = [];
+		var sum = 0;
 		for (var k = 0; k < 5; k++) {
 			var value = values[k + j * 5];
 			var key = keys[k + j * 5];
@@ -65,6 +66,7 @@
 				truncatedKey = key.substring(0, 20) + "...";
 			}
 			dataPointsWithKeys.push({ y: value, label: key, truncatedKey: truncatedKey });
+			sum += value;
 		}
 
 		// Sort by y-values in descending order
@@ -73,8 +75,8 @@
 		return {
 			y: dataPointsWithKeys[i].y,
 			label: dataPointsWithKeys[i].label,
-			indexLabel: dataPointsWithKeys[i].y < 1 ? "" : dataPointsWithKeys[i].truncatedKey,
-			indexLabelPlacement: "inside"
+			indexLabel: i == 4 ? (sum < 1 ? "" : "Total: " + sum) : (dataPointsWithKeys[i].y < 1 ? "" : dataPointsWithKeys[i].truncatedKey),
+			indexLabelPlacement: i == 4 ? (sum < 1 ? "inside" : "outside") : "inside"
 		};
 	}
 
