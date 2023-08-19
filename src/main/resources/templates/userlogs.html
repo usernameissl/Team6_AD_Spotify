@@ -21,7 +21,7 @@
                     <label for="name">Name:</label>
                     <select id="name" name="name" class="form-control" required>
                         <th:block th:each="user : ${userList}">
-                            <option th:value="${user}" th:text="${user}"></option>
+                            <option th:value="${user}" th:selected="${user == selectedName}" th:text="${user}"></option>
                         </th:block>
                     </select>
                 </div>
@@ -29,8 +29,8 @@
                 <div class="form-group">
                     <label for="modelId">Model ID:</label>
                     <select id="modelId" name="modelId" class="form-control" required>
-                        <option value="1">Spotify Model</option>
-                        <option value="2">Own Model</option>
+                        <option value="1" th:selected="${selectedModelId == 1}">Spotify Model</option>
+                        <option value="2" th:selected="${selectedModelId == 2}">Own Model</option>
                     </select>
                 </div>
 
@@ -38,7 +38,7 @@
                     <label for="taskId">Task:</label>
                     <select name="taskId" id="taskId" class="form-control">
                         <th:block th:each="task, iterStat : ${tasks}">
-                            <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+                            <option th:value="${iterStat.index + 1}" th:selected="${iterStat.index + 1 == selectedTaskId}" th:text="${task}"></option>
                         </th:block>
                     </select>
                 </div>
