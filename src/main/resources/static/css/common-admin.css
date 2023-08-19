@@ -5,7 +5,10 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
-
+h3 {
+  font-weight: 600;
+  color: #696969;
+}
 .sidebar {
   position: fixed;
   left: 0;
@@ -13,20 +16,26 @@ body {
   bottom: 0;
   width: 235px;
   background-color: #000000;
-  padding: 24px;
   z-index: 10;
 }
 .sidebar .logo img {
+  margin-top: 24px;
+  margin-left: 24px;
   width: 120px;
+  height: auto;
 }
 .sidebar .navigation ul {
   list-style: none;
   margin-top: 20px;
+  margin-left: 24px
 }
 .sidebar .navigation ul li {
   padding: 12px 0px;
 }
-
+.nav-item:hover {
+    background-color: #333333;
+    border-radius: 3px;
+}
 .sidebar .navigation .nav-item .inactive {
   text-decoration: none;
   font-weight: bold;
@@ -75,8 +84,7 @@ body {
 }
 
 .topbar {
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  background-color: rgba(232, 232, 232);
   position: fixed;
   display: flex;
   top: 0;
@@ -90,40 +98,20 @@ body {
   margin-left: 240px;
 }
 .topbar .prev-next-buttons button {
-  color: #81858a;
+  color: #ebedf0;
   width: 34px;
   height: 34px;
   border-radius: 100%;
   font-size: 22px;
   border: 0px;
-  background-color: #090909;
+  background-color: #696969;
   margin-right: 10px;
 }
 .topbar .task span {
     color: #ffffff;
     font-size: 14px;
 }
-.topbar .timer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 5px 8px 5px;
-    gap: 8px;
-    height: 35px;
-    width: 95px;
-    border: none;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(12px);
-    border-radius: 20px;
-    cursor: pointer;
-}
-.topbar .timer .label {
-    margin-left: 3px;
-    font-size: 14px;
-    line-height: 22px;
-    font-weight: 500;
-    color: #ffffff;
-}
+
 
 .topbar .logout-style {
     display: flex;
