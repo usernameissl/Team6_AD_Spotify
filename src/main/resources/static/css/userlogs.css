@@ -30,7 +30,7 @@ body {
 }
 
 .node text {
-    fill: #fffdfd;
+    fill: #000000;
 }
 
 .node--internal text {

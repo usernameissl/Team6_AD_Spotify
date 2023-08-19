@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import iss.ad.project.spotify.dto.TaskUpdateDTO;
 import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
 import iss.ad.project.spotify.model.Admin;
 import iss.ad.project.spotify.model.Task;
 import iss.ad.project.spotify.service.AdminService;
@@ -35,8 +31,6 @@ public class AdminController {
         this.taskSrv = taskSrv;
 	}
 
-
-	
 	@GetMapping("/admin/login")
 	public String login() {
 		return "login";
@@ -110,15 +104,16 @@ public class AdminController {
             model.addAttribute("messageSuccess", messageSuccess);
         }
         model.addAttribute("task", task);
-        return "task-create";
+        return "redirect:/admin/taskList";
 
     }
-    @GetMapping("/admin/delete/{id}")
+    @GetMapping("/admin/task/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
     	adminSrv.delete(id);
+        taskSrv.refreshCache();
     	 return "redirect:/admin/taskList";
     }
-    @GetMapping("/admin/update/{id}")
+    @GetMapping("/admin/task/update/{id}")
     public String updateTask(@PathVariable("id") long id, Model model){
         Optional<Task> task = adminSrv.findbyId(id);
      if (task.isPresent()) {
@@ -128,7 +123,7 @@ public class AdminController {
      return "errorpage";
  
     }
-    @PostMapping(value = "/admin/update/{id}")
+    @PostMapping(value = "/admin/task/update/{id}")
     public ResponseEntity<Map<String, Object>> updateTaskSubmit(@PathVariable("id") long id,
                                                                 @RequestBody TaskUpdateDTO taskUpdateDTO) {
         Map<String, Object> response = new HashMap<>();
