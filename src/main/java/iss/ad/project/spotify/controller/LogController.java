@@ -21,9 +21,6 @@ public class LogController {
     private LogService logService;
     private static final String logFilePath = "C:\\Logs\\";
 
-    private static final Path processedFolder = Paths.get(logFilePath, "processed");
-
-    private Map<String, Set<String>> uniqueIdentifiersPerName = new HashMap<>();
 
     @Autowired
     public LogController(LogService logService){
@@ -116,49 +113,6 @@ public class LogController {
 
         return logEntries;
     }
-
-
-
-//    @GetMapping("/process-logs")
-//    public void processLogs() {
-//        try {
-//            Map<String, Integer> nameCountMap = new HashMap<>();
-//            Files.createDirectories(processedFolder);
-//
-//            uniqueIdentifiersPerName.clear();
-//            // Fetch distinct names from the database and initialize with empty sets
-//            List<String> distinctNamesFromDB = logService.getDistinctNames();
-//            for (String name : distinctNamesFromDB) {
-//                uniqueIdentifiersPerName.put(name, new HashSet<>());
-//            }
-//
-//            // Only files that end with json that are in the Logs folder, excluding subdirectories
-//            Stream<Path> paths = Files.list(Paths.get(logFilePath))
-//                    .filter(Files::isRegularFile)
-//                    .filter(p -> p.toString().endsWith(".json"));
-//
-//            // For each file read it, return its list of LogEntries and save them.
-//            paths.forEach(path -> {
-//                try {
-//                    String content = new String(Files.readAllBytes(path));
-//                    String baseName = extractBaseName(path.getFileName().toString());
-//                    String uniqueIdentifier = extractUniqueIdentifier(path.getFileName().toString());
-//
-//                    List<LogEntry> logEntries = convertJsonToLogEntry(content, baseName, uniqueIdentifier, nameCountMap);
-//                    for (LogEntry logEntry : logEntries) {
-//                        System.out.println(logEntry);
-//                        logService.save(logEntry);
-//                    }
-//
-//                    Files.move(path, processedFolder.resolve(path.getFileName()));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
 }

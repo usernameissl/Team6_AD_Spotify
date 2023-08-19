@@ -54,18 +54,7 @@ public class CategoryController {
         return "model";
     }
 
-    private String getTask(int taskId) {
-        switch (taskId) {
-            case 1:
-                return "Task 1: Find a jazz song with 'Love' in the title performed by two artists\n";
-            case 2:
-                return "Task 2: Find 'California Gurls by Katy Perry";
-            case 3:
-                return "Task 3: Find a song by Irish rock band U2";
-            default:
-                return "Invalid Task!";
-        }
-    }
+
     private List<String> backgroundColors(List<String> layerOneList) {
         List<String> backgroundColors = new ArrayList<>();
         for (int i = 0; i < layerOneList.size(); i++) {
