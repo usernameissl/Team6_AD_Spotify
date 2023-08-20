@@ -112,6 +112,8 @@ public class DashboardController {
         return "timechart";
     }
 
+
+
     // Helper function to get and sort genre think time
     private Map<String, Double> getSortedGenreThinkTime(List<LogEntry> logs, int modelId, int taskId, String[] subGenres) {
         Map<String, Integer> genreThinkTime = logs.stream()

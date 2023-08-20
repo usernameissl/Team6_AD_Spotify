@@ -112,7 +112,7 @@
 
 		$(".btn-found").on("click", function (event) {
 			foundData(); // Add new data to the foundData array
-			sendData(true); // Send data when "Found" button is clicked
+			sendData(true); // Send log data
 			window.location.href = "/home";
 		});
 
@@ -120,6 +120,7 @@
 		$(".btn-give-up").on("click", function (event) {
 			const confirmed = confirm("Are you sure you want to give up?");
 			if (confirmed) {
+				foundData();
 				sendData(false); // Send data when "Give Up" button is clicked
 				window.location.href = "/home";
 			} else {

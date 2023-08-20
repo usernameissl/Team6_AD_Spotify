@@ -58,19 +58,5 @@ public class HomeController {
 		}
 	}
 
-	//User click submit logfile will clear the current session of the user
-	@GetMapping("/submitLogfile")
-	public String submitLogfile() {
-		return "redirect:/home";
-
-		//...
-	}
-
-	// Not accessible to user, only used to refresh the cache
-	@PostMapping("/refreshcache")
-	public void refreshCache() {
-		spotifyService.refreshCache();
-		clusterService.refreshCache();
-	}
 
 }
