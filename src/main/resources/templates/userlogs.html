@@ -12,18 +12,16 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        
+        <div th:include="common-admin.html"></div>
     </head>
     <body>
-        <div th:include="sidebar.html"></div>
-
-        <div class="custom-form container mt-5">
+        <div class="main-container">
             <form action="/admin/userlogs" method="post" id="form">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <select id="name" name="name" class="form-control" required>
                         <th:block th:each="user : ${userList}">
-                            <option th:value="${user}" th:text="${user}"></option>
+                            <option th:value="${user}" th:selected="${user == selectedName}" th:text="${user}"></option>
                         </th:block>
                     </select>
                 </div>
@@ -31,8 +29,8 @@
                 <div class="form-group">
                     <label for="modelId">Model ID:</label>
                     <select id="modelId" name="modelId" class="form-control" required>
-                        <option value="1">Spotify Model</option>
-                        <option value="2">Own Model</option>
+                        <option value="1" th:selected="${selectedModelId == 1}">Spotify Model</option>
+                        <option value="2" th:selected="${selectedModelId == 2}">Own Model</option>
                     </select>
                 </div>
 
@@ -40,7 +38,7 @@
                     <label for="taskId">Task:</label>
                     <select name="taskId" id="taskId" class="form-control">
                         <th:block th:each="task, iterStat : ${tasks}">
-                            <option th:value="${iterStat.index + 1}" th:text="${task}"></option>
+                            <option th:value="${iterStat.index + 1}" th:selected="${iterStat.index + 1 == selectedTaskId}" th:text="${task}"></option>
                         </th:block>
                     </select>
                 </div>
@@ -52,13 +50,19 @@
             </form>
 
             <div class="result-display mt-3">
-                <ul class="list-group">
-                    <li class="list-group-item" th:if="${selectedName != null and selectedName != ''}" th:text="'Name: ' + ${selectedName}"></li>
-                    <li class="list-group-item" th:if="${selectedModelId != null}" th:text="'Model ID: ' + ${selectedModelId}"></li>
-                    <li class="list-group-item" th:if="${selectedTaskId != null}" th:text="'Task ID: ' + ${selectedTaskId}"></li>
-                    <li class="list-group-item" th:if="${success != null}" th:text="${success == 1} ? 'Found: Yes' : (${success == 2} ? 'Found: No' : 'Success: ' + ${success})"></li>
-                </ul>
+                <p>
+                    <span th:if="${selectedName != null and selectedName != ''}" th:text="'Name: ' + ${selectedName} + ', '"></span>
+                    <span th:if="${selectedModelId != null}" th:text="'Model ID: ' + ${selectedModelId} + ', '"></span>
+                    <span th:if="${selectedTaskId != null}" th:text="'Task ID: ' + ${selectedTaskId} + ', '"></span>
+                    <span th:if="${success != null}" th:switch="${success}">
+                        <span th:case="1">Found: Yes, </span>
+                        <span th:case="2">Found: No, </span>
+                        <span th:default="'Success: ' + ${success}"></span>
+                    </span>
+                    <span th:if="${totalThinkTime != null}" th:text="'Total Think Time: ' + ${totalThinkTime}"></span>
+                </p>
             </div>
+            
         </div>
         <div id="tree"></div>
         <div th:if="${treeData}" th:inline="javascript">
@@ -70,5 +74,3 @@
     </body>
     <script src="/js/username-search.js"></script>
 </html>
-
-

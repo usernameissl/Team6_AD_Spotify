@@ -4,43 +4,46 @@
     <meta charset="UTF-8">
     <title>User Backtracks</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/backtrack.css">
+    <div th:include="common-admin.html"></div>
 </head>
 <body>
-    <div th:include="sidebar.html"></div>
-    <div class="checkboxFilter">
-        <input type="checkbox" id="showAll" name="chartFilter" value="all" checked>
-        <label for="showAll" class="checkbox-spacing">Show All</label>
+    <div class="main-container">
+        <div class="checkboxFilter">
+            <input type="checkbox" id="showAll" name="chartFilter" value="all" checked>
+            <label for="showAll" class="checkbox-spacing">Show All</label>
 
-        <input type="checkbox" id="showAvg" name="chartFilter" value="average" >
-        <label for="showAvg" class="checkbox-spacing">Show Averages </label>
+            <input type="checkbox" id="showAvg" name="chartFilter" value="average" >
+            <label for="showAvg" class="checkbox-spacing">Show Averages </label>
 
-        <input type="checkbox" id="showTask1" name="chartFilter" value="task1">
-        <label for="showTask1" class="checkbox-spacing">Show Task 1 </label>
+            <input type="checkbox" id="showTask1" name="chartFilter" value="task1">
+            <label for="showTask1" class="checkbox-spacing">Show Task 1 </label>
 
-        <input type="checkbox" id="showTask2" name="chartFilter" value="task2">
-        <label for="showTask2" class="checkbox-spacing">Show Task 2 </label>
+            <input type="checkbox" id="showTask2" name="chartFilter" value="task2">
+            <label for="showTask2" class="checkbox-spacing">Show Task 2 </label>
 
-        <input type="checkbox" id="showTask3" name="chartFilter" value="task3">
-        <label for="showTask3" class="checkbox-spacing">Show Task 3 </label>
+            <input type="checkbox" id="showTask3" name="chartFilter" value="task3">
+            <label for="showTask3" class="checkbox-spacing">Show Task 3 </label>
 
-        <input type="checkbox" id="showModel1" name="chartFilter" value="model1">
-        <label for="showModel1" class="checkbox-spacing">Show Model 1 </label>
+            <input type="checkbox" id="showModel1" name="chartFilter" value="model1">
+            <label for="showModel1" class="checkbox-spacing">Show Model 1 </label>
 
-        <input type="checkbox" id="showModel2" name="chartFilter" value="model2">
-        <label for="showModel2" class="checkbox-spacing">Show Model 2 </label>
+            <input type="checkbox" id="showModel2" name="chartFilter" value="model2">
+            <label for="showModel2" class="checkbox-spacing">Show Model 2 </label>
 
-        <button id="clearAll" type="button" class="btn-clear" >Clear All</button>
+            <button id="clearAll" type="button" class="btn-clear" >Clear All</button>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="consolidatedChart"></canvas>
+        </div>
+
+        <!-- empty divs for passing data to js -->
+        <div id="backtracksDataContainer" th:attr="data-backtracks=${modelTaskBacktracksJson}" style="display: none;"></div>
+        <div id="averagesDataContainer" th:attr="data-averages=${modelAveragesJson}" style="display: none;"></div>
     </div>
-
-    <div class="chart-container">
-        <canvas id="consolidatedChart"></canvas>
-    </div>
-
-    <!-- empty divs for passing data to js -->
-    <div id="backtracksDataContainer" th:attr="data-backtracks=${modelTaskBacktracksJson}" style="display: none;"></div>
-    <div id="averagesDataContainer" th:attr="data-averages=${modelAveragesJson}" style="display: none;"></div>
 
     <script th:inline="javascript">
         // Parse the data attributes to get the backtracks and averages data

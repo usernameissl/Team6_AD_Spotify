@@ -4,19 +4,10 @@
 	<title>Think Time Genre Chart</title>
 	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<style>
-		.container{
-			width: 60%;
-			margin: auto;
-		}
-		.dropdown {
-			font-size: 18px;
-		}
-
-	</style>
+	<link rel="stylesheet" href="/css/timechart.css">
+	<div th:include="common-admin.html"></div>
 </head>
 <body>
-<div th:include="sidebar.html"></div>
 <div class = "container">
 	<select id="taskSelector" class="dropdown" style="display: block; margin: 0 auto;">
 		<th:block th:each="task, iterStat : ${tasks}">
@@ -44,8 +35,8 @@
 	var sortedModel2Task2GenreThinkTime = /*[[${sortedModel2Task2GenreThinkTime}]]*/ 'default';
 	var sortedModel2Task3GenreThinkTime = /*[[${sortedModel2Task3GenreThinkTime}]]*/ 'default';
 
-	var model1Labels = ["Metal", "Rock", "Punk", "EDM", "Hip Hop", "Jazz", "Pop", "Country"];
-	var model2Labels = ["Pop Tunes", "Relaxed Instrumentals", "Melodic and Soulful", "Electronica", "Global Rap and Rhythms", "Alternative and Rock"];
+	var model1Labels = ["Pop", "Metal", "Rock", "Punk", "EDM", "Hip Hop", "Jazz", "Country"];
+	var model2Labels = ["Pop Tunes", "Alternative and Rock", "Electronica", "Global Rap and Rhythms", "Melodic and Soulful", "Relaxed Instrumentals"];
 
 	// Common UI configs. Title font has to be specified in the chart config itself otherwise it gets overridden.
 	var commonChartConfig = {
@@ -66,6 +57,7 @@
 	// Utility function to generate sorted data points
 	function generateSortedDataPoints(values, keys, i, j) {
 		var dataPointsWithKeys = [];
+		var sum = 0;
 		for (var k = 0; k < 5; k++) {
 			var value = values[k + j * 5];
 			var key = keys[k + j * 5];
@@ -74,16 +66,20 @@
 				truncatedKey = key.substring(0, 20) + "...";
 			}
 			dataPointsWithKeys.push({ y: value, label: key, truncatedKey: truncatedKey });
+			sum += value;
 		}
 
+	    // Round sum to int
+	    sum = Math.round(sum);
+		
 		// Sort by y-values in descending order
 		dataPointsWithKeys.sort((a, b) => b.y - a.y);
 
 		return {
 			y: dataPointsWithKeys[i].y,
 			label: dataPointsWithKeys[i].label,
-			indexLabel: dataPointsWithKeys[i].y < 1 ? "" : dataPointsWithKeys[i].truncatedKey,
-			indexLabelPlacement: "inside"
+			indexLabel: i == 4 ? (sum < 1 ? "" : "Total: " + sum) : (dataPointsWithKeys[i].y < 1 ? "" : dataPointsWithKeys[i].truncatedKey),
+			indexLabelPlacement: i == 4 ? (sum < 1 ? "inside" : "outside") : "inside"
 		};
 	}
 

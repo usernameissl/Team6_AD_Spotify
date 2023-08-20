@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Dropdown Example</title>
-
 	<style>
 		body {
 			background: #53d380;
@@ -21,14 +19,14 @@
 			width: 30%;
 			border-collapse: collapse;
 			margin-bottom: 50px;
-      margin-top:-500px;
+      		margin-top:-500px;
 		}
 
 		.form-table td {
 			padding: 5px;
 		}
 
-	.logview-table {
+		.logview-table {
 			width: 50%;
 			background-color: #162614;
 			color: white;
@@ -43,8 +41,7 @@
 </head>
 
 <body>
-	<form action="/logViewTable" method="post" th:object="${logList}">
-	
+
 	<table class="logview-table">
 		<tr>
 			<th>Layer</th>

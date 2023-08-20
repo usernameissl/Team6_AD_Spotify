@@ -1,27 +1,51 @@
-.chart-container {
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: #E8E8E8;
+    color: white;
+}
+.main-container {
     width: 80%;
-    height: 50%;
-    padding-left: 25%;
-    float: left;
+    margin: 100px 20px 20px 260px;
+    background: #F5F5F5;
+    border-radius: 8px;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.checkboxFilter {
+    width: 90%;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+.checkboxFilter label {
+     color: #696969;
+ }
+
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    height: auto;
 }
 
 .chart-container canvas {
     width: 100% !important;
-    height: 100% !important;
-}
-
-.checkboxFilter{
-    width: 60%;
-    padding-left: 50px;
-    margin: auto;
+    height: auto !important;
 }
 
 .checkbox-spacing {
-    margin-right: 10px; /* Adjust the margin value as needed */
+    margin-right: 10px;
 }
 .btn-clear {
-    background-color: #95D5B2;
-    color: #000000;
+    background-color: #1db954;
+    color: #ffffff;
     padding: 4px 10px;
     border-radius: 10px;
     border: none;

@@ -45,4 +45,8 @@ public class AdminService {
 	public Admin findByUsername(String username) {
 		return adminRepo.findByUsername(username);
 	}
+
+    public Task getTaskById(long id) {
+		return taskRepo.findById(id).orElse(null);
+	}
 }

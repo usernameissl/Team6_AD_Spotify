@@ -2,34 +2,27 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
+	<title> Task List </title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<div th:include="common-admin.html"></div>
 	<link rel="stylesheet" href="/css/list.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
-
 <body>
-	<header>
-		<div th:include="sidebar.html"></div>
-	</header><br /><br /><br /><br />
 	<div class="container">
-		<h1> Task List </h1>
-		<a class="btn btn-success custom-button" href="/admin/task/create">Create New Task</a>
-		<br /><br />
 		<div th:if="${messageSuccess}" class="alert alert-danger" role="alert">
 			<p th:text="*{messageSuccess}"></p>
 		</div>
-		<br /><br />
-		<div class="mb-3">
-			<label for="searchInput">Search:</label>
-			<input type="text" class="form-control" id="searchInput" placeholder="Enter keywords"
+		<br />
+		<div class="search-container">
+			<input type="text" class="search" id="searchInput" placeholder="Search"
 				oninput="filterTable()">
 		</div>
 
-
 		<table class="table table-striped" id="taskTable">
 			<thead>
-
 				<tr>
 					<th>ID</th>
 					<th>Task Name</th>
@@ -40,61 +33,29 @@
 				<!-- Iterate over the admins and display their information -->
 				<tr th:each="tl : ${taskList}" id="taskRow">
 					<td th:text="${tl.id}"></td>
-					<td th:text="${tl.name}"></td>
-					<td>
-						<a th:href="@{/admin/update/{id}(id=${tl.id})}" class="edit-button">
-							<img src="/image/edit.png" alt="" />
-						</a>
-						<a th:href="@{/admin/delete/{id}(id=${tl.id})}" class="delete-button">
-							<img src="/image/delete.png" alt="" />
+					<td style="display: flex; justify-content: center; align-items: center; width: 100%;">
+						<input type="text" class="task-name" th:value="${tl.name}" readonly/>
+						<a href="javascript:void(0);" class="save-button">
+							<img src="/image/save.svg" alt="Save">
 						</a>
 					</td>
-
-
+					<td>
+						<a th:href="@{/admin/task/update/{id}(id=${tl.id})}" class="edit-button">
+							<img src="/image/edit.svg" alt="" />
+						</a>
+						<a th:href="@{/admin/task/delete/{id}(id=${tl.id})}" class="delete-button" onclick="return confirmDelete();">
+							<img src="/image/delete.svg" alt="" />
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
-		<script>
-			function filterTable() {
-				// Retrieve the search input value
-				const searchInput = document.querySelector('#searchInput').value.toLowerCase();
-
-				const lectRows = document.querySelectorAll('#taskRow');
-
-				// Loop through task rows and check if they match the search input
-				lectRows.forEach(function (row) {
-					// Retrieve the admin information from the row
-					const taskId = row.cells[0].textContent.toLowerCase();
-					const taskName = row.cells[1].textContent.toLowerCase();
-
-					// Check if any of the task information matches the search input
-					if (
-						taskId.includes(searchInput) ||
-						taskName.includes(searchInput)
-					) {
-						// Show the row if it matches the search input
-						row.style.display = '';
-					} else {
-						// Hide the row if it doesn't match the search input
-						row.style.display = 'none';
-					}
-				});
-			}
-
-			function confirmDelete() {
-				return confirm('Are you sure you want to delete this task?');
-			}
-			$(document).ready(function () {
-				$('#taskTable').DataTable({
-					searching: false
-				});
-			});
-		</script>
-		<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-		<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+		<a class="create" href="/admin/task/create">Create New Task</a>
 	</div>
+	<script src="/js/list.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

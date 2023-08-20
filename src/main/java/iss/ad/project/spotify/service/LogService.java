@@ -267,4 +267,19 @@ public class LogService {
         List<Integer> results = logRepo.findSuccessValueByCriteriaOrderedByOrderValueDesc(name, modelId, taskId);
         return results.isEmpty() ? null : results.get(0);
     }
+
+    public Long getTotalThinkTime(String name, int modelId, int taskId) {
+        return logRepo.sumThinkTimeByNameModelIdAndTaskId(name, modelId, taskId);
+    }
+
+    public String getTotalThinkTimeFormat(String name, int modelId, int taskId) {
+        Long totalTimeInMillis = logRepo.sumThinkTimeByNameModelIdAndTaskId(name, modelId, taskId);
+        long totalSeconds = totalTimeInMillis / 1000;
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+    
+        return String.format("%d min %d sec", minutes, seconds);
+    }
+    
+    
 }

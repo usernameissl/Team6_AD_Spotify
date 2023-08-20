@@ -1,0 +1,19 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: #E8E8E8;
+    color: white;
+}
+.container{
+    width: 80%;
+    max-width: 1200px;
+    margin: 100px 20px 20px 260px;
+    background: #F5F5F5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.dropdown {
+    font-size: 18px;
+}

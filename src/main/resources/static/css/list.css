@@ -1,14 +1,21 @@
-
-
-	.container {
-		max-width: 1050px;
-		margin: 0 auto;
-		padding: 20px;
-		background-color: #ffffff;
-		border-radius: 10px;
-		box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-	}
-
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: #E8E8E8;
+    color: white;
+}
+.container {
+    width: 80%;
+    margin: 100px 30px 30px 260px;
+    background: #F5F5F5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+    img {
+        width: 24px;
+    }
 	h1 {
 		text-align: center;
 		color: #39B929;
@@ -42,33 +49,55 @@
 	}
 
 	.table th {
-		background-color: #39B929;
-		color: #ffffff;
+		background-color: #F5F5F5;
+		color: #000000;
 		text-align: center;
-		border-bottom: 1px solid #ffffff;
-		border-top-left-radius: 8px;
-		border-top-right-radius: 8px;
+		border-top: #F5F5F5;
 	}
 
 	.table td {
-		background-color: #ffffff;
+		background-color: #F5F5F5;
 		text-align: center;
-		border-bottom: 1px solid #ffffff;
 	}
 
+    .task-name {
+        display: flex;
+        width: 500px;
+        border: none;
+        background-color: transparent;
+    }
+
+    .save-button {
+        display: none;
+        margin-left: 10px;
+    }
+
+    .new-task-input {
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
+
+    .new-save-button {
+        display: inline-block;
+    }
+
+
 	/* Search Input Styles */
-	.mb-3 {
+	.search-container {
 		margin-bottom: 15px;
 	}
 
-	.form-control {
+	.search {
 		width: 97%;
 		padding: 10px;
 		font-size: 16px;
 		border: 1px solid #cccccc;
 		border-radius: 4px;
-		background-color: #DFF9DC;
+		background-color: #ffffff;
 	}
+	.search:focus {
+        border-color: #696969;
+    }
 
 	.view-select {
 		width: 140px;
@@ -85,7 +114,7 @@
 
 	.view-select:focus {
 		outline: none;
-		box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 0 3px #303030;
 	}
 
 	/* Action Button Styles */
@@ -125,65 +154,19 @@
 		width: 150px;
 	}
 
-	/* dorp-down option */
-	.dropdown {
-		position: relative;
-		display: inline-block;
-	}
-
-	.dropdown-content {
-		display: none;
-		position: absolute;
-		min-width: 100px;
-		background-color: rgba(255, 255, 255, 0.7);
-		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-		border-radius: 6px;
-		backdrop-filter: blur(4px);
-		z-index: 1;
-	}
-
-	.dropdown-content a {
-		color: black;
-		padding: 12px 16px;
-		text-decoration: none;
-		display: block;
-	}
-
-	.dropdown-content a:hover {
-		background-color: #DFF9DC;
-	}
-
-	.dropdown:hover .dropdown-content {
-		display: block;
-	}
-
-	.transparent-btn {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-	}
-
-	.transparent-btn:focus {
-		outline: none;
-	}
-
-	.sort-text {
-		margin-right: 5px;
-	}
-
-	.custom-pagination {
-		text-align: center;
-	}
-
-	.icon-button {
-		background-color: transparent;
-		border: none;
-		cursor: pointer;
-		margin-top: -5px;
-		margin-bottom: -10px;
-		margin-left: -3px
-	}
-
-	.fa {
-		color: #b5b5b5;
-	}
+.create {
+    background-color: #1db954;
+    color: #ffffff;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: none;
+    text-decoration: none !important;
+}
+.create,
+.create:link,
+.create:visited,
+.create:hover,
+.create:active {
+    color: #ffffff;
+    text-decoration: none;
+}

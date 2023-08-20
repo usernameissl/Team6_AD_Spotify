@@ -1,6 +1,6 @@
 //treeData = JSON.parse(treeData);
-let svgWidth = 1500, svgHeight = 1000;
-let margin = {top: 550, right: 70, bottom: 120, left: 200};
+let svgWidth = 1500, svgHeight = 700;
+let margin = {top: 30, right: 70, bottom: 230, left: 200};
 let width = svgWidth - margin.right - margin.left;
 let height = svgHeight - margin.top - margin.bottom;
 

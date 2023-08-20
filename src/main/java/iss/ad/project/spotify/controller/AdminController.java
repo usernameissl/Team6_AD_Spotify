@@ -1,22 +1,21 @@
 package iss.ad.project.spotify.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import iss.ad.project.spotify.dto.TaskUpdateDTO;
+import iss.ad.project.spotify.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.bind.annotation.*;
 import iss.ad.project.spotify.model.Admin;
 import iss.ad.project.spotify.model.Task;
 import iss.ad.project.spotify.service.AdminService;
@@ -24,26 +23,14 @@ import iss.ad.project.spotify.service.AdminService;
 @Controller
 public class AdminController {
 	private final AdminService adminSrv;
+    private final TaskService taskSrv;
 	
 	@Autowired
-	public AdminController(AdminService adminSrv) {
+	public AdminController(AdminService adminSrv, TaskService taskSrv) {
 		this.adminSrv=adminSrv;
+        this.taskSrv = taskSrv;
 	}
-	
 
-//    @GetMapping("/admin")
-//    public String getAdminPage(HttpSession session, Model model){
-//
-//        String username = (String)session.getAttribute("username");
-//        String[] parts = username.split("_");
-//        String name = parts[parts.length - 1];
-//        model.addAttribute("name", name);
-//     // TEST ADMIN PAGE
-//        model.addAttribute("username",username);
-//        return "admin";
-//    }
-
-	
 	@GetMapping("/admin/login")
 	public String login() {
 		return "login";
@@ -92,11 +79,9 @@ public class AdminController {
 		model.addAttribute("task",new Task());
 		return "task-create";
 	}
-    @PostMapping("admin/task/create")
-    public String createTaskSubmit(@ModelAttribute("task")Task task,
-                                   BindingResult result,
-                                    Model model) {
-    	List<Task> taskList = adminSrv.getAllTasks();
+    @PostMapping("/admin/task/create")
+    public ResponseEntity<Map<String, Object>> createTaskSubmit(@RequestBody Task task) {
+        List<Task> taskList = adminSrv.getAllTasks();
         boolean nameExists = false;
 
         for (Task t : taskList) {
@@ -106,25 +91,22 @@ public class AdminController {
             }
         }
 
-        if (nameExists || result.hasErrors()) {
-            String messageError = "This task name already exists.";
-            model.addAttribute("messageError", messageError);
-        } 
-        else {
+        if (nameExists) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "This task name already exists."));
+        } else {
             adminSrv.create(task);
-            String messageSuccess = "Task has been successfully created!";
-            model.addAttribute("messageSuccess", messageSuccess);
+            taskSrv.refreshCache();
+            return ResponseEntity.ok(Map.of("success", true, "message", "Task has been successfully created!"));
         }
-        model.addAttribute("task", task);
-        return "task-create";
-             
     }
-    @GetMapping("/admin/delete/{id}")
+
+    @GetMapping("/admin/task/delete/{id}")
     public String deleteTaskById(@PathVariable("id") Long id) {
     	adminSrv.delete(id);
+        taskSrv.refreshCache();
     	 return "redirect:/admin/taskList";
     }
-    @GetMapping("/admin/update/{id}")
+    @GetMapping("/admin/task/update/{id}")
     public String updateTask(@PathVariable("id") long id, Model model){
         Optional<Task> task = adminSrv.findbyId(id);
      if (task.isPresent()) {
@@ -134,33 +116,37 @@ public class AdminController {
      return "errorpage";
  
     }
-    @PostMapping(value = "/admin/update/{id}")
-    public String updateTaskSubmit(@Valid @PathVariable("id") long id,
-                                   @ModelAttribute("task") Task task,
-                                   BindingResult result,
-                                   Model model) {
-    	List<Task> taskList = adminSrv.getAllTasks();
+    @PostMapping(value = "/admin/task/update/{id}")
+    public ResponseEntity<Map<String, Object>> updateTaskSubmit(@PathVariable("id") long id,
+                                                                @RequestBody TaskUpdateDTO taskUpdateDTO) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<Task> taskList = adminSrv.getAllTasks();
         boolean nameExists = false;
 
         for (Task t : taskList) {
-            if (t.getName().equalsIgnoreCase(task.getName())) {
+            if (t.getName() != null && t.getName().equalsIgnoreCase(taskUpdateDTO.getName())) {
                 nameExists = true;
                 break;
             }
         }
-
-        if (nameExists || result.hasErrors()) {
-            String messageError = "This task name already exists.";
-            model.addAttribute("messageError", messageError);
-        } 
-        else {
-            adminSrv.update(task);
-            String messageSuccess = "Task has been successfully updated!";
-            model.addAttribute("messageSuccess", messageSuccess);
+        if (nameExists) {
+            response.put("success", false);
+            response.put("message", "This task name already exists.");
+        } else {
+            Task task = adminSrv.getTaskById(id);
+            if (task != null) {
+                task.setName(taskUpdateDTO.getName());
+                adminSrv.update(task);
+                taskSrv.refreshCache();
+                response.put("success", true);
+                response.put("message", "Task has been successfully updated!");
+            } else {
+                response.put("success", false);
+                response.put("message", "Task not found.");
+            }
         }
-        model.addAttribute("task", task);
-        return "task-update";
-             
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 
